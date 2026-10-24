@@ -1,0 +1,79 @@
+{
+  "country": "jp",
+  "currencyUnit": "万円",
+  "retireAge": 65,
+  "startAge": { "min": 22, "max": 45 },
+  "startSavings": { "min": 0, "max": 1000 },
+  "takeHomeRate": 0.78,
+  "medianIncomeByAge": { "22": 260, "25": 330, "30": 390, "35": 430, "40": 460, "45": 490, "50": 510, "55": 520, "59": 510, "60": 360, "64": 350 },
+  "workStyles": {
+    "fulltime_both": { "partnerRate": 1.0 },
+    "parttime": { "partnerRate": 0.5 },
+    "single": { "partnerRate": 0 }
+  },
+  "baseLiving": 240,
+  "starterRent": 80,
+  "familyRent": 150,
+  "noCarCostWithChildren": 15,
+  "childLiving": [
+    { "maxAge": 5, "annual": 40 },
+    { "maxAge": 11, "annual": 50 },
+    { "maxAge": 14, "annual": 70 },
+    { "maxAge": 17, "annual": 90 },
+    { "maxAge": 21, "annual": 90 }
+  ],
+  "childIndependentAge": 22,
+  "childBirthChancePerYear": 0.35,
+  "maxChildren": 1,
+  "reproposeAfter": 3,
+  "cardLoanRate": 0.1,
+  "bankruptLine": -1000,
+  "events": {
+    "wedding": {
+      "options": [
+        { "tier": "high", "label": "豪華挙式", "oneTime": 450, "gift": 200, "diary": "豪華な式を挙げた。ゲストの笑顔が忘れられない。" },
+        { "tier": "mid", "label": "一般的な式", "oneTime": 300, "gift": 180, "diary": "ふつうの、でも心のこもった式を挙げた。" },
+        { "tier": "low", "label": "フォト婚・少人数", "oneTime": 80, "gift": 30, "diary": "フォト婚にした。写真だけでも十分きれいだった。" }
+      ],
+      "skipDiary": "式は挙げなかった。そのぶん、ふたりで静かに乾杯した。"
+    },
+    "car": {
+      "firstYear": [1, 3],
+      "options": [
+        { "tier": "high", "label": "輸入車", "oneTime": 600, "annual": 45, "years": 10, "resale": 150, "breakdownChance": 0.05, "diary": "輸入車を買った。乗るたびに背筋が伸びる。" },
+        { "tier": "mid", "label": "国産新車", "oneTime": 300, "annual": 35, "years": 10, "resale": 60, "breakdownChance": 0.05, "diary": "国産の新車を買った。ドライブが休日の楽しみになった。" },
+        { "tier": "low", "label": "中古車", "oneTime": 100, "annual": 30, "years": 7, "resale": 0, "breakdownChance": 0.25, "diary": "中古車を買った。ちょっと古いけど、よく走る。" }
+      ],
+      "breakdownCost": [10, 50],
+      "skipDiary": "車は買わなかった。電車とバスで、なんとかなる。",
+      "neverDiary": "車は持たない暮らしに決めた。"
+    },
+    "house": {
+      "ageRange": [30, 50],
+      "downPaymentRate": 0.2,
+      "loanYears": 35,
+      "loanRate": 0.015,
+      "options": [
+        { "tier": "high", "label": "注文住宅", "oneTime": 6000, "annual": { "tax": 20, "reserve": 15 }, "depreciation": 0.015, "repairChance": 0.03, "diary": "注文住宅を建てた。間取りはふたりで何度も話し合った。" },
+        { "tier": "mid", "label": "新築マンション", "oneTime": 4500, "annual": { "tax": 10, "management": 14, "reserve": 16 }, "depreciation": 0.02, "repairChance": 0.05, "diary": "新築マンションを買った。ベランダからの眺めが気に入っている。" },
+        { "tier": "low", "label": "中古＋リフォーム", "oneTime": 2500, "annual": { "tax": 8, "reserve": 10 }, "depreciation": 0.025, "repairChance": 0.15, "diary": "中古の家を買ってリフォームした。古いけど、味がある。" }
+      ],
+      "skipDiary": "家は買わず、家族向けの広い賃貸に引っ越した。",
+      "neverDiary": "ずっと賃貸で暮らすと決めた。身軽がいちばん。"
+    },
+    "repair": {
+      "options": [
+        { "tier": "high", "label": "全面改修", "oneTime": 150, "freeYears": 15, "diary": "家を全面的に直した。これでしばらく安心だ。" },
+        { "tier": "mid", "label": "部分修理", "oneTime": 60, "freeYears": 8, "diary": "壊れたところを修理した。" },
+        { "tier": "low", "label": "応急処置", "oneTime": 20, "freeYears": 3, "diary": "とりあえず応急処置で済ませた。" }
+      ]
+    }
+  },
+  "ranks": [
+    { "rank": "S", "min": 5000, "ending": "悠々自適の老後" },
+    { "rank": "A", "min": 3000, "ending": "ゆとりある老後" },
+    { "rank": "B", "min": 2000, "ending": "安心の老後" },
+    { "rank": "C", "min": 500, "ending": "ちょっと心配な老後" },
+    { "rank": "D", "min": null, "ending": "定年後も働く老後" }
+  ]
+}
