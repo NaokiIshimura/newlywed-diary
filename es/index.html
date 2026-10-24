@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="es-419" data-lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Diario de recién casados | Del matrimonio a la jubilación, un simulador de vida a base de decisiones</title>
+  <meta name="description" content="Un simulador de vida: del matrimonio a la jubilación, solo eligiendo «comprar o no» y «caro, normal o barato».">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/es/">
+  <link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/">
+  <link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/">
+  <link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/">
+  <link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/">
+  <link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/">
+  <link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/">
+  <meta name="theme-color" content="#faf6ef">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Diario de recién casados">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="Diario de recién casados | Del matrimonio a la jubilación, un simulador de vida a base de decisiones">
+  <meta property="og:description" content="Un simulador de vida: del matrimonio a la jubilación, solo eligiendo «comprar o no» y «caro, normal o barato».">
+  <meta property="og:url" content="https://newlywed-diary.nacn.app/es/">
+  <meta property="og:image" content="https://newlywed-diary.nacn.app/es/og.png?v=20261024">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Diario de recién casados",
+  "url": "https://newlywed-diary.nacn.app/es/",
+  "description": "Un simulador de vida: del matrimonio a la jubilación, solo eligiendo «comprar o no» y «caro, normal o barato».",
+  "image": "https://newlywed-diary.nacn.app/es/og.png",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "es-419",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "JPY"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "nacn"
+  }
+}
+  </script>
+  <link rel="stylesheet" href="../css/style.css?v=20261024">
+  <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(() => {
+  // 事前の同意が要る国：ページの言語か端末のタイムゾーンで見分け、同意するまで Cookie を使わない（バナーを出す）
+  const NEED_LANGS = ['id'];
+  const NEED_TZ = ['Asia/Jakarta', 'Asia/Pontianak', 'Asia/Makassar', 'Asia/Jayapura', 'Asia/Bangkok', 'Asia/Ho_Chi_Minh', 'Asia/Saigon'];
+  // Google の位置判定でも最初から拒否にする国と地域（上の国と、EU・EEA・英国・スイス。EU・英国などにはバナーを出さない）
+  const DENY_REGIONS = ['ID', 'TH', 'VN', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT',
+    'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
+  const saved = (document.cookie.match(/(?:^|; )nacn_consent=v1\.(granted|denied)/) || [])[1] || null;
+  let tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { /* 古いブラウザ */ }
+  const lang = (document.documentElement.lang || '').toLowerCase();
+  const need = NEED_LANGS.some(l => lang === l || lang.startsWith(l + '-')) || NEED_TZ.includes(tz);
+  const state = saved || (need ? 'denied' : 'granted');
+  const all = s => ({ad_storage: s, ad_user_data: s, ad_personalization: s, analytics_storage: s});
+  // 地域ごとの初期値は、地域なしの初期値より優先される。自分で選んだ人には地域の初期値を使わない
+  if (!saved) gtag('consent', 'default', Object.assign(all('denied'), {region: DENY_REGIONS}));
+  gtag('consent', 'default', Object.assign(all(state), {wait_for_update: 500}));
+  if (state === 'denied') (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+  window.nacnConsent = {need, saved};
+})();
+</script>
+<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+</head>
+<body>
+  <main id="app">
+    <!-- タイトル -->
+    <section id="screen-title" class="screen" hidden>
+      <div class="title-illust" id="title-illust"></div>
+      <h1 class="logo" data-i18n="meta.gameName">Diario de recién casados</h1>
+      <p class="lead" data-i18n="title.lead">Del matrimonio a la jubilación,<br>un simulador de vida a base de decisiones</p>
+      <p class="note" data-i18n="meta.setInJapan">El juego transcurre en Japón; los montos están en yenes japoneses (¥).</p>
+      <div class="stack">
+        <button id="btn-start" class="primary" data-i18n="title.start">Empezar</button>
+        <button id="btn-continue" data-i18n="title.continue" hidden>Continuar</button>
+        <button id="btn-gallery" data-i18n="title.gallery">Galería de finales</button>
+        <button id="btn-settings" class="ghost" data-i18n="title.settings">Ajustes</button>
+      </div>
+      <nav class="lang-switch langs"><a href="../en/" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/" hreflang="es" lang="es-419" data-code="es" aria-current="true">Español</a><a href="../ja/" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
+      <nav class="site-nav">
+        <ul data-consent-menu>
+          <li><a href="https://nacn.app/es/privacy.html" data-i18n="footer.privacy">Aviso de privacidad</a></li>
+          <li><a href="https://nacn.app/es/" data-i18n="footer.moreGames">Más juegos en nacn.app</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <!-- 開始設定 -->
+    <section id="screen-setup" class="screen" hidden>
+      <h2 data-i18n="setup.heading">Configuración inicial</h2>
+      <form id="setup-form" class="form">
+        <div class="row">
+          <label><span data-i18n="setup.genderA">Tu género</span>
+            <select name="genderA"><option value="female" data-i18n="setup.female">Mujer</option><option value="male" data-i18n="setup.male">Hombre</option></select>
+          </label>
+          <label><span data-i18n="setup.genderB">Género de tu pareja</span>
+            <select name="genderB"><option value="female" data-i18n="setup.female">Mujer</option><option value="male" data-i18n="setup.male">Hombre</option></select>
+          </label>
+        </div>
+        <label><span data-i18n="setup.age" data-i18n-params='{"min":22,"max":45}'>Edad al casarse (22–45 años)</span>
+          <span class="field"><input name="age" type="number" min="22" max="45" step="1" required><button type="button" data-random="age" data-i18n="setup.random">Aleatorio</button></span>
+        </label>
+        <label><span data-i18n="setup.savings" data-i18n-params='{"min":0,"max":1000}'>Ahorros (en ¥10.000, 0–1000)</span>
+          <span class="field"><input name="savings" type="number" min="0" max="1000" step="10" required><button type="button" data-random="savings" data-i18n="setup.random">Aleatorio</button></span>
+          <output class="hint" data-money-for="savings"></output>
+        </label>
+        <label><span data-i18n="setup.incomeA">Tu ingreso anual (en ¥10.000)</span>
+          <span class="field"><input name="incomeA" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeA" data-i18n="setup.random">Aleatorio</button></span>
+          <output class="hint" data-money-for="incomeA"></output>
+        </label>
+        <label><span data-i18n="setup.incomeB">Ingreso anual de tu pareja (en ¥10.000, a tiempo completo)</span>
+          <span class="field"><input name="incomeB" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeB" data-i18n="setup.random">Aleatorio</button></span>
+          <output class="hint" data-money-for="incomeB"></output>
+        </label>
+        <p class="hint" data-i18n="setup.incomeHint">El ingreso inicial es la mediana para esa edad.</p>
+        <label><span data-i18n="setup.workStyle">Modo de trabajo</span>
+          <span class="field">
+            <select name="workStyle">
+              <option value="fulltime_both" data-i18n="workStyles.fulltime_both.fullLabel">Ambos a tiempo completo</option>
+              <option value="parttime" data-i18n="workStyles.parttime.fullLabel">Ambos trabajan (pareja a medio tiempo)</option>
+              <option value="single" data-i18n="workStyles.single.fullLabel">Un solo ingreso</option>
+            </select>
+            <button type="button" data-random="workStyle" data-i18n="setup.random">Aleatorio</button>
+          </span>
+        </label>
+        <div class="stack">
+          <button type="submit" class="primary" data-i18n="setup.submit">Empezar con esta configuración</button>
+          <button type="button" id="btn-omakase" data-i18n="setup.omakase">Empezar con todo al azar</button>
+          <button type="button" class="ghost" data-back data-i18n="setup.back">Volver al inicio</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- メイン -->
+    <section id="screen-main" class="screen" hidden>
+      <header class="status" id="status"></header>
+      <ol class="diary" id="diary"></ol>
+      <div class="year-summary" id="year-summary" hidden></div>
+      <footer class="controls">
+        <button data-speed="0" data-i18n="main.pause">Pausa</button>
+        <button data-speed="1">1x</button>
+        <button data-speed="2">2x</button>
+      </footer>
+    </section>
+
+    <!-- リザルト -->
+    <section id="screen-result" class="screen" hidden>
+      <div id="result"></div>
+      <section class="share">
+        <h3 data-i18n="result.share">Compartir</h3>
+        <img id="share-preview" class="share-preview" data-i18n="result.cardAlt" data-i18n-attr="alt" alt="Tarjeta con el resultado">
+        <div class="stack">
+          <button id="btn-share" class="primary" data-i18n="result.shareImage">Compartir imagen</button>
+          <a id="btn-download" class="button" download="newlywed-diary.png" data-i18n="result.saveImage">Guardar imagen</a>
+          <a id="btn-post" class="button" target="_blank" rel="noopener" data-i18n="result.post">Publicar en X (Twitter)</a>
+        </div>
+      </section>
+      <div class="stack">
+        <button id="btn-again" class="primary" data-i18n="result.again">Jugar otra vez</button>
+        <button class="ghost" data-back data-i18n="result.toTitle">Al inicio</button>
+      </div>
+    </section>
+
+    <!-- エンディング図鑑 -->
+    <section id="screen-gallery" class="screen" hidden>
+      <h2 data-i18n="gallery.heading">Galería de finales</h2>
+      <div id="gallery"></div>
+      <div class="stack">
+        <button class="ghost" data-back data-i18n="gallery.back">Volver al inicio</button>
+      </div>
+    </section>
+
+    <!-- 設定 -->
+    <section id="screen-settings" class="screen" hidden>
+      <h2 data-i18n="settings.heading">Ajustes</h2>
+      <form id="settings-form" class="form">
+        <label><span data-i18n="settings.language">Idioma</span>
+          <select name="lang" id="settings-lang"></select>
+        </label>
+        <label class="check"><input type="checkbox" name="yearSummary"> <span data-i18n="settings.yearSummary">Mostrar el balance de fin de año</span></label>
+        <label><span data-i18n="settings.speed">Velocidad inicial</span>
+          <select name="speed">
+            <option value="1">1x</option>
+            <option value="2">2x</option>
+          </select>
+        </label>
+      </form>
+      <div class="stack">
+        <button id="btn-clear" class="danger" data-i18n="settings.clear">Borrar datos</button>
+        <button class="ghost" data-back data-i18n="settings.back">Volver al inicio</button>
+      </div>
+      <p class="hint" data-i18n="settings.clearHint">Borra la partida guardada, la galería, los logros y los ajustes.</p>
+    </section>
+  </main>
+
+  <!-- イベント -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-body" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div id="modal-illust"></div>
+      <h3 id="modal-title"></h3>
+      <p id="modal-text"></p>
+      <div id="modal-options" class="stack"></div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/app.js?v=20261024"></script>
+<div class="suggest" id="langSuggest" hidden>
+    <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
+    <button type="button" class="suggest-close" id="langSuggestClose" aria-label="Cerrar">×</button>
+  </div>
+  <script>
+  (() => {
+    // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/", "lang": "en", "code": "en", "current": false}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/", "lang": "zh-Hant-TW", "code": "zh-tw", "current": false}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/", "lang": "es-419", "code": "es", "current": true}];
+    // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
+    const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
+    const remember = code => { try { localStorage.setItem('lang', code); } catch (e) { /* noop */ } };
+    // 切り替えリンクはこのあとに出てくるので、ページ全体でクリックを受け取る
+    document.addEventListener('click', e => {
+      const a = e.target.closest('.langs a[data-code], #langSuggestLink');
+      if (a && a.dataset.code) remember(a.dataset.code);
+    });
+    const KEY = 'lang-suggest-closed';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* 保存できない環境 */ }
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(l => l.toLowerCase());
+    // 一番希望している言語だけを見る。対応していない言語か、今のページの言語なら何も出さない
+    const first = langs[0] || '';
+    const alt = ALT.find(a => langMatches(first, a.match));
+    if (!alt || alt.current) return;
+    const box = document.getElementById('langSuggest');
+    document.getElementById('langSuggestText').textContent = alt.text;
+    const link = document.getElementById('langSuggestLink');
+    link.textContent = alt.link; link.href = alt.href; link.lang = alt.lang; link.dataset.code = alt.code;
+    box.lang = alt.lang;
+    box.hidden = false;
+    document.getElementById('langSuggestClose').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* noop */ }
+    });
+  })();
+  </script>
+
+<!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
+<div class="nacn-consent" id="nacnConsent" role="region" aria-label="Consentimiento de cookies" hidden>
+  <p>Usamos cookies para estadísticas. Puedes seguir jugando aunque no aceptes. <a href="https://nacn.app/es/privacy.html">Aviso de privacidad</a></p>
+  <div class="nacn-consent-btns">
+    <button type="button" data-consent="granted">Aceptar</button>
+    <button type="button" data-consent="denied">Rechazar</button>
+  </div>
+</div>
+<style>
+.nacn-consent{ position:fixed; left:8px; right:8px; bottom:8px; z-index:1000; max-width:720px; margin:0 auto; padding:12px 14px;
+  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; color:#f4f1ff; background:#1d1a33; border:3px solid #f4f1ff;
+  box-shadow:0 4px 0 rgba(0,0,0,.35); font-size:.9rem; line-height:1.6; }
+.nacn-consent[hidden]{ display:none; }
+.nacn-consent p{ flex:1 1 280px; margin:0; }
+.nacn-consent a{ color:#ffd66b; }
+.nacn-consent-btns{ display:flex; gap:8px; }
+/* 同意する・しないは同じ大きさ・同じ見た目にする（どちらかに誘導しない） */
+.nacn-consent button{ min-width:7em; padding:6px 12px; font:inherit; color:#1d1a33; background:#f4f1ff; border:2px solid #f4f1ff; cursor:pointer; }
+.nacn-consent button:focus-visible{ outline:3px solid #ffd66b; outline-offset:2px; }
+</style>
+<script>
+(() => {
+  const bar = document.getElementById('nacnConsent');
+  // ページの中で言語を切り替えるアプリ（1つの HTML で全言語）は、data-strings に言語ごとの文言を持たせ、表示する前に今の言語の文言にする。
+  // キーは <html lang> を小文字にしたもの（なければ「-」の前）。値は {text, policy, policyHref, accept, reject, settings, label}
+  const strings = bar.dataset.strings ? JSON.parse(bar.dataset.strings) : null;
+  const localize = () => {
+    if (!strings) return;
+    const lang = (document.documentElement.lang || '').toLowerCase();
+    const t = strings[lang] || strings[lang.split('-')[0]];
+    if (!t) return;
+    const link = bar.querySelector('p a');
+    bar.querySelector('p').firstChild.textContent = t.text + ' ';
+    link.textContent = t.policy; link.href = t.policyHref;
+    bar.querySelector('[data-consent="granted"]').textContent = t.accept;
+    bar.querySelector('[data-consent="denied"]').textContent = t.reject;
+    bar.setAttribute('aria-label', t.label);
+    document.querySelectorAll('[data-consent-open]').forEach(a => { a.textContent = t.settings; });
+  };
+  const pad = () => { document.body.style.paddingBottom = bar.hidden ? '' : (bar.offsetHeight + 16) + 'px'; };
+  const show = () => { localize(); bar.hidden = false; pad(); };
+  const choose = v => {
+    // nacn.app の全サブドメインで同じ選択を使う（ローカルでは Domain を付けない）
+    const domain = /(^|\.)nacn\.app$/.test(location.hostname) ? '; Domain=.nacn.app' : '';
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `nacn_consent=v1.${v}; Max-Age=34128000; Path=/; SameSite=Lax${secure}${domain}`;
+    gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
+    bar.hidden = true; pad();
+  };
+  bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => choose(b.dataset.consent)));
+  // いつでも選び直せるように、ページ下のメニュー（data-consent-menu を付けた ul か .site-nav ul）に「Cookie の設定」を足す。
+  // ほかの場所に置くなら data-consent-open を付けた要素
+  const menu = document.querySelector('[data-consent-menu]') || document.querySelector('.site-nav ul');
+  if (menu) menu.insertAdjacentHTML('beforeend', '<li><a href="#" data-consent-open>Configuración de cookies</a></li>');
+  document.querySelectorAll('[data-consent-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
+  localize();
+  const c = window.nacnConsent || {};
+  if (c.need && !c.saved) show();
+})();
+</script>
+</body>
+</html>

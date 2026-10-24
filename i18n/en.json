@@ -308,5 +308,25 @@
   "footer": {
     "privacy": "Privacy policy",
     "moreGames": "More games on nacn.app"
+  },
+  "site": {
+    "htmlLang": "en",
+    "hreflang": "en",
+    "ogLocale": "en_US",
+    "langName": "English",
+    "titleSep": " | ",
+    "suggest": {
+      "text": "Newlywed Diary is also available in English.",
+      "link": "Play in English",
+      "close": "Close"
+    },
+    "consent": {
+      "label": "Cookie consent",
+      "text": "We use cookies for analytics. You can still play even if you decline.",
+      "policy": "Privacy policy",
+      "accept": "Accept",
+      "reject": "Decline",
+      "settings": "Cookie settings"
+    }
   }
 }

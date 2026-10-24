@@ -24,14 +24,17 @@
 
 | 言語 | URL | 金額の表示 |
 | --- | --- | --- |
-| 日本語 | `?lang=ja` | 350万円 |
-| English | `?lang=en` | ¥3.5M |
-| 繁體中文 | `?lang=zh-tw` | ¥350萬 |
-| Español | `?lang=es` | JPY 3.5 M |
-| 한국어 | `?lang=ko` | JP¥350만 |
+| 日本語 | `/ja/` | 350万円 |
+| English | `/en/` | ¥3.5M |
+| 繁體中文 | `/zh-tw/` | ¥350萬 |
+| Español | `/es/` | JPY 3.5 M |
+| 한국어 | `/ko/` | JP¥350만 |
 
-- 言語は `?lang=`、前に選んだ言語（設定）、ブラウザの言語の順に決めます。対応していない言語のブラウザでは英語にします。中国語のブラウザは繁體中文にします
-- タイトル画面の下と設定画面で切り替えられます。途中保存は言語に依存しないので、切り替えても続きから遊べます
+nacn.app のほかのサイトと同じく、言語ごとのフォルダに分けています（claude-skills の `localize-static-app` スキル）。各言語のページは、タイトル・説明・画面の文・hreflang・canonical・OGP（`<言語>/og.png`）・構造化データを最初からその言語で書き出すので、検索エンジンと SNS にも言語ごとに出ます。
+
+- ルート（`/`）は言語を選ぶページです。以前の URL の `?lang=`、前に選んだ言語（`localStorage` の `lang`。nacn.app の全サイトで共通）、ブラウザの言語の順に、その言語のページへ自動で移ります。どれにも当てはまらなければ、ここで選んでもらいます。スペインのブラウザ（`es-ES`）は、スペイン語版が中南米向けなので自動では移しません。`/?choose` で開くと移らずに選び直せます
+- 各ページのタイトル画面の下の言語のリンクと、設定画面の言語の選択欄は、その言語のページへ移ります（選んだ言語を `lang` に覚える）。途中保存は言語に依存しないので、切り替えても続きから遊べます
+- ブラウザの言語が別の対応言語なら、画面の上に1行で案内します（`src/parts/suggest.html`。閉じたら次から出さない）
 - 文は2種類に分けています
   - `i18n/<言語>.json`：画面の文と、日記の共通の文（キーは `h.*`）
   - `data/profiles/<国>/<言語>.json`：国プロファイルの文（イベントの選択肢・日記・ランク・称号・実績・働き方）
@@ -39,7 +42,7 @@
 - 文の中の `{name}` に値を差し込みます。`{name:money}` のように書式を付けると、金額（`money`）・数（`num`）・符号付き（`signed`・`signedMoney`）・主人公かパートナーか（`who`）として表示します。`n` が 1 のときは、キーに `_one` を付けた文があればそちらを使います
 - 翻訳のキーと差し込みが日本語版とそろっているかは `npm run check:i18n` で確かめます
 
-言語を足すときは、`js/i18n.js` の `LANGS` に足して、2種類の文のファイルを日本語版から訳します。国を足すときは、`data/profiles/<国>.json`（数値）と `data/profiles/<国>/<言語>.json`（文）を作り、`js/app.js` の `PROFILE` を切り替えます（国を選ぶ画面はまだありません）。
+言語を足すときは、`js/i18n.js` の `LANGS` と `build.py` の `LANGS`・`SPEAKER_ORDER`・`BROWSER_MATCH` に足し、2種類の文のファイルを日本語版から訳して、`i18n/<言語>.json` の `site`（`<html lang>`・hreflang・OGP のロケール・言語名・案内の文・同意のバナーの文）も書きます。国を足すときは、`data/profiles/<国>.json`（数値）と `data/profiles/<国>/<言語>.json`（文）を作り、`js/app.js` の `PROFILE` を切り替えます（国を選ぶ画面はまだありません）。
 
 ## バランス
 
@@ -61,27 +64,46 @@
 
 ```bash
 python3 -m http.server 8000
-# http://localhost:8000/ を開く
+# http://localhost:8000/ja/ などを開く（http://localhost:8000/ は言語を選ぶページ）
 ```
+
+## ページの書き出し
+
+各言語のページは `build.py` で書き出します（Python 3 の標準ライブラリだけ）。Cloudflare Pages ではビルドしないので、`src/`・`i18n/`・`data/profiles/<国>/<言語>.json` を変えたら、書き出して一緒にコミットします。
+
+```bash
+python3 build.py      # <言語>/index.html・index.html（言語を選ぶページ）・404.html・sitemap.xml を書き出す
+node tools/make_og.cjs # <言語>/og.png（OGP 画像）を作る。作り直したら build.py の ASSET_VER を新しくして書き出し直す
+```
+
+| ファイル | 内容 |
+| --- | --- |
+| `src/game.html` | ゲームのページの枠。`{{...}}` に言語ごとの値を差し込み、`data-i18n` の要素にはその言語の文を入れて書き出す |
+| `src/root.html`・`src/404.html` | ルートの言語を選ぶページと、見つからないページ |
+| `src/parts/suggest.html` | ブラウザの言語に合わせた1行の案内（nacn.app 共通） |
+| `src/parts/consent-head.html`・`src/parts/consent.html` | Cookie の同意の初期値とバナー（nacn.app 共通） |
+
+`<言語>/index.html`・ルートの `index.html`・`404.html`・`sitemap.xml` は書き出したファイルなので、直接は編集しないでください。
 
 ## ファイル構成
 
 | ファイル | 内容 |
 | --- | --- |
-| `index.html` | 画面（タイトル・開始設定・メイン・イベント・リザルト・エンディング図鑑・設定） |
+| `src/game.html` | 画面（タイトル・開始設定・メイン・イベント・リザルト・エンディング図鑑・設定）の枠。`build.py` で言語ごとに書き出す |
+| `build.py` | 言語ごとのページ・言語を選ぶページ・404・sitemap を書き出す |
 | `css/style.css` | 見た目（スマホ縦持ち優先、ダークモード対応） |
 | `js/engine.js` | ゲームロジック。DOM に依存しないので、テストと自動プレイからも使う |
 | `js/app.js` | 画面の操作 |
 | `js/illust.js` | イベントのイラスト（SVG） |
 | `js/share.js` | シェア用の画像カードを canvas に描く |
 | `js/storage.js` | localStorage（途中保存・図鑑と実績の記録・設定） |
-| `js/i18n.js` | 言語の切り替えと、文への差し込み・金額の書式 |
+| `js/i18n.js` | 文の読み込みと差し込み・金額の書式（ページの言語は `<html data-lang>`） |
 | `i18n/<言語>.json` | 画面の文と日記の共通の文 |
 | `data/profiles/jp.json` | 日本プロファイルの数値（イベントの金額・確率・年収の表など）と、称号・実績の並び |
 | `data/profiles/jp/<言語>.json` | 日本プロファイルの文（イベントの選択肢・日記・ランク・称号・実績） |
 | `tools/simulate.mjs` | 方針（全部高い／普通／安い／ランダム／要所だけ高い）ごとの自動プレイ |
 | `tools/check-i18n.mjs` | 翻訳ファイルのキーと差し込みが日本語版とそろっているかの確認 |
-| `tools/consent.py`・`tools/consent/` | Cookie の同意のしくみ（nacn.app 共通の部品）を `index.html` に書き込む |
+| `tools/make_og.cjs` | 各言語の OGP 画像（`<言語>/og.png`）を作る |
 | `test/engine.test.mjs` | ゲームロジックのテスト |
 
 ## テストと自動プレイ
@@ -96,13 +118,13 @@ npm run check:i18n        # 翻訳ファイルのキーと差し込みを確か�
 
 ## 公開
 
-https://newlywed-diary.nacn.app/ で公開しています。ビルドは不要です。リポジトリのルートをそのまま Cloudflare Pages で配信します。
+https://newlywed-diary.nacn.app/ で公開しています。Cloudflare Pages ではビルドせず（ビルドコマンドは空）、`build.py` で書き出したファイルごとリポジトリのルートをそのまま配信します。`sitemap.xml` は `robots.txt` から案内しています。
 
 ### アクセス解析と Cookie の同意
 
-- Google アナリティクス（測定ID `G-WFHQNP9CT8`）のタグを `index.html` の head に入れています。AdSense は入れていません
-- Cookie の同意のしくみ（Google Consent Mode v2 と同意のバナー）は nacn.app 共通のものです。部品は `tools/consent/`（`consent-head.html`・`consent.html`・言語ごとの文言の `strings.json`）にあり、`python3 tools/consent.py` で `index.html` に書き込みます（`<!-- consent:start -->`〜`<!-- consent:end -->` の間。何度実行しても二重になりません）。部品の元の版は claude-skills の `consent-mode` スキルにあるので、直すときはそちらを先に直して写します
+- Google アナリティクス（測定ID `G-WFHQNP9CT8`）のタグを、書き出す全ページ（`src/game.html`・`src/root.html`・`src/404.html`）の head に入れています。AdSense は入れていません
+- Cookie の同意のしくみ（Google Consent Mode v2 と同意のバナー）は nacn.app 共通のものです。部品は `src/parts/consent-head.html`・`src/parts/consent.html`、言語ごとの文言は `i18n/<言語>.json` の `site.consent` にあり、`build.py` の `with_consent()` が書き出すときに入れます（初期値は全ページ、バナーは言語のページだけ）。部品の元の版は claude-skills の `consent-mode` スキルにあるので、直すときはそちらを先に直して写します
 - 同意を求めるのは、端末のタイムゾーンがインドネシア・タイ・ベトナムの人です。EU・英国・スイスは Google の位置判定で最初から拒否にします。選択は `.nacn.app` の Cookie `nacn_consent` に保存され、nacn.app の全サイトで共通です
-- AdSense を入れていないので、バナーは「アクセスの集計のため」だけの文言にしています。AdSense を入れたら、`tools/consent/strings.json` の `text` を広告ありの文言に戻します
+- AdSense を入れていないので、バナーは「アクセスの集計のため」だけの文言にしています。AdSense を入れたら、`i18n/<言語>.json` の `site.consent.text` を広告ありの文言に戻します
 - このゲームには自前の文章のページがないので、バナーとタイトル画面のメニューの「プライバシーポリシー」は nacn.app のポリシー（`https://nacn.app/<言語>/privacy.html`。サブドメインの全ゲームが対象）へのリンクにしています。タイトル画面のメニューには「Cookie の設定」も自動で足されます
-- `<html lang>` は head の先頭のスクリプトで先に決めます（同意の判定とバナーの文言に使うため）。言語の決め方を変えるときは、`js/i18n.js` の `detectLang()` と両方を直します
+- `<html lang>` はページを書き出すときに決まるので、同意の判定（言語が `id` か）にもそのまま使えます

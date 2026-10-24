@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>新婚日記 · Newlywed Diary · 新婚日記 · Diario de recién casados · 신혼일기</title>
+  <meta name="description" content="A free life-simulation game: from marriage to retirement, make only buy-or-skip and high, mid or low choices. Play in English, Traditional Chinese, Spanish, Japanese or Korean.">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/">
+  <!-- 同じ内容の各言語のページ。このページ自体は言語を選ぶページなので x-default -->
+{{hreflang}}
+  <script>
+  // 自動でその人の言語のページへ移動する。以前の URL（/?lang=en など）、前に自分で選んだ言語、ブラウザで一番希望している言語の順。
+  // どれも対応していなければ、このページで選んでもらう。/?choose なら移動しない（言語を選び直したいとき）
+  (() => {
+    const params = new URLSearchParams(location.search);
+    if (params.has('choose')) return;
+    const MATCH = /*@MATCH@*/{};
+    // 先頭が一致すれば対象。「!」付きは除外（スペイン語版は中南米向けなので es-ES は自動では移動しない）
+    const matches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    let code = null;
+    const old = (params.get('lang') || '').toLowerCase();
+    if (MATCH[old]) code = old;
+    try { const saved = localStorage.getItem('lang'); if (!code && saved && MATCH[saved]) code = saved; } catch (e) { /* 保存できない環境 */ }
+    if (!code) {
+      const first = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
+      code = Object.keys(MATCH).find(c => matches(first, MATCH[c]));
+    }
+    if (code) location.replace(code + '/');
+  })();
+  </script>
+  <meta name="theme-color" content="#faf6ef">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Newlywed Diary">
+  <meta property="og:title" content="Newlywed Diary | From marriage to retirement, a life sim made only of choices">
+  <meta property="og:description" content="A free life-simulation game: from marriage to retirement, make only buy-or-skip and high, mid or low choices.">
+  <meta property="og:url" content="https://newlywed-diary.nacn.app/">
+  <!-- どの言語の人も見るページなので、英語版の画像にする -->
+  <meta property="og:image" content="https://newlywed-diary.nacn.app/en/og.png?v={{v}}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="css/style.css?v={{v}}">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+  <style>
+    /* 言語を選ぶページ：言語ごとのカードを並べる。ブラウザの言語に合うカードを先頭に出して目立たせる */
+    .picker-head { text-align: center; margin: 32px 0 20px; }
+    .picker-head p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .picker { display: grid; gap: 14px; }
+    .lang-card { display: grid; gap: 8px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+    .lang-card h2 { margin: 0; font-size: 1.2rem; }
+    .lang-card h2 small { margin-left: 8px; color: var(--muted); font-size: 0.8rem; font-weight: normal; }
+    .lang-card p { margin: 0; font-size: 0.9rem; }
+    .lang-card .button { justify-self: start; }
+    .lang-card.pick { border: 2px solid var(--accent); }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <header class="picker-head">
+      <h1 class="logo">新婚日記</h1>
+      <p>Choose your language</p>
+      <p lang="zh-Hant-TW">請選擇語言</p>
+      <p lang="es-419">Elige tu idioma</p>
+      <p lang="ja">言語を選んでください</p>
+      <p lang="ko">언어를 선택하세요</p>
+    </header>
+    <div class="picker" id="picker">
+{{cards}}
+    </div>
+  </main>
+  <script>
+  (() => {
+    // /?choose で開いたときは、ブラウザで一番希望している言語のカードを先頭に出して目立たせる
+    const MATCH = /*@MATCH@*/{};
+    const first = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
+    const matches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    const code = Object.keys(MATCH).find(c => matches(first, MATCH[c]));
+    const card = code && document.querySelector(`.lang-card[data-code="${code}"]`);
+    if (card) {
+      card.classList.add('pick');
+      card.parentNode.prepend(card);
+    }
+    // 選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（nacn.app の全サイトで同じキー）
+    document.querySelectorAll('.lang-card a').forEach(a => a.addEventListener('click', () => {
+      try { localStorage.setItem('lang', a.closest('.lang-card').dataset.code); } catch (e) { /* noop */ }
+    }));
+  })();
+  </script>
+</body>
+</html>

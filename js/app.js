@@ -20,7 +20,7 @@ import {
   rankOf,
   titleOf,
 } from "./engine.js";
-import { LANGS, applyStatic, currentLang, detectLang, loadLang, money, t } from "./i18n.js";
+import { LANGS, applyStatic, currentLang, loadLang, money, pageLang, t } from "./i18n.js";
 import { illustFor } from "./illust.js";
 import { canvasToBlob, drawShareCard } from "./share.js";
 import { clearAll, loadRecords, loadSave, loadSettings, recordResult, writeSave, writeSettings } from "./storage.js";
@@ -41,53 +41,17 @@ let settings = loadSettings();
 async function setLang(code) {
   await loadLang(code, data, PROFILE);
   applyStatic();
-  document.title = t("meta.title");
-  document.querySelector('meta[name="description"]').content = t("meta.description");
-  renderLangSwitch();
-  updateMoneyHints();
-  $("#link-privacy").href = `https://nacn.app/${code}/privacy.html`;
-  $("#link-portal").href = `https://nacn.app/${code}/`;
-  localizeConsent();
-}
-
-// Cookie の同意のバナー（tools/consent.py が書き込む）は読み込んだときの言語で表示されるので、
-// ゲームの中で言語を切り替えたら、バナーと「Cookie の設定」の文字もその言語にする
-function localizeConsent() {
-  const bar = $("#nacnConsent");
-  if (!bar?.dataset.strings) return;
-  const c = JSON.parse(bar.dataset.strings)[document.documentElement.lang.toLowerCase()];
-  if (!c) return;
-  const link = bar.querySelector("p a");
-  bar.querySelector("p").firstChild.textContent = `${c.text} `;
-  link.textContent = c.policy;
-  link.href = c.policyHref;
-  bar.querySelector('[data-consent="granted"]').textContent = c.accept;
-  bar.querySelector('[data-consent="denied"]').textContent = c.reject;
-  bar.setAttribute("aria-label", c.label);
-  for (const a of document.querySelectorAll("[data-consent-open]")) a.textContent = c.settings;
-}
-
-function renderLangSwitch() {
-  const code = currentLang().code;
-  $("#lang-switch").innerHTML = LANGS.map((l) => (l.code === code ? `<strong>${l.name}</strong>` : `<a href="?lang=${l.code}" data-lang="${l.code}">${l.name}</a>`)).join("");
   $("#settings-lang").innerHTML = LANGS.map((l) => `<option value="${l.code}"${l.code === code ? " selected" : ""}>${l.name}</option>`).join("");
+  updateMoneyHints();
 }
 
-async function changeLang(code) {
-  settings = { ...settings, lang: code };
-  writeSettings(settings);
-  const url = new URL(location.href);
-  url.searchParams.set("lang", code);
-  history.replaceState(null, "", url);
-  await setLang(code);
+// 言語を変えるときは、その言語のページ（/en/ など）へ移る。選んだ言語は nacn.app の全サイトで同じキー（lang）に覚える
+function goToLang(code) {
+  try {
+    localStorage.setItem("lang", code);
+  } catch {}
+  location.href = `../${code}/`;
 }
-
-$("#lang-switch").addEventListener("click", (e) => {
-  const code = e.target.dataset?.lang;
-  if (!code) return;
-  e.preventDefault();
-  changeLang(code);
-});
 
 // ---- 保存 ----
 
@@ -601,7 +565,7 @@ async function renderShare(nw, ending, title) {
   const blob = await canvasToBlob(canvas);
   const rank = bankrupt ? t("result.bankruptWord") : t("result.rankWord", { rank: ending.rank });
   const text = `${t("result.shareText", { ending: ending.ending, rank, title: t(`titles.${title}.name`) })} ${t("meta.hashtag")}`;
-  const pageUrl = `${location.origin}${location.pathname}?lang=${currentLang().code}`;
+  const pageUrl = `${location.origin}/${currentLang().code}/`;
   $("#btn-post").href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`;
   const file = blob && new File([blob], "newlywed-diary.png", { type: "image/png" });
   const canShare = !!(file && navigator.canShare && navigator.canShare({ files: [file] }));
@@ -652,7 +616,7 @@ function showSettings() {
 }
 
 settingsForm.addEventListener("change", (e) => {
-  if (e.target.name === "lang") return changeLang(e.target.value);
+  if (e.target.name === "lang") return goToLang(e.target.value);
   settings = { ...settings, yearSummary: settingsForm.yearSummary.checked, speed: Number(settingsForm.speed.value) };
   writeSettings(settings);
 });
@@ -670,6 +634,6 @@ $("#btn-again").addEventListener("click", showSetup);
 $("#btn-gallery").addEventListener("click", showGallery);
 $("#btn-settings").addEventListener("click", showSettings);
 
-data = await (await fetch(`data/profiles/${PROFILE}.json`)).json();
-await setLang(detectLang(settings.lang));
+data = await (await fetch(new URL(`../data/profiles/${PROFILE}.json`, import.meta.url))).json();
+await setLang(pageLang());
 showTitle();

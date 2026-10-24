@@ -306,7 +306,36 @@ a.button {
   font-size: 0.85rem;
 }
 .lang-switch a { color: var(--muted); }
-.lang-switch strong { color: var(--accent); }
+.lang-switch a[aria-current] { color: var(--accent); font-weight: bold; text-decoration: none; }
+
+/* ブラウザの言語が別の対応言語のときの1行の案内（src/parts/suggest.html） */
+.suggest {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 900;
+  max-width: 464px;
+  margin: 0 auto;
+  padding: 8px 40px 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.12);
+}
+.suggest[hidden] { display: none; }
+.suggest a { color: var(--accent); font-weight: bold; }
+.suggest-close {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  padding: 4px 10px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
 
 /* ページ下のメニュー（プライバシーポリシー・ほかのゲーム・Cookie の設定） */
 .site-nav ul {

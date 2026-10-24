@@ -303,5 +303,25 @@
   "footer": {
     "privacy": "プライバシーポリシー",
     "moreGames": "nacn.app のほかのゲーム"
+  },
+  "site": {
+    "htmlLang": "ja",
+    "hreflang": "ja",
+    "ogLocale": "ja_JP",
+    "langName": "日本語",
+    "titleSep": "｜",
+    "suggest": {
+      "text": "新婚日記は日本語でも遊べます。",
+      "link": "日本語で遊ぶ",
+      "close": "閉じる"
+    },
+    "consent": {
+      "label": "Cookie の同意",
+      "text": "このサイトは、アクセスの集計のために Cookie を使います。同意しなくても、そのまま遊べます。",
+      "policy": "プライバシーポリシー",
+      "accept": "同意する",
+      "reject": "同意しない",
+      "settings": "Cookie の設定"
+    }
   }
 }

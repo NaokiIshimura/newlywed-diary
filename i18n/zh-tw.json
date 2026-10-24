@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "新婚日記",
-    "description": "從結婚到退休，只靠「買・不買／高・普通・低」的選擇一路走完的人生模擬遊戲。",
+    "description": "從結婚到退休，只靠「買·不買／高·普通·低」的選擇一路走完的人生模擬遊戲。",
     "gameName": "新婚日記",
     "hashtag": "#新婚日記",
     "setInJapan": "本遊戲以日本為背景，金額皆為日圓。"
@@ -40,7 +40,7 @@
     "startLine": "存款{savings:money}，兩人年收入合計{income:money}。以{workStyle}起步。",
     "resumed": "從上次的進度繼續。",
     "yearEnd": "年底",
-    "yearEndMoney": "收入 {income:money}・支出 {expense:money}（{delta:signedMoney}）→ {savings:money}",
+    "yearEndMoney": "收入 {income:money}·支出 {expense:money}（{delta:signedMoney}）→ {savings:money}",
     "status": {
       "age": "年齡",
       "married": "結婚",
@@ -53,7 +53,7 @@
       "none": "無",
       "childAge": "{n}歲",
       "independent": "已獨立",
-      "caring": "・照護中",
+      "caring": "·照護中",
       "rent": "租屋",
       "familyRent": "租屋（家庭型）",
       "listSep": "、"
@@ -159,8 +159,8 @@
       "textReplace": "車子開了{years}年。要以{value:money}賣掉現在的車，換一台新車嗎？",
       "yes": "買",
       "never": "這輩子不買車",
-      "detail": "{cost:money}・養車費 每年{annual:money}・{years}年後以{resale:money}賣出",
-      "fragile": "・容易故障"
+      "detail": "{cost:money}·養車費 每年{annual:money}·{years}年後以{resale:money}賣出",
+      "fragile": "·容易故障"
     },
     "house": {
       "title": "買房",
@@ -168,16 +168,16 @@
       "yes": "買",
       "never": "一輩子租屋",
       "rentSub": "房租 每年{rent:money}",
-      "detail": "{cost:money}（頭期款 {down:money}）・房貸 每年{loan:money}・固定支出 每年{fixed:money}",
-      "manyRepairs": "・常需要修繕"
+      "detail": "{cost:money}（頭期款 {down:money}）·房貸 每年{loan:money}·固定支出 每年{fixed:money}",
+      "manyRepairs": "·常需要修繕"
     },
     "repair": {
       "title": "房屋修繕",
       "text": "家裡到處開始老舊損壞。要怎麼修？",
-      "detail": "{cost:money}・{years}年後才會再壞"
+      "detail": "{cost:money}·{years}年後才會再壞"
     },
     "familyTrip": {
-      "title": "家庭旅遊・紀念日",
+      "title": "家庭旅遊·紀念日",
       "text": "結婚第{n}年的紀念日。要去旅行嗎？",
       "yes": "去",
       "no": "不去"
@@ -196,7 +196,7 @@
       "facility": "請他們住進安養機構",
       "facilitySub": "每年{annual:money}",
       "home": "在家照顧",
-      "homeSub": "每年{annual:money}・照顧期間另一半離開職場"
+      "homeSub": "每年{annual:money}·照顧期間另一半離開職場"
     }
   },
   "result": {
@@ -216,10 +216,10 @@
       "education": "教育費",
       "housing": "居住費",
       "car": "車",
-      "events": "活動（婚禮・旅行）",
-      "other": "其他（照護・醫療・利息）"
+      "events": "活動（婚禮·旅行）",
+      "other": "其他（照護·醫療·利息）"
     },
-    "incomeNote": "實領收入 {income:money}，兒童津貼・孝親費・臨時收入 {extra:money}。",
+    "incomeNote": "實領收入 {income:money}，兒童津貼·孝親費·臨時收入 {extra:money}。",
     "achievements": "成就",
     "noAchievements": "這次沒有達成成就。",
     "timeline": "人生年表",
@@ -244,7 +244,7 @@
   "gallery": {
     "heading": "結局圖鑑",
     "plays": "遊玩次數 {n}次",
-    "best": "・最高淨資產 {money:money}",
+    "best": "·最高淨資產 {money:money}",
     "endings": "結局",
     "titles": "稱號",
     "achievements": "成就",
@@ -303,5 +303,25 @@
   "footer": {
     "privacy": "隱私權政策",
     "moreGames": "nacn.app 的其他遊戲"
+  },
+  "site": {
+    "htmlLang": "zh-Hant-TW",
+    "hreflang": "zh-TW",
+    "ogLocale": "zh_TW",
+    "langName": "繁體中文",
+    "titleSep": "｜",
+    "suggest": {
+      "text": "新婚日記也提供繁體中文版。",
+      "link": "以繁體中文遊玩",
+      "close": "關閉"
+    },
+    "consent": {
+      "label": "Cookie 同意",
+      "text": "本網站使用 Cookie 進行流量統計。即使不同意，也能照常遊玩。",
+      "policy": "隱私權政策",
+      "accept": "同意",
+      "reject": "不同意",
+      "settings": "Cookie 設定"
+    }
   }
 }
