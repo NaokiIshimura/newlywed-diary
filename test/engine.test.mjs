@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
   STRATEGIES,
+  achievementsOf,
   choose,
+  compareWithMid,
   createGame,
   defaultSettings,
   downPayment,
@@ -15,6 +17,7 @@ import {
   nextEvent,
   playToEnd,
   rankOf,
+  titleOf,
 } from "../js/engine.js";
 
 const data = JSON.parse(readFileSync(new URL("../data/jp.json", import.meta.url), "utf8"));
@@ -188,4 +191,41 @@ test("純資産は貯金＋家・車の評価額−ローン残高", () => {
   const state = playToEnd(data, settings, 3, "mid");
   const nw = netWorth(state);
   assert.equal(nw.total, nw.savings + nw.house + nw.car - nw.loan);
+});
+
+test("称号は条件の順に調べて、最初に当てはまったものになる", () => {
+  const state = married();
+  state.choices = { high: 1, mid: 8, low: 1 };
+  assert.equal(titleOf(data, state).id, "steady");
+  state.choices = { high: 8, mid: 1, low: 1 };
+  assert.equal(titleOf(data, state).id, "showoff");
+  state.choices = { high: 3, mid: 3, low: 3 };
+  assert.equal(titleOf(data, state).id, "lifelongRenter"); // 家なし
+  state.house = { tier: "mid", value: 4500, price: 4500, boughtYear: 0 };
+  assert.equal(titleOf(data, state).id, "twoOfUs");
+  state.children.push({ age: 20, choices: { childcare: "high", elementary: "high", juniorHigh: "high", highSchool: "high" } });
+  assert.equal(titleOf(data, state).id, "education");
+});
+
+test("年の途中で一度でも貯金がマイナスになると「借金ゼロ」にならない", () => {
+  const state = married({ age: 60, savings: 100 });
+  state.carNever = true;
+  state.houseNever = true;
+  state.randomRolledYear = Infinity;
+  advance(state, 10, () => ({ tier: "high" }));
+  assert.equal(state.ended, "retire");
+  assert.ok(achievementsOf(data, state).includes("noCardLoan"));
+
+  const poor = married({ age: 60, savings: 100 });
+  poor.houseNever = true;
+  poor.carNextAt = 0;
+  choose(data, poor, { id: "car", replace: false }, { tier: "high" }); // 600万円で貯金がマイナスに
+  advance(poor, 10, () => ({ tier: "low" }));
+  assert.ok(!achievementsOf(data, poor).includes("noCardLoan"));
+});
+
+test("「全部普通」との比較は同じ開始条件・同じシードで計算する", () => {
+  const state = playToEnd(data, settings, 5, "low");
+  const mid = playToEnd(data, settings, 5, "mid");
+  assert.equal(compareWithMid(data, state), mid.ended === "bankrupt" ? null : netWorth(mid).total);
 });

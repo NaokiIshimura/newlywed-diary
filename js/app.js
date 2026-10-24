@@ -2,8 +2,10 @@
 import {
   SAVE_VERSION,
   SCHOOL_STAGES,
+  achievementsOf,
   carValue,
   choose,
+  compareWithMid,
   createGame,
   defaultSettings,
   downPayment,
@@ -16,9 +18,12 @@ import {
   nextEvent,
   randomSettings,
   rankOf,
+  titleOf,
 } from "./engine.js";
+import { illustFor } from "./illust.js";
+import { canvasToBlob, drawShareCard } from "./share.js";
+import { clearAll, loadRecords, loadSave, loadSettings, recordResult, writeSave, writeSettings } from "./storage.js";
 
-const SAVE_KEY = "newlywed-diary-save";
 const SPEED_MS = { 1: 900, 2: 400 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -29,23 +34,17 @@ let data;
 let state = null;
 let speed = 1;
 let timer = null;
+let settings = loadSettings();
 
 // ---- 保存 ----
 
 function save() {
-  try {
-    if (state && !state.ended) localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-    else localStorage.removeItem(SAVE_KEY);
-  } catch {}
+  writeSave(state && !state.ended ? state : null);
 }
 
 function load() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(SAVE_KEY));
-    return saved && saved.version === SAVE_VERSION && !saved.ended ? saved : null;
-  } catch {
-    return null;
-  }
+  const saved = loadSave();
+  return saved && saved.version === SAVE_VERSION && !saved.ended ? saved : null;
 }
 
 // ---- 画面の切り替え ----
@@ -57,8 +56,11 @@ function show(id) {
 function showTitle() {
   stop();
   $("#btn-continue").hidden = !load();
+  $("#title-illust").innerHTML = illustFor("wedding");
   show("screen-title");
 }
+
+for (const b of document.querySelectorAll("[data-back]")) b.addEventListener("click", showTitle);
 
 // ---- 開始設定 ----
 
@@ -152,7 +154,7 @@ function continueGame() {
 function enterMain() {
   show("screen-main");
   renderStatus();
-  setSpeed(1);
+  setSpeed(settings.speed);
 }
 
 function addDiary(age, text, money) {
@@ -231,6 +233,7 @@ function tick() {
     return;
   }
   const r = endYear(data, state);
+  if (settings.yearSummary) showYearSummary(r);
   const cls = r.delta >= 0 ? "plus" : "minus";
   addDiary(
     r.age,
@@ -244,6 +247,26 @@ function tick() {
     stop();
     setTimeout(showResult, 800);
   }
+}
+
+// 年末の収支を数秒だけ表示する
+const ITEM_LABEL = {
+  living: "生活費", child: "子ども", education: "教育費", housing: "住居費", loan: "ローン", car: "車",
+  breakdown: "車の故障", care: "介護", scholarship: "奨学金", interest: "利息",
+};
+let summaryTimer = null;
+function showYearSummary(r) {
+  const el = $("#year-summary");
+  const rows = Object.entries(r.items)
+    .filter(([, v]) => v > 0.5)
+    .map(([k, v]) => `<span>${ITEM_LABEL[k]}</span><span class="num minus">−${Math.round(v).toLocaleString()}</span>`)
+    .join("");
+  el.innerHTML = `
+    <div class="ys-head">${r.age}歳の家計 <span class="${r.delta >= 0 ? "plus" : "minus"}">${signed(r.delta)}万円</span></div>
+    <div class="ys-grid"><span>収入</span><span class="num plus">+${Math.round(r.income).toLocaleString()}</span>${rows}</div>`;
+  el.hidden = false;
+  clearTimeout(summaryTimer);
+  summaryTimer = setTimeout(() => (el.hidden = true), speed === 2 ? 1200 : 2000);
 }
 
 // ---- イベント ----
@@ -342,6 +365,8 @@ function partnerIncomeText(workStyle) {
 
 function openEvent(ev) {
   const d = describe(ev);
+  $("#year-summary").hidden = true;
+  $("#modal-illust").innerHTML = illustFor(ev.id);
   $("#modal-title").textContent = d.title;
   $("#modal-text").textContent = d.text;
   const box = $("#modal-options");
@@ -419,19 +444,59 @@ function openEvent(ev) {
 
 // ---- リザルト ----
 
+const NEW = '<span class="new">NEW</span>';
+
+function endingOf(nw) {
+  if (state.ended === "bankrupt") return { key: "bankrupt", rank: "―", ...data.bankruptEnding };
+  const r = rankOf(data, nw.total);
+  return { key: r.rank, ...r };
+}
+
+function lifeLines(nw) {
+  const kids = state.children.length ? `子ども${state.children.length}人` : "子どもなし";
+  const home = state.house ? data.events.house.options.find((o) => o.tier === state.house.tier).label : "賃貸";
+  const car = state.car ? data.events.car.options.find((o) => o.tier === state.car.tier).label : state.carNever ? "車なし" : "車なし";
+  return [`${state.startAge}歳で結婚 → ${state.age}歳${state.ended === "bankrupt" ? "で破綻" : "で定年"}`, `${kids}・${home}・${car}`];
+}
+
 function showResult() {
   const nw = netWorth(state);
-  const bankrupt = state.ended === "bankrupt";
-  const rank = bankrupt ? { rank: "―", ending: "家計破綻エンド" } : rankOf(data, nw.total);
+  const ending = endingOf(nw);
+  const title = titleOf(data, state);
+  const achieved = achievementsOf(data, state);
+  if (!state.recorded) {
+    state.fresh = recordResult({ ending: ending.key, title: title.id, achievements: achieved, netWorth: state.ended === "retire" ? nw.total : null });
+    state.recorded = true;
+  }
+  const fresh = state.fresh;
+  const mid = compareWithMid(data, state);
   const t = state.totals;
   const row = (label, v, cls = "") => `<tr class="${cls}"><td>${label}</td><td class="num">${man(v)}</td></tr>`;
-  const kidsLine = state.children.length ? `子ども${state.children.length}人` : "子どもなし";
+
+  const spending = [
+    ["生活費", t.living + t.child],
+    ["教育費", t.education + t.scholarship],
+    ["住居費", t.housing + t.house + t.repair],
+    ["車", t.car],
+    ["イベント（結婚式・旅行）", t.wedding + t.leisure],
+    ["その他（介護・医療・利息）", t.care + t.medical + t.interest],
+  ];
+  const maxSpend = Math.max(...spending.map(([, v]) => v), 1);
+  const compare =
+    state.ended === "bankrupt" ? ""
+    : mid === null ? `<p class="compare">同じ条件で「全部普通」を選ぶと破綻していました。</p>`
+    : `<p class="compare">同じ条件で「全部普通」を選んだ場合（${man(mid)}）より <strong class="${nw.total - mid >= 0 ? "plus" : "minus"}">${signed(nw.total - mid)}万円</strong></p>`;
+
   $("#result").innerHTML = `
-    <div class="rank">${rank.rank}</div>
-    <p class="ending">${rank.ending}</p>
-    <p class="note">${state.startAge}歳で結婚 → ${state.age}歳${bankrupt ? "で破綻" : "で定年"}・${kidsLine}</p>
+    <div class="result-head">
+      <div class="rank">${ending.rank}</div>
+      <p class="ending">${ending.ending}${fresh.ending ? NEW : ""}</p>
+      <p class="comment">${ending.comment}</p>
+      <p class="title-badge"><span class="label">称号</span>${title.name}${fresh.title ? NEW : ""}<span class="sub">${title.desc}</span></p>
+      <p class="note">${lifeLines(nw).join("<br>")}</p>
+    </div>
     <section>
-      <h3>${bankrupt ? "破綻時" : "定年時"}の純資産</h3>
+      <h3>${state.ended === "bankrupt" ? "破綻時" : "定年時"}の純資産</h3>
       <table>
         ${row("貯金", nw.savings)}
         ${row("家の評価額", nw.house)}
@@ -439,37 +504,119 @@ function showResult() {
         ${row("ローン残高", -nw.loan)}
         ${row("純資産", nw.total, "total")}
       </table>
+      ${compare}
     </section>
     <section>
-      <h3>生涯の収支</h3>
-      <table>
-        ${row("手取り収入", t.income)}
-        ${row("その他の収入（児童手当・仕送り・臨時収入）", t.extraIncome)}
-        ${row("基本生活費", t.living)}
-        ${row("子ども生活費", t.child)}
-        ${row("教育費（保育〜大学）", t.education)}
-        ${row("奨学金の肩代わり", t.scholarship)}
-        ${row("住居費（家賃・ローン・固定費・修繕）", t.housing + t.house + t.repair)}
-        ${row("車（購入・維持・故障）", t.car)}
-        ${row("結婚式", t.wedding)}
-        ${row("旅行", t.leisure)}
-        ${row("介護", t.care)}
-        ${row("医療費", t.medical)}
-        ${row("カードローンの利息", t.interest)}
-      </table>
+      <h3>生涯支出の内訳</h3>
+      <div class="bars">${spending
+        .map(([label, v]) => `<div class="bar"><span class="bar-label">${label}</span><span class="bar-track"><span class="bar-fill" style="width:${(v / maxSpend) * 100}%"></span></span><span class="num">${man(v)}</span></div>`)
+        .join("")}</div>
+      <p class="hint">収入は手取り ${man(t.income)}、児童手当・仕送り・臨時収入 ${man(t.extraIncome)}。</p>
+    </section>
+    <section>
+      <h3>実績</h3>
+      ${achieved.length
+        ? `<ul class="achievements">${achieved
+            .map((id) => data.achievements.find((a) => a.id === id))
+            .map((a) => `<li><strong>${a.name}</strong>${fresh.achievements.includes(a.id) ? NEW : ""}<span class="sub">${a.desc}</span></li>`)
+            .join("")}</ul>`
+        : '<p class="hint">今回は実績なし。</p>'}
     </section>
     <section>
       <h3>人生年表</h3>
-      <ol class="timeline">${state.history.map((h) => `<li>${h.age}歳　${h.text}</li>`).join("")}</ol>
+      <ol class="timeline">${state.history.map((h) => `<li><span class="age">${h.age}歳</span>${h.text}</li>`).join("")}</ol>
     </section>`;
+
+  renderShare(nw, ending, title);
   show("screen-result");
   save();
+  window.scrollTo(0, 0);
 }
+
+// ---- シェア ----
+
+let shareBlob = null;
+
+async function renderShare(nw, ending, title) {
+  const canvas = document.createElement("canvas");
+  drawShareCard(canvas, {
+    rank: ending.rank,
+    ending: ending.ending,
+    title: title.name,
+    netWorthLabel: state.ended === "bankrupt" ? "破綻時の純資産" : "定年時の純資産",
+    netWorth: man(nw.total),
+    lines: lifeLines(nw),
+    hashtag: "#新婚日記",
+  });
+  const url = canvas.toDataURL("image/png");
+  $("#share-preview").src = url;
+  $("#btn-download").href = url;
+  shareBlob = await canvasToBlob(canvas);
+  const text = `新婚日記で「${ending.ending}」（${ending.rank === "―" ? "破綻" : `${ending.rank}ランク`}）になった。称号は「${title.name}」。 #新婚日記`;
+  $("#btn-post").href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(location.href.split("#")[0])}`;
+  const file = shareBlob && new File([shareBlob], "newlywed-diary.png", { type: "image/png" });
+  const canShare = !!(file && navigator.canShare && navigator.canShare({ files: [file] }));
+  $("#btn-share").hidden = !canShare;
+  $("#btn-share").onclick = () => navigator.share({ files: [file], text }).catch(() => {});
+}
+
+// ---- エンディング図鑑 ----
+
+function showGallery() {
+  const r = loadRecords();
+  const endings = [...data.ranks.map((x) => ({ key: x.rank, rank: x.rank, ending: x.ending })), { key: "bankrupt", rank: "―", ending: data.bankruptEnding.ending }];
+  const count = (list, seen) => `${list.filter((x) => seen[x]).length} / ${list.length}`;
+  $("#gallery").innerHTML = `
+    <p class="note">遊んだ回数 ${r.plays}回${r.best !== null ? `・最高の純資産 ${man(r.best)}` : ""}</p>
+    <section>
+      <h3>エンディング <span class="count">${count(endings.map((e) => e.key), r.endings)}</span></h3>
+      <ul class="cards">${endings
+        .map((e) => (r.endings[e.key] ? `<li><span class="card-rank">${e.rank}</span>${e.ending}</li>` : `<li class="locked"><span class="card-rank">？</span>？？？</li>`))
+        .join("")}</ul>
+    </section>
+    <section>
+      <h3>称号 <span class="count">${count(data.titles.map((x) => x.id), r.titles)}</span></h3>
+      <ul class="cards">${data.titles
+        .map((x) => (r.titles[x.id] ? `<li><strong>${x.name}</strong><span class="sub">${x.desc}</span></li>` : `<li class="locked">？？？</li>`))
+        .join("")}</ul>
+    </section>
+    <section>
+      <h3>実績 <span class="count">${count(data.achievements.map((x) => x.id), r.achievements)}</span></h3>
+      <ul class="achievements">${data.achievements
+        .map((a) => `<li class="${r.achievements[a.id] ? "" : "locked"}"><strong>${r.achievements[a.id] ? a.name : "？？？"}</strong><span class="sub">${a.desc}</span></li>`)
+        .join("")}</ul>
+    </section>`;
+  show("screen-gallery");
+}
+
+// ---- 設定 ----
+
+const settingsForm = $("#settings-form");
+
+function showSettings() {
+  settingsForm.yearSummary.checked = settings.yearSummary;
+  settingsForm.speed.value = String(settings.speed);
+  show("screen-settings");
+}
+
+settingsForm.addEventListener("change", () => {
+  settings = { yearSummary: settingsForm.yearSummary.checked, speed: Number(settingsForm.speed.value) };
+  writeSettings(settings);
+});
+
+$("#btn-clear").addEventListener("click", () => {
+  if (!confirm("途中保存・エンディング図鑑・実績・設定をすべて消します。よろしいですか？")) return;
+  clearAll();
+  settings = loadSettings();
+  showSettings();
+});
 
 $("#btn-start").addEventListener("click", showSetup);
 $("#btn-continue").addEventListener("click", continueGame);
 $("#btn-again").addEventListener("click", showSetup);
 $("#btn-result-title").addEventListener("click", showTitle);
+$("#btn-gallery").addEventListener("click", showGallery);
+$("#btn-settings").addEventListener("click", showSettings);
 
 data = await (await fetch("data/jp.json")).json();
 showTitle();
