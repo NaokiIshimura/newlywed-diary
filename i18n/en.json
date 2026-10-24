@@ -104,7 +104,7 @@
     },
     "childPlan": {
       "title": "Children",
-      "textFirst": "Do you want children? If so, there's a set chance each year of having one.",
+      "textFirst": "Do you want children? If so, a baby arrives this year.",
       "textNext": "You have {n} children. Want another?",
       "textNext_one": "You have 1 child. Want another?",
       "want": "Yes",

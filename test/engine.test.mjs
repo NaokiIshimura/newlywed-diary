@@ -244,3 +244,17 @@ test("日記に書く出来事のキーは、すべて日本語の文がある",
   for (const id of data.titles) assert.ok(profileTexts.titles[id]?.name, id);
   for (const id of data.achievements) assert.ok(profileTexts.achievements[id]?.name, id);
 });
+
+test("子どもを望むと、その年のうちにかならず生まれる（Issue #7）", () => {
+  for (let seed = 1; seed <= 20; seed++) {
+    const state = createGame(data, settings, seed);
+    choose(data, state, { id: "wedding" }, { skip: true });
+    choose(data, state, { id: "honeymoon" }, { skip: true });
+    choose(data, state, { id: "childPlan" }, { plan: "want" });
+    state.carNever = true;
+    state.randomRolledYear = Infinity; // ランダムイベントを止める
+    endYear(data, state);
+    assert.equal(state.children.length, 1, `seed ${seed}`);
+    assert.equal(state.childPlan, null, "生まれたら次を望むか聞き直す");
+  }
+});
