@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "title": "Newlywed Diary",
+    "description": "A life sim from marriage to retirement, driven only by choices: buy or skip, high, mid or low.",
+    "gameName": "Newlywed Diary",
+    "hashtag": "#NewlywedDiary",
+    "setInJapan": "Set in Japan. All amounts are in Japanese yen."
+  },
+  "who": {
+    "a": "I",
+    "b": "My partner"
+  },
+  "title": {
+    "lead": "From marriage to retirement,<br>a life sim made only of choices",
+    "start": "Start",
+    "continue": "Continue",
+    "gallery": "Endings",
+    "settings": "Settings"
+  },
+  "setup": {
+    "heading": "Setup",
+    "genderA": "Your gender",
+    "genderB": "Partner's gender",
+    "female": "Female",
+    "male": "Male",
+    "age": "Age at marriage ({min}–{max})",
+    "savings": "Savings (in ¥10,000, {min}–{max})",
+    "incomeA": "Your annual income (in ¥10,000)",
+    "incomeB": "Partner's annual income (in ¥10,000, if full-time)",
+    "incomeHint": "Default incomes are the median for that age.",
+    "workStyle": "Work style",
+    "random": "Random",
+    "submit": "Start with these settings",
+    "omakase": "Randomize all and start",
+    "back": "Back to title"
+  },
+  "main": {
+    "age": "Age {n}",
+    "pause": "Pause",
+    "startLine": "Savings {savings:money}, combined income {income:money}. Work: {workStyle}.",
+    "resumed": "Picked up where we left off.",
+    "yearEnd": "Year end",
+    "yearEndMoney": "Income {income:money} · Spent {expense:money} ({delta:signedMoney}) → {savings:money}",
+    "status": {
+      "age": "Age",
+      "married": "Married",
+      "marriedYear": "Year {n}",
+      "savings": "Savings",
+      "workStyle": "Work",
+      "children": "Kids",
+      "car": "Car",
+      "home": "Home",
+      "none": "None",
+      "childAge": "age {n}",
+      "independent": "Moved out",
+      "caring": " · Caregiving",
+      "rent": "Renting",
+      "familyRent": "Renting (family-size)",
+      "listSep": ", "
+    }
+  },
+  "summary": {
+    "head": "Finances at {age}",
+    "unit": "{delta:signedMoney}",
+    "income": "Income",
+    "items": {
+      "living": "Living costs",
+      "child": "Kids",
+      "education": "Education",
+      "housing": "Housing",
+      "loan": "Mortgage",
+      "car": "Car",
+      "breakdown": "Car repairs",
+      "care": "Caregiving",
+      "scholarship": "Student loan",
+      "interest": "Interest"
+    }
+  },
+  "event": {
+    "tier": {
+      "high": "High",
+      "mid": "Mid",
+      "low": "Low"
+    },
+    "tierOption": "{tier}: {label}",
+    "back": "Back",
+    "predicted": "→ Savings {money:money}",
+    "neverSub": "Won't be asked again",
+    "later": "Not now (think again in 3 years)",
+    "child": "Your child",
+    "childNth": "Child #{n}",
+    "wedding": {
+      "title": "Wedding",
+      "text": "Have a wedding ceremony?",
+      "yes": "Yes",
+      "no": "No",
+      "detail": "{cost:money} (cash gifts +{gift:money})"
+    },
+    "honeymoon": {
+      "title": "Honeymoon",
+      "text": "Go on a honeymoon?",
+      "yes": "Go",
+      "no": "Skip"
+    },
+    "childPlan": {
+      "title": "Children",
+      "textFirst": "Do you want children? If so, there's a set chance each year of having one.",
+      "textNext": "You have {n} children. Want another?",
+      "textNext_one": "You have 1 child. Want another?",
+      "want": "Yes",
+      "notNow": "Not now",
+      "notNowSub": "Think again in 3 years",
+      "never": "Never",
+      "neverSub": "Won't be asked again"
+    },
+    "workStyle": {
+      "title": "Rethinking work",
+      "text": "{why}How should your partner work? (Now: {current})",
+      "why": {
+        "birth": "A baby was born. ",
+        "elementary": "Your youngest starts elementary school. ",
+        "juniorHigh": "Your youngest starts junior high. "
+      },
+      "current": " (current)",
+      "partnerIncome": "Partner's income about {money:money}",
+      "partnerIncomeZero": "Partner's income: 0",
+      "singleNote": "Returning to work, income drops for each year away"
+    },
+    "childcare": {
+      "title": "Childcare",
+      "text": "Choose care for {child} from age 0 to 5."
+    },
+    "elementary": {
+      "title": "Elementary school",
+      "text": "{child} starts elementary school (6 years)."
+    },
+    "juniorHigh": {
+      "title": "Junior high",
+      "text": "{child} starts junior high school (3 years)."
+    },
+    "highSchool": {
+      "title": "High school",
+      "text": "{child} starts high school (3 years)."
+    },
+    "schoolDetail": "{annual:money}/yr",
+    "boarding": " (living away, incl. living costs)",
+    "university": {
+      "title": "University",
+      "text": "{child} is graduating from high school. Go to university?",
+      "yes": "Go to university",
+      "no": "Get a job",
+      "noSub": "Moves out at 18. More likely to send money home",
+      "years": "{n} years",
+      "years6Note": "Medicine, pharmacy, master's, etc.",
+      "years_one": "1 year"
+    },
+    "car": {
+      "titleBuy": "Buy a car",
+      "titleReplace": "Replace the car",
+      "textBuy": "Buy a car?",
+      "textReplace": "You've had the car {years} years. Sell it for {value:money} and buy a new one?",
+      "yes": "Buy",
+      "never": "Never own one",
+      "detail": "{cost:money} · upkeep {annual:money}/yr · sells for {resale:money} after {years} yrs",
+      "fragile": " · breaks down often"
+    },
+    "house": {
+      "title": "Our own home",
+      "text": "Buy a home? 20% down (or whatever savings allow), the rest on a 35-year mortgage at 1.5%. If not, you'll rent a larger family place ({rent:money}/yr).",
+      "yes": "Buy",
+      "never": "Rent for life",
+      "rentSub": "Rent {rent:money}/yr",
+      "detail": "{cost:money} (down {down:money}) · mortgage {loan:money}/yr · fixed costs {fixed:money}/yr",
+      "manyRepairs": " · needs many repairs"
+    },
+    "repair": {
+      "title": "Home repairs",
+      "text": "The house is showing wear. How will you fix it?",
+      "detail": "{cost:money} · lasts {years} yrs until next repair"
+    },
+    "familyTrip": {
+      "title": "Anniversary trip",
+      "text": "{n} years married! Take an anniversary trip?",
+      "yes": "Go",
+      "no": "Skip",
+      "text_one": "1 year married! Take an anniversary trip?"
+    },
+    "jobOffer": {
+      "title": "Job offer",
+      "text": "You got a job offer. Your income may go up or down (±20%).",
+      "accept": "Switch jobs",
+      "acceptSub": "Income changes by −20% to +20%",
+      "decline": "Decline",
+      "declineSub": "Income stays the same"
+    },
+    "care": {
+      "title": "Parent care",
+      "text": "A parent now needs care (about {years} years). What will you do?",
+      "facility": "Care facility",
+      "facilitySub": "{annual:money}/yr",
+      "home": "Care at home",
+      "homeSub": "{annual:money}/yr · partner leaves work while caregiving"
+    }
+  },
+  "result": {
+    "netWorthRetire": "Net worth at retirement",
+    "netWorthBankrupt": "Net worth at bankruptcy",
+    "titleLabel": "Title",
+    "savings": "Savings",
+    "houseValue": "Home value",
+    "carValue": "Car value",
+    "loan": "Mortgage left",
+    "netWorth": "Net worth",
+    "compare": "vs. picking \"Mid\" for everything ({mid:money}): {diff}",
+    "compareBankrupt": "Picking \"Mid\" for everything would have gone bankrupt.",
+    "spending": "Lifetime spending",
+    "spendingItems": {
+      "living": "Living costs",
+      "education": "Education",
+      "housing": "Housing",
+      "car": "Car",
+      "events": "Events (wedding, trips)",
+      "other": "Other (care, medical, interest)"
+    },
+    "incomeNote": "Take-home income {income:money}; child allowance, money from kids and windfalls {extra:money}.",
+    "achievements": "Achievements",
+    "noAchievements": "No achievements this time.",
+    "timeline": "Life timeline",
+    "lifeRetire": "Married at {start} → retired at {end}",
+    "lifeBankrupt": "Married at {start} → bankrupt at {end}",
+    "kids": "{n} kids",
+    "kids_one": "1 kid",
+    "noKids": "No kids",
+    "noCar": "No car",
+    "rent": "Renting",
+    "share": "Share",
+    "shareImage": "Share image",
+    "saveImage": "Save image",
+    "post": "Post to X (Twitter)",
+    "shareText": "I got \"{ending}\" ({rank}) in Newlywed Diary. My title: \"{title}\".",
+    "rankWord": "Rank {rank}",
+    "bankruptWord": "Bankrupt",
+    "again": "Play again",
+    "toTitle": "Title",
+    "cardAlt": "Result image card",
+    "new": "NEW"
+  },
+  "gallery": {
+    "heading": "Endings",
+    "plays": "Played {n} times",
+    "plays_one": "Played 1 time",
+    "best": " · Best net worth {money:money}",
+    "endings": "Endings",
+    "titles": "Titles",
+    "achievements": "Achievements",
+    "locked": "???",
+    "back": "Back to title"
+  },
+  "settings": {
+    "heading": "Settings",
+    "language": "Language",
+    "yearSummary": "Show year-end finances",
+    "speed": "Default speed",
+    "clear": "Delete data",
+    "clearHint": "Deletes your save, endings, achievements and settings.",
+    "confirm": "This deletes your save, endings, achievements and settings. Continue?",
+    "back": "Back to title"
+  },
+  "h": {
+    "married": "We got married.",
+    "promotion": "{who:who} got a promotion. Income rose {pct}%.",
+    "illness": "{who:who} fell ill and was hospitalized. Medical bills: {cost:money}.",
+    "bonusCut": "The company had a bad year and bonuses were cut. Take-home pay is down 10% this year.",
+    "inheritance": "We inherited {amount:money} from a relative.",
+    "lottery": "We won the lottery. {amount:money}!",
+    "returnToWork": "My partner went back to work after {years} years. Income was {pct}% lower for the gap.",
+    "childPlan": {
+      "first": {
+        "want": "We decided we want children.",
+        "not_now": "We decided to think about kids a bit later.",
+        "never": "We decided it'll be just the two of us."
+      },
+      "next": {
+        "want": "We decided we want another child.",
+        "not_now": "We'll think about another child a bit later.",
+        "never": "We decided this will be our last child."
+      }
+    },
+    "workStyleSame": "We kept our work as it was.",
+    "carSold": "We sold our old car for {value:money}.",
+    "houseSkipAgain": "We passed on buying a home again.",
+    "jobAccepted": "I switched jobs. Income changed {pct:signed}%.",
+    "jobDeclined": "I turned down the job offer.",
+    "careHomeLeaveWork": "Parent care began. My partner left work to care for them at home (about {years} years).",
+    "careHome": "Parent care began. We chose to care for them at home (about {years} years).",
+    "careFacility": "Parent care began. We moved them into a care facility (about {years} years).",
+    "scholarshipTakeover": "We took over our child's {amount:money} student loan.",
+    "loanPaidOff": "We paid off the mortgage.",
+    "carBreakdown": "The car broke down. Repairs cost {cost:money}.",
+    "scholarshipBorrowed": "Tuition was tight, so our child took out a student loan.",
+    "careEnded": "We said goodbye to our parent. The caregiving days are over.",
+    "childIndependent": "Our child moved out on their own.",
+    "firstChildBorn": "Our baby was born.",
+    "childBorn": "Child #{n} was born.",
+    "bankrupt": "Our finances collapsed.",
+    "retired": "We reached retirement."
+  }
+}

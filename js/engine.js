@@ -1,7 +1,7 @@
 // ゲームロジック。DOM に依存しないので、ブラウザとシミュレーション（tools/simulate.mjs）の両方から使う。
 // 金額の単位はすべて万円。
 
-export const SAVE_VERSION = 3;
+export const SAVE_VERSION = 4;
 
 export const SCHOOL_STAGES = ["childcare", "elementary", "juniorHigh", "highSchool", "university"];
 const STAGE_START_AGE = { childcare: 0, elementary: 6, juniorHigh: 12, highSchool: 15, university: 18 };
@@ -122,12 +122,14 @@ export function createGame(data, settings, seed = newSeed()) {
   };
   const [y0, y1] = data.events.car.firstYear;
   state.carNextAt = randInt(state, y0, y1);
-  addHistory(state, "結婚した。");
+  addHistory(state, "h.married");
   return state;
 }
 
-function addHistory(state, text) {
-  state.history.push({ age: state.age, text });
+// 日記の出来事。文そのものは持たず、翻訳のキーと差し込む値を持つ（画面側で言語に合わせて文にする）
+//   "events." で始まるキーは国プロファイルの文（data/profiles/<国>/<言語>.json）、"h." で始まるキーは共通の文（i18n/<言語>.json）
+function addHistory(state, key, params) {
+  state.history.push(params ? { age: state.age, key, params } : { age: state.age, key });
 }
 
 const pick = (state, [min, max]) => randInt(state, min, max);
@@ -204,7 +206,7 @@ function rollRandomEvent(data, state) {
     case "promotion": {
       const who = isWorking(data, state, "b") && rand(state) < 0.5 ? "b" : "a";
       state.baseIncome[who] *= 1 + def.rate;
-      addHistory(state, `${who === "a" ? "主人公" : "パートナー"}が昇進した。年収が${Math.round(def.rate * 100)}%上がった。`);
+      addHistory(state, "h.promotion", { who, pct: Math.round(def.rate * 100) });
       return null;
     }
     case "illness": {
@@ -212,19 +214,19 @@ function rollRandomEvent(data, state) {
       state.savings -= cost;
       state.totals.medical += cost;
       state.flags.minSavings = Math.min(state.flags.minSavings, state.savings);
-      addHistory(state, `${rand(state) < 0.5 ? "主人公" : "パートナー"}が体調をくずして入院した。医療費は${cost}万円。`);
+      addHistory(state, "h.illness", { who: rand(state) < 0.5 ? "a" : "b", cost });
       return null;
     }
     case "bonusCut":
       state.bonusCutYear = state.year;
-      addHistory(state, "会社の業績が悪く、ボーナスが減った。今年の手取りは1割減る。");
+      addHistory(state, "h.bonusCut");
       return null;
     case "windfall": {
       const amount = Math.round(def.min + (def.max - def.min) * Math.pow(rand(state), 3));
       state.savings += amount;
       state.totals.extraIncome += amount;
       state.flags.maxWindfall = Math.max(state.flags.maxWindfall, amount);
-      addHistory(state, amount >= 200 ? `親戚から相続があった。${amount}万円が入った。` : `宝くじが当たった。${amount}万円！`);
+      addHistory(state, amount >= 200 ? "h.inheritance" : "h.lottery", { amount });
       return null;
     }
     case "jobOffer":
@@ -279,7 +281,7 @@ function setWorkStyle(data, state, workStyle) {
   if (state.workStyle === "single" && workStyle !== "single" && state.blankYears > 0) {
     const penalty = Math.min(data.maxBlankPenalty, data.blankPenaltyPerYear * state.blankYears);
     state.baseIncome.b *= 1 - penalty;
-    addHistory(state, `パートナーが${state.blankYears}年ぶりに仕事に戻った。年収はブランクのぶん${Math.round(penalty * 100)}%下がった。`);
+    addHistory(state, "h.returnToWork", { years: state.blankYears, pct: Math.round(penalty * 100) });
     state.blankYears = 0;
   }
   state.workStyle = workStyle;
@@ -306,7 +308,7 @@ export function choose(data, state, event, choice) {
     case "wedding":
       state.weddingDone = true;
       state.totals.wedding += cost;
-      addHistory(state, opt ? opt.diary : ev.skipDiary);
+      addHistory(state, `events.${event.id}.${opt ? opt.tier + ".diary" : "skip"}`);
       break;
 
     case "honeymoon":
@@ -314,18 +316,13 @@ export function choose(data, state, event, choice) {
       if (event.id === "honeymoon") state.honeymoonDone = true;
       else state.tripDoneYear = state.year;
       state.totals.leisure += cost;
-      addHistory(state, opt ? opt.diary : ev.skipDiary);
+      addHistory(state, `events.${event.id}.${opt ? opt.tier + ".diary" : "skip"}`);
       break;
 
     case "childPlan":
       state.childPlan = choice.plan;
       if (choice.plan === "not_now") state.childAskAt = state.year + data.reproposeAfter;
-      addHistory(
-        state,
-        state.children.length
-          ? { want: "もうひとり子どもを望むことにした。", not_now: "次の子どもは、もう少し先に考えることにした。", never: "子どもはこれで最後にすると決めた。" }[choice.plan]
-          : { want: "子どもを望むことにした。", not_now: "子どもはもう少し先に考えることにした。", never: "ふたりで生きていくと決めた。" }[choice.plan],
-      );
+      addHistory(state, `h.childPlan.${state.children.length ? "next" : "first"}.${choice.plan}`);
       break;
 
     case "workStyle": {
@@ -333,8 +330,8 @@ export function choose(data, state, event, choice) {
       state.choices[o.tier] += 1;
       if (choice.workStyle !== state.workStyle) {
         setWorkStyle(data, state, choice.workStyle);
-        addHistory(state, o.diary);
-      } else addHistory(state, "働き方は今のままにした。");
+        addHistory(state, `events.workStyle.${o.tier}.diary`);
+      } else addHistory(state, "h.workStyleSame");
       break;
     }
 
@@ -350,34 +347,34 @@ export function choose(data, state, event, choice) {
           child.choices.university = opt.tier;
           child.boarding = !!opt.boarding;
           child.independentAge = STAGE_START_AGE.university + years;
-          addHistory(state, `${opt.diary}（${years}年）`);
+          addHistory(state, `events.university.${opt.tier}.diary`, { years });
         } else {
           child.choices.university = "none";
           child.independentAge = STAGE_START_AGE.university;
-          addHistory(state, ev.skipDiary);
+          addHistory(state, "events.university.skip");
           independence(data, state, child);
         }
       } else {
         child.choices[event.id] = opt.tier;
-        addHistory(state, opt.diary);
+        addHistory(state, `events.${event.id}.${opt.tier}.diary`);
       }
       break;
     }
 
     case "car": {
-      if (event.replace) addHistory(state, `乗っていた車を${Math.round(carValue(state.car, state.year))}万円で手放した。`);
+      if (event.replace) addHistory(state, "h.carSold", { value: Math.round(carValue(state.car, state.year)) });
       state.totals.car += cost;
       if (opt) {
         state.car = { tier: opt.tier, price: opt.oneTime, resale: opt.resale, years: opt.years, annual: opt.annual, breakdownChance: opt.breakdownChance, boughtYear: state.year };
-        addHistory(state, opt.diary);
+        addHistory(state, `events.car.${opt.tier}.diary`);
       } else {
         state.car = null;
         if (choice.never) {
           state.carNever = true;
-          addHistory(state, ev.neverDiary);
+          addHistory(state, "events.car.never");
         } else {
           state.carNextAt = state.year + data.reproposeAfter;
-          addHistory(state, ev.skipDiary);
+          addHistory(state, "events.car.skip");
         }
       }
       break;
@@ -389,15 +386,15 @@ export function choose(data, state, event, choice) {
         state.house = { tier: opt.tier, value: opt.oneTime, price: opt.oneTime, boughtYear: state.year };
         state.loan = { balance: principal, payment: loanPayment(principal, ev.loanRate, ev.loanYears), rate: ev.loanRate };
         state.totals.house += cost;
-        addHistory(state, opt.diary);
+        addHistory(state, `events.house.${opt.tier}.diary`);
       } else {
         state.rentMode = "family";
         if (choice.never) {
           state.houseNever = true;
-          addHistory(state, ev.neverDiary);
+          addHistory(state, "events.house.never");
         } else {
           state.houseNextAge = state.age + data.reproposeAfter;
-          addHistory(state, state.movedToFamilyRent ? "今回も家は見送った。" : ev.skipDiary);
+          addHistory(state, state.movedToFamilyRent ? "h.houseSkipAgain" : "events.house.skip");
         }
         state.movedToFamilyRent = true;
       }
@@ -407,7 +404,7 @@ export function choose(data, state, event, choice) {
       state.repairPending = false;
       state.repairFreeUntil = state.year + opt.freeYears;
       state.totals.repair += cost;
-      addHistory(state, opt.diary);
+      addHistory(state, `events.repair.${opt.tier}.diary`);
       break;
 
     case "jobOffer": {
@@ -416,8 +413,8 @@ export function choose(data, state, event, choice) {
         const change = (rand(state) * 2 - 1) * range;
         state.baseIncome.a *= 1 + change;
         if (change > 0) state.flags.jobUp = true;
-        addHistory(state, `転職した。年収は${change >= 0 ? "+" : "−"}${Math.abs(Math.round(change * 100))}%になった。`);
-      } else addHistory(state, "転職の誘いは断った。");
+        addHistory(state, "h.jobAccepted", { pct: Math.round(change * 100) });
+      } else addHistory(state, "h.jobDeclined");
       break;
     }
 
@@ -429,11 +426,11 @@ export function choose(data, state, event, choice) {
       state.care = { mode: choice.mode, annual: home ? def.homeAnnual : def.facilityAnnual, untilYear: state.year + event.years, prevWorkStyle: state.workStyle };
       if (home && state.workStyle !== "single") {
         state.workStyle = "single";
-        addHistory(state, `親の介護が始まった。パートナーが仕事を離れて、家で介護することにした（${event.years}年の見込み）。`);
+        addHistory(state, "h.careHomeLeaveWork", { years: event.years });
       } else if (home) {
-        addHistory(state, `親の介護が始まった。家で介護することにした（${event.years}年の見込み）。`);
+        addHistory(state, "h.careHome", { years: event.years });
       } else {
-        addHistory(state, `親の介護が始まった。施設に入ってもらうことにした（${event.years}年の見込み）。`);
+        addHistory(state, "h.careFacility", { years: event.years });
       }
       break;
     }
@@ -509,7 +506,7 @@ function independence(data, state, child) {
   const s = data.independence.scholarship;
   if (child.borrowed > 0 && rand(state) < s.baseChance + s.chancePerPoint * p) {
     child.scholarship = { annual: child.borrowed / s.years, untilYear: state.year + s.years };
-    addHistory(state, `子どもの奨学金${Math.round(child.borrowed)}万円を、親が肩代わりして返すことになった。`);
+    addHistory(state, "h.scholarshipTakeover", { amount: Math.round(child.borrowed) });
   }
 }
 
@@ -541,13 +538,13 @@ export function endYear(data, state) {
     if (state.loan.balance < 0.01) {
       state.loan.balance = 0;
       state.flags.loanPaidOff = true;
-      notes.push("住宅ローンを払い終えた。");
+      notes.push(["h.loanPaidOff"]);
     }
   }
 
   if (state.car && rand(state) < state.car.breakdownChance) {
     items.breakdown = pick(state, data.events.car.breakdownCost);
-    notes.push(`車が故障して、修理に${items.breakdown}万円かかった。`);
+    notes.push(["h.carBreakdown", { cost: items.breakdown }]);
   }
 
   // 家計で払いきれない年は、大学生の子どもが学費の一部を奨学金で借りる
@@ -557,7 +554,7 @@ export function endYear(data, state) {
     if (c.independent || c.age < STAGE_START_AGE.university) continue;
     const borrow = Math.min(shortfall, educationCost(data, c) * data.independence.scholarship.maxShare);
     if (borrow <= 0) continue;
-    if (!c.borrowed) notes.push("学費が苦しく、子どもが奨学金を借りた。");
+    if (!c.borrowed) notes.push(["h.scholarshipBorrowed"]);
     c.borrowed = (c.borrowed ?? 0) + borrow;
     items.education -= borrow;
     shortfall -= borrow;
@@ -582,7 +579,7 @@ export function endYear(data, state) {
   if (state.house) state.house.value *= 1 - houseOption(data, state).depreciation;
   if (state.workStyle === "single") state.blankYears += 1;
 
-  for (const text of notes) addHistory(state, text);
+  for (const [key, params] of notes) addHistory(state, key, params);
   const closedAge = state.age;
   state.age += 1;
   state.year += 1;
@@ -593,13 +590,13 @@ export function endYear(data, state) {
     state.savings -= major.cost;
     state.flags.minSavings = Math.min(state.flags.minSavings, state.savings);
     state.totals.repair += major.cost;
-    addHistory(state, major.diary);
+    addHistory(state, "events.house.majorRepair", { cost: major.cost });
   }
 
   if (state.care && state.year >= state.care.untilYear) {
     const { prevWorkStyle, mode } = state.care;
     state.care = null;
-    addHistory(state, "親を見送った。介護の日々が終わった。");
+    addHistory(state, "h.careEnded");
     if (mode === "home" && prevWorkStyle !== "single") setWorkStyle(data, state, prevWorkStyle);
   }
 
@@ -610,7 +607,7 @@ export function endYear(data, state) {
     if (stage && !c.independent) queueOnce(state, { id: stage, child: i });
     if (!c.independent && c.independentAge === c.age) {
       independence(data, state, c);
-      addHistory(state, "子どもが独立した。");
+      addHistory(state, "h.childIndependent");
     }
   }
   const youngest = Math.min(...state.children.map((c) => c.age));
@@ -620,7 +617,7 @@ export function endYear(data, state) {
 
   if (state.childPlan === "want" && state.children.length < data.maxChildren && rand(state) < data.childBirthChancePerYear) {
     state.children.push({ age: 0, choices: {}, independent: false, independentAge: null, boarding: false, allowance: 0, borrowed: 0, scholarship: null });
-    addHistory(state, state.children.length === 1 ? "子どもが生まれた。" : `${state.children.length}人目の子どもが生まれた。`);
+    addHistory(state, state.children.length === 1 ? "h.firstChildBorn" : "h.childBorn", { n: state.children.length });
     queueOnce(state, { id: "childcare", child: state.children.length - 1 });
     if (!state.care) queueOnce(state, { id: "workStyle", reason: "birth" });
     if (state.children.length < data.maxChildren) state.childPlan = null; // 生まれるたびに、次を望むか聞き直す
@@ -628,11 +625,11 @@ export function endYear(data, state) {
 
   if (state.savings < data.bankruptLine) {
     state.ended = "bankrupt";
-    addHistory(state, "家計が破綻した。");
+    addHistory(state, "h.bankrupt");
   } else if (state.age >= data.retireAge) {
     state.ended = "retire";
     state.queue = [];
-    addHistory(state, "定年を迎えた。");
+    addHistory(state, "h.retired");
   }
 
   return { age: closedAge, income: income + allowance, items, expense, delta: income + allowance - expense, savings: state.savings };
@@ -665,7 +662,7 @@ function tierShare(state, tier) {
   return total ? state.choices[tier] / total : 0;
 }
 
-// 称号の条件。data.titles の順に調べて、最初に当てはまったものにする
+// 称号の条件。data.titles（称号の id の並び）の順に調べて、最初に当てはまったものの id を返す
 const TITLE_RULES = {
   education: (s) => allSchools(s, "high"),
   showoff: (s) => tierShare(s, "high") >= 0.7,
@@ -679,7 +676,7 @@ const TITLE_RULES = {
 };
 
 export function titleOf(data, state) {
-  return data.titles.find((t) => TITLE_RULES[t.id]?.(state));
+  return data.titles.find((id) => TITLE_RULES[id]?.(state));
 }
 
 // 実績の条件。定年まで行った人生だけで判定するものは retire を見る
@@ -700,7 +697,7 @@ const ACHIEVEMENT_RULES = {
 
 export function achievementsOf(data, state) {
   const nw = netWorth(state);
-  return data.achievements.filter((a) => ACHIEVEMENT_RULES[a.id]?.(state, nw, data)).map((a) => a.id);
+  return data.achievements.filter((id) => ACHIEVEMENT_RULES[id]?.(state, nw, data));
 }
 
 // 同じ開始条件・同じシードで「全部普通」を選んだ場合の純資産（破綻なら null）

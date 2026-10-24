@@ -20,7 +20,7 @@ import {
   titleOf,
 } from "../js/engine.js";
 
-const data = JSON.parse(readFileSync(new URL("../data/jp.json", import.meta.url), "utf8"));
+const data = JSON.parse(readFileSync(new URL("../data/profiles/jp.json", import.meta.url), "utf8"));
 const settings = defaultSettings(data);
 
 // 結婚式・新婚旅行・子どもを望むかを片づけた状態にする
@@ -196,15 +196,15 @@ test("純資産は貯金＋家・車の評価額−ローン残高", () => {
 test("称号は条件の順に調べて、最初に当てはまったものになる", () => {
   const state = married();
   state.choices = { high: 1, mid: 8, low: 1 };
-  assert.equal(titleOf(data, state).id, "steady");
+  assert.equal(titleOf(data, state), "steady");
   state.choices = { high: 8, mid: 1, low: 1 };
-  assert.equal(titleOf(data, state).id, "showoff");
+  assert.equal(titleOf(data, state), "showoff");
   state.choices = { high: 3, mid: 3, low: 3 };
-  assert.equal(titleOf(data, state).id, "lifelongRenter"); // 家なし
+  assert.equal(titleOf(data, state), "lifelongRenter"); // 家なし
   state.house = { tier: "mid", value: 4500, price: 4500, boughtYear: 0 };
-  assert.equal(titleOf(data, state).id, "twoOfUs");
+  assert.equal(titleOf(data, state), "twoOfUs");
   state.children.push({ age: 20, choices: { childcare: "high", elementary: "high", juniorHigh: "high", highSchool: "high" } });
-  assert.equal(titleOf(data, state).id, "education");
+  assert.equal(titleOf(data, state), "education");
 });
 
 test("年の途中で一度でも貯金がマイナスになると「借金ゼロ」にならない", () => {
@@ -228,4 +228,19 @@ test("「全部普通」との比較は同じ開始条件・同じシードで�
   const state = playToEnd(data, settings, 5, "low");
   const mid = playToEnd(data, settings, 5, "mid");
   assert.equal(compareWithMid(data, state), mid.ended === "bankrupt" ? null : netWorth(mid).total);
+});
+
+test("日記に書く出来事のキーは、すべて日本語の文がある", () => {
+  const ui = JSON.parse(readFileSync(new URL("../i18n/ja.json", import.meta.url), "utf8"));
+  const profileTexts = JSON.parse(readFileSync(new URL("../data/profiles/jp/ja.json", import.meta.url), "utf8"));
+  const lookup = (key) => key.split(".").reduce((o, k) => o?.[k], key.startsWith("events.") ? profileTexts : ui);
+  const keys = new Set();
+  for (const strategy of STRATEGIES) {
+    for (let seed = 1; seed <= 40; seed++) {
+      for (const h of playToEnd(data, settings, seed, strategy).history) keys.add(h.key);
+    }
+  }
+  for (const key of keys) assert.equal(typeof lookup(key), "string", key);
+  for (const id of data.titles) assert.ok(profileTexts.titles[id]?.name, id);
+  for (const id of data.achievements) assert.ok(profileTexts.achievements[id]?.name, id);
 });
