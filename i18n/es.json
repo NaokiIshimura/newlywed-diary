@@ -6,7 +6,10 @@
     "hashtag": "#DiarioDeRecienCasados",
     "setInJapan": "El juego transcurre en Japón; los montos están en yenes japoneses (¥)."
   },
-  "who": { "a": "mí", "b": "mi pareja" },
+  "who": {
+    "a": "mí",
+    "b": "mi pareja"
+  },
   "title": {
     "lead": "Del matrimonio a la jubilación,<br>un simulador de vida a base de decisiones",
     "start": "Empezar",
@@ -75,7 +78,11 @@
     }
   },
   "event": {
-    "tier": { "high": "Caro", "mid": "Normal", "low": "Barato" },
+    "tier": {
+      "high": "Caro",
+      "mid": "Normal",
+      "low": "Barato"
+    },
     "tierOption": "{tier}: {label}",
     "back": "Atrás",
     "predicted": "→ Ahorros {money:money}",
@@ -83,8 +90,19 @@
     "later": "Ahora no (lo pensamos en 3 años)",
     "child": "Hijo",
     "childNth": "Hijo n.º {n}",
-    "wedding": { "title": "Boda", "text": "¿Quieren hacer una boda?", "yes": "Sí", "no": "No", "detail": "{cost:money} (regalos en efectivo +{gift:money})" },
-    "honeymoon": { "title": "Luna de miel", "text": "¿Se van de luna de miel?", "yes": "Sí", "no": "No" },
+    "wedding": {
+      "title": "Boda",
+      "text": "¿Quieren hacer una boda?",
+      "yes": "Sí",
+      "no": "No",
+      "detail": "{cost:money} (regalos en efectivo +{gift:money})"
+    },
+    "honeymoon": {
+      "title": "Luna de miel",
+      "text": "¿Se van de luna de miel?",
+      "yes": "Sí",
+      "no": "No"
+    },
     "childPlan": {
       "title": "Hijos",
       "textFirst": "¿Quieren tener hijos? Si es así, cada año hay cierta probabilidad de que llegue uno.",
@@ -99,16 +117,32 @@
     "workStyle": {
       "title": "Revisar el trabajo",
       "text": "{why}¿Cómo trabajará tu pareja? (ahora: {current})",
-      "why": { "birth": "Nació un bebé. ", "elementary": "El menor entra a la primaria. ", "juniorHigh": "El menor entra a la secundaria. " },
+      "why": {
+        "birth": "Nació un bebé. ",
+        "elementary": "El menor entra a la primaria. ",
+        "juniorHigh": "El menor entra a la secundaria. "
+      },
       "current": "(sin cambios)",
       "partnerIncome": "Ingreso de tu pareja: aprox. {money:money}",
       "partnerIncomeZero": "Ingreso de tu pareja: 0",
       "singleNote": "Al volver, el sueldo baja según los años sin trabajar"
     },
-    "childcare": { "title": "Guardería", "text": "¿Dónde cuidarán a {child} de 0 a 5 años?" },
-    "elementary": { "title": "Primaria", "text": "{child} entra a la primaria (6 años)." },
-    "juniorHigh": { "title": "Secundaria", "text": "{child} entra a la secundaria (3 años)." },
-    "highSchool": { "title": "Preparatoria", "text": "{child} entra a la preparatoria (3 años)." },
+    "childcare": {
+      "title": "Guardería",
+      "text": "¿Dónde cuidarán a {child} de 0 a 5 años?"
+    },
+    "elementary": {
+      "title": "Primaria",
+      "text": "{child} entra a la primaria (6 años)."
+    },
+    "juniorHigh": {
+      "title": "Secundaria",
+      "text": "{child} entra a la secundaria (3 años)."
+    },
+    "highSchool": {
+      "title": "Preparatoria",
+      "text": "{child} entra a la preparatoria (3 años)."
+    },
     "schoolDetail": "{annual:money} al año",
     "boarding": " (vive fuera, gastos incluidos)",
     "university": {
@@ -139,8 +173,17 @@
       "detail": "{cost:money} (enganche {down:money}) · hipoteca {loan:money}/año · gastos fijos {fixed:money}/año",
       "manyRepairs": " · muchas reparaciones"
     },
-    "repair": { "title": "Reparar la casa", "text": "La casa empieza a deteriorarse. ¿Cómo la arreglan?", "detail": "{cost:money} · dura {years} años hasta el próximo daño" },
-    "familyTrip": { "title": "Viaje y aniversario", "text": "Aniversario n.º {n} de casados. ¿Se van de viaje?", "yes": "Sí", "no": "No" },
+    "repair": {
+      "title": "Reparar la casa",
+      "text": "La casa empieza a deteriorarse. ¿Cómo la arreglan?",
+      "detail": "{cost:money} · dura {years} años hasta el próximo daño"
+    },
+    "familyTrip": {
+      "title": "Viaje y aniversario",
+      "text": "Aniversario n.º {n} de casados. ¿Se van de viaje?",
+      "yes": "Sí",
+      "no": "No"
+    },
     "jobOffer": {
       "title": "Oferta de trabajo",
       "text": "Te ofrecieron otro empleo. El sueldo podría subir o bajar (±20%).",
@@ -229,10 +272,17 @@
     "inheritance": "Recibimos una herencia de un pariente: {amount:money}.",
     "lottery": "¡Ganamos la lotería! {amount:money}.",
     "returnToWork": "Mi pareja volvió a trabajar tras {years} años. Por la pausa, el sueldo bajó {pct}%.",
-    "returnToWork_one": "Mi pareja volvió a trabajar tras 1 año. Por la pausa, el sueldo bajó {pct}%.",
     "childPlan": {
-      "first": { "want": "Decidimos buscar un bebé.", "not_now": "Decidimos pensar en hijos más adelante.", "never": "Decidimos seguir la vida los dos solos." },
-      "next": { "want": "Decidimos buscar otro bebé.", "not_now": "Decidimos pensar en otro hijo más adelante.", "never": "Decidimos que no tendremos más hijos." }
+      "first": {
+        "want": "Decidimos buscar un bebé.",
+        "not_now": "Decidimos pensar en hijos más adelante.",
+        "never": "Decidimos seguir la vida los dos solos."
+      },
+      "next": {
+        "want": "Decidimos buscar otro bebé.",
+        "not_now": "Decidimos pensar en otro hijo más adelante.",
+        "never": "Decidimos que no tendremos más hijos."
+      }
     },
     "workStyleSame": "Dejamos el trabajo como estaba.",
     "carSold": "Vendimos el auto por {value:money}.",
