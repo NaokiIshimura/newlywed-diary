@@ -615,7 +615,8 @@ export function endYear(data, state) {
     queueOnce(state, { id: "workStyle", reason: youngest === 6 ? "elementary" : "juniorHigh" });
   }
 
-  if (state.childPlan === "want" && state.children.length < data.maxChildren && rand(state) < data.childBirthChancePerYear) {
+  // 子どもを望んだら、その年の終わりにかならず生まれる（選んだとおりに進む。確率では決めない）
+  if (state.childPlan === "want" && state.children.length < data.maxChildren) {
     state.children.push({ age: 0, choices: {}, independent: false, independentAge: null, boarding: false, allowance: 0, borrowed: 0, scholarship: null });
     addHistory(state, state.children.length === 1 ? "h.firstChildBorn" : "h.childBorn", { n: state.children.length });
     queueOnce(state, { id: "childcare", child: state.children.length - 1 });
@@ -713,7 +714,7 @@ export function compareWithMid(data, state) {
 //                     出産時に時短・パート、末っ子の小学校入学でフルタイムに戻る
 //   random: 毎回ランダム
 //   smart: 共働き（フルタイム）を続け、ほかは普通（要所だけ「高い」を選ぶ例）
-// 子どもはどの方針でも2人まで望む。車は買うと貯金がマイナスになるとき、家は頭金20%を払えないときだけ見送って、再提案を待つ
+// 子どもはどの方針でも2人まで、3歳ずつあけて望む。車は買うと貯金がマイナスになるとき、家は頭金20%を払えないときだけ見送って、再提案を待つ
 export const STRATEGIES = ["high", "mid", "low", "random", "smart"];
 
 export function autoChoice(data, state, event, strategy) {
@@ -724,7 +725,9 @@ export function autoChoice(data, state, event, strategy) {
     : strategy;
   switch (event.id) {
     case "childPlan":
-      return { plan: state.children.length < 2 ? "want" : "never" };
+      // 2人目は上の子が3歳になるまで待つ（「今は望まない」で3年あける）
+      if (state.children.length >= 2) return { plan: "never" };
+      return { plan: state.children.length === 1 && state.children[0].age < 3 ? "not_now" : "want" };
     case "workStyle": {
       if (strategy === "smart" || tier === "high" || event.reason !== "birth") return { workStyle: "fulltime_both" };
       return { workStyle: "parttime" };

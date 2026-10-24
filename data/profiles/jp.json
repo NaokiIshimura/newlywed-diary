@@ -70,7 +70,6 @@
       "annual": 12
     }
   ],
-  "childBirthChancePerYear": 0.35,
   "maxChildren": 3,
   "reproposeAfter": 3,
   "cardLoanRate": 0.1,

@@ -105,7 +105,7 @@
     },
     "childPlan": {
       "title": "Hijos",
-      "textFirst": "¿Quieren tener hijos? Si es así, cada año hay cierta probabilidad de que llegue uno.",
+      "textFirst": "¿Quieren tener hijos? Si es así, el bebé llega este mismo año.",
       "textNext": "Tienen {n} hijos. ¿Quieren otro?",
       "textNext_one": "Tienen 1 hijo. ¿Quieren otro?",
       "want": "Sí, queremos",
