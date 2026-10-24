@@ -303,5 +303,25 @@
   "footer": {
     "privacy": "개인정보 처리방침",
     "moreGames": "nacn.app의 다른 게임"
+  },
+  "site": {
+    "htmlLang": "ko",
+    "hreflang": "ko",
+    "ogLocale": "ko_KR",
+    "langName": "한국어",
+    "titleSep": " | ",
+    "suggest": {
+      "text": "신혼일기는 한국어로도 플레이할 수 있습니다.",
+      "link": "한국어로 플레이",
+      "close": "닫기"
+    },
+    "consent": {
+      "label": "쿠키 동의",
+      "text": "이 사이트는 방문 통계를 위해 쿠키를 사용합니다. 동의하지 않아도 그대로 즐길 수 있습니다.",
+      "policy": "개인정보 처리방침",
+      "accept": "동의",
+      "reject": "거부",
+      "settings": "쿠키 설정"
+    }
   }
 }

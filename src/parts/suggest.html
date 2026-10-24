@@ -1,0 +1,36 @@
+<div class="suggest" id="langSuggest" hidden>
+    <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
+    <button type="button" class="suggest-close" id="langSuggestClose" aria-label="{{closeLabel}}">×</button>
+  </div>
+  <script>
+  (() => {
+    // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
+    const ALT = /*@SUGGEST@*/[];
+    // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
+    const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
+    const remember = code => { try { localStorage.setItem('lang', code); } catch (e) { /* noop */ } };
+    // 切り替えリンクはこのあとに出てくるので、ページ全体でクリックを受け取る
+    document.addEventListener('click', e => {
+      const a = e.target.closest('.langs a[data-code], #langSuggestLink');
+      if (a && a.dataset.code) remember(a.dataset.code);
+    });
+    const KEY = 'lang-suggest-closed';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* 保存できない環境 */ }
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(l => l.toLowerCase());
+    // 一番希望している言語だけを見る。対応していない言語か、今のページの言語なら何も出さない
+    const first = langs[0] || '';
+    const alt = ALT.find(a => langMatches(first, a.match));
+    if (!alt || alt.current) return;
+    const box = document.getElementById('langSuggest');
+    document.getElementById('langSuggestText').textContent = alt.text;
+    const link = document.getElementById('langSuggestLink');
+    link.textContent = alt.link; link.href = alt.href; link.lang = alt.lang; link.dataset.code = alt.code;
+    box.lang = alt.lang;
+    box.hidden = false;
+    document.getElementById('langSuggestClose').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* noop */ }
+    });
+  })();
+  </script>

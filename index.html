@@ -1,29 +1,51 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>新婚日記</title>
-  <meta name="description" content="結婚から定年までを「買う・買わない／高い・普通・安い」の選択だけで駆け抜ける人生シミュレーション。">
-  <link rel="stylesheet" href="css/style.css">
+  <title>新婚日記 · Newlywed Diary · 新婚日記 · Diario de recién casados · 신혼일기</title>
+  <meta name="description" content="A free life-simulation game: from marriage to retirement, make only buy-or-skip and high, mid or low choices. Play in English, Traditional Chinese, Spanish, Japanese or Korean.">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/">
+  <!-- 同じ内容の各言語のページ。このページ自体は言語を選ぶページなので x-default -->
+  <link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/">
+  <link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/">
+  <link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/">
+  <link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/">
+  <link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/">
+  <link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/">
   <script>
-    // 言語を先に決めて <html lang> に入れる（Cookie の同意の判定とバナーの文言に使う）。js/i18n.js の detectLang() と同じ順番
-    (() => {
-      const LANGS = { ja: "ja", en: "en", "zh-tw": "zh-Hant-TW", es: "es", ko: "ko" };
-      let saved = null;
-      try { saved = JSON.parse(localStorage.getItem("newlywed-diary-settings"))?.lang; } catch (e) {}
-      const list = [new URLSearchParams(location.search).get("lang"), saved, ...(navigator.languages || [navigator.language])].filter(Boolean).map((l) => l.toLowerCase());
-      let code = "en";
-      for (const c of list) {
-        if (LANGS[c]) { code = c; break; }
-        if (c.startsWith("zh")) { code = "zh-tw"; break; }
-        if (LANGS[c.split("-")[0]]) { code = c.split("-")[0]; break; }
-      }
-      document.documentElement.lang = LANGS[code];
-    })();
+  // 自動でその人の言語のページへ移動する。以前の URL（/?lang=en など）、前に自分で選んだ言語、ブラウザで一番希望している言語の順。
+  // どれも対応していなければ、このページで選んでもらう。/?choose なら移動しない（言語を選び直したいとき）
+  (() => {
+    const params = new URLSearchParams(location.search);
+    if (params.has('choose')) return;
+    const MATCH = {"ja": ["ja"], "en": ["en"], "zh-tw": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "ko": ["ko"], "es": ["es", "!es-es"]};
+    // 先頭が一致すれば対象。「!」付きは除外（スペイン語版は中南米向けなので es-ES は自動では移動しない）
+    const matches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    let code = null;
+    const old = (params.get('lang') || '').toLowerCase();
+    if (MATCH[old]) code = old;
+    try { const saved = localStorage.getItem('lang'); if (!code && saved && MATCH[saved]) code = saved; } catch (e) { /* 保存できない環境 */ }
+    if (!code) {
+      const first = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
+      code = Object.keys(MATCH).find(c => matches(first, MATCH[c]));
+    }
+    if (code) location.replace(code + '/');
+  })();
   </script>
-  <!-- consent:start -->
-<!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
+  <meta name="theme-color" content="#faf6ef">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Newlywed Diary">
+  <meta property="og:title" content="Newlywed Diary | From marriage to retirement, a life sim made only of choices">
+  <meta property="og:description" content="A free life-simulation game: from marriage to retirement, make only buy-or-skip and high, mid or low choices.">
+  <meta property="og:url" content="https://newlywed-diary.nacn.app/">
+  <!-- どの言語の人も見るページなので、英語版の画像にする -->
+  <meta property="og:image" content="https://newlywed-diary.nacn.app/en/og.png?v=20261024">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="css/style.css?v=20261024">
+  <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -48,7 +70,6 @@ function gtag(){dataLayer.push(arguments);}
   window.nacnConsent = {need, saved};
 })();
 </script>
-<!-- consent:end -->
 <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
   <script>
@@ -58,210 +79,74 @@ function gtag(){dataLayer.push(arguments);}
 
     gtag('config', 'G-WFHQNP9CT8');
   </script>
+  <style>
+    /* 言語を選ぶページ：言語ごとのカードを並べる。ブラウザの言語に合うカードを先頭に出して目立たせる */
+    .picker-head { text-align: center; margin: 32px 0 20px; }
+    .picker-head p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .picker { display: grid; gap: 14px; }
+    .lang-card { display: grid; gap: 8px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+    .lang-card h2 { margin: 0; font-size: 1.2rem; }
+    .lang-card h2 small { margin-left: 8px; color: var(--muted); font-size: 0.8rem; font-weight: normal; }
+    .lang-card p { margin: 0; font-size: 0.9rem; }
+    .lang-card .button { justify-self: start; }
+    .lang-card.pick { border: 2px solid var(--accent); }
+  </style>
 </head>
 <body>
   <main id="app">
-    <!-- タイトル -->
-    <section id="screen-title" class="screen" hidden>
-      <div class="title-illust" id="title-illust"></div>
-      <h1 class="logo" data-i18n="meta.gameName"></h1>
-      <p class="lead" data-i18n="title.lead"></p>
-      <p class="note" data-i18n="meta.setInJapan"></p>
-      <div class="stack">
-        <button id="btn-start" class="primary" data-i18n="title.start"></button>
-        <button id="btn-continue" data-i18n="title.continue" hidden></button>
-        <button id="btn-gallery" data-i18n="title.gallery"></button>
-        <button id="btn-settings" class="ghost" data-i18n="title.settings"></button>
-      </div>
-      <nav class="lang-switch" id="lang-switch"></nav>
-      <nav class="site-nav">
-        <ul data-consent-menu>
-          <li><a id="link-privacy" href="https://nacn.app/ja/privacy.html" data-i18n="footer.privacy"></a></li>
-          <li><a id="link-portal" href="https://nacn.app/ja/" data-i18n="footer.moreGames"></a></li>
-        </ul>
-      </nav>
+    <header class="picker-head">
+      <h1 class="logo">新婚日記</h1>
+      <p>Choose your language</p>
+      <p lang="zh-Hant-TW">請選擇語言</p>
+      <p lang="es-419">Elige tu idioma</p>
+      <p lang="ja">言語を選んでください</p>
+      <p lang="ko">언어를 선택하세요</p>
+    </header>
+    <div class="picker" id="picker">
+    <section class="lang-card" lang="en" data-code="en">
+      <h2>Newlywed Diary<small>English</small></h2>
+      <p>A life sim from marriage to retirement, driven only by choices: buy or skip, high, mid or low.</p>
+      <a class="button primary" href="en/" hreflang="en">Start</a>
     </section>
-
-    <!-- 開始設定 -->
-    <section id="screen-setup" class="screen" hidden>
-      <h2 data-i18n="setup.heading"></h2>
-      <form id="setup-form" class="form">
-        <div class="row">
-          <label><span data-i18n="setup.genderA"></span>
-            <select name="genderA"><option value="female" data-i18n="setup.female"></option><option value="male" data-i18n="setup.male"></option></select>
-          </label>
-          <label><span data-i18n="setup.genderB"></span>
-            <select name="genderB"><option value="female" data-i18n="setup.female"></option><option value="male" data-i18n="setup.male"></option></select>
-          </label>
-        </div>
-        <label><span data-i18n="setup.age" data-i18n-params='{"min":22,"max":45}'></span>
-          <span class="field"><input name="age" type="number" min="22" max="45" step="1" required><button type="button" data-random="age" data-i18n="setup.random"></button></span>
-        </label>
-        <label><span data-i18n="setup.savings" data-i18n-params='{"min":0,"max":1000}'></span>
-          <span class="field"><input name="savings" type="number" min="0" max="1000" step="10" required><button type="button" data-random="savings" data-i18n="setup.random"></button></span>
-          <output class="hint" data-money-for="savings"></output>
-        </label>
-        <label><span data-i18n="setup.incomeA"></span>
-          <span class="field"><input name="incomeA" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeA" data-i18n="setup.random"></button></span>
-          <output class="hint" data-money-for="incomeA"></output>
-        </label>
-        <label><span data-i18n="setup.incomeB"></span>
-          <span class="field"><input name="incomeB" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeB" data-i18n="setup.random"></button></span>
-          <output class="hint" data-money-for="incomeB"></output>
-        </label>
-        <p class="hint" data-i18n="setup.incomeHint"></p>
-        <label><span data-i18n="setup.workStyle"></span>
-          <span class="field">
-            <select name="workStyle">
-              <option value="fulltime_both" data-i18n="workStyles.fulltime_both.fullLabel"></option>
-              <option value="parttime" data-i18n="workStyles.parttime.fullLabel"></option>
-              <option value="single" data-i18n="workStyles.single.fullLabel"></option>
-            </select>
-            <button type="button" data-random="workStyle" data-i18n="setup.random"></button>
-          </span>
-        </label>
-        <div class="stack">
-          <button type="submit" class="primary" data-i18n="setup.submit"></button>
-          <button type="button" id="btn-omakase" data-i18n="setup.omakase"></button>
-          <button type="button" class="ghost" data-back data-i18n="setup.back"></button>
-        </div>
-      </form>
+    <section class="lang-card" lang="zh-Hant-TW" data-code="zh-tw">
+      <h2>新婚日記<small>繁體中文</small></h2>
+      <p>從結婚到退休，只靠「買·不買／高·普通·低」的選擇一路走完的人生模擬遊戲。</p>
+      <a class="button primary" href="zh-tw/" hreflang="zh-TW">開始</a>
     </section>
-
-    <!-- メイン -->
-    <section id="screen-main" class="screen" hidden>
-      <header class="status" id="status"></header>
-      <ol class="diary" id="diary"></ol>
-      <div class="year-summary" id="year-summary" hidden></div>
-      <footer class="controls">
-        <button data-speed="0" data-i18n="main.pause"></button>
-        <button data-speed="1">1x</button>
-        <button data-speed="2">2x</button>
-      </footer>
+    <section class="lang-card" lang="es-419" data-code="es">
+      <h2>Diario de recién casados<small>Español</small></h2>
+      <p>Un simulador de vida: del matrimonio a la jubilación, solo eligiendo «comprar o no» y «caro, normal o barato».</p>
+      <a class="button primary" href="es/" hreflang="es">Empezar</a>
     </section>
-
-    <!-- リザルト -->
-    <section id="screen-result" class="screen" hidden>
-      <div id="result"></div>
-      <section class="share">
-        <h3 data-i18n="result.share"></h3>
-        <img id="share-preview" class="share-preview" data-i18n="result.cardAlt" data-i18n-attr="alt">
-        <div class="stack">
-          <button id="btn-share" class="primary" data-i18n="result.shareImage"></button>
-          <a id="btn-download" class="button" download="newlywed-diary.png" data-i18n="result.saveImage"></a>
-          <a id="btn-post" class="button" target="_blank" rel="noopener" data-i18n="result.post"></a>
-        </div>
-      </section>
-      <div class="stack">
-        <button id="btn-again" class="primary" data-i18n="result.again"></button>
-        <button class="ghost" data-back data-i18n="result.toTitle"></button>
-      </div>
+    <section class="lang-card" lang="ja" data-code="ja">
+      <h2>新婚日記<small>日本語</small></h2>
+      <p>結婚から定年までを「買う・買わない／高い・普通・安い」の選択だけで駆け抜ける人生シミュレーション。</p>
+      <a class="button primary" href="ja/" hreflang="ja">はじめる</a>
     </section>
-
-    <!-- エンディング図鑑 -->
-    <section id="screen-gallery" class="screen" hidden>
-      <h2 data-i18n="gallery.heading"></h2>
-      <div id="gallery"></div>
-      <div class="stack">
-        <button class="ghost" data-back data-i18n="gallery.back"></button>
-      </div>
+    <section class="lang-card" lang="ko" data-code="ko">
+      <h2>신혼일기<small>한국어</small></h2>
+      <p>결혼부터 정년까지 &#x27;산다·안 산다 / 비싸게·보통·싸게&#x27; 선택만으로 달려가는 인생 시뮬레이션.</p>
+      <a class="button primary" href="ko/" hreflang="ko">시작하기</a>
     </section>
-
-    <!-- 設定 -->
-    <section id="screen-settings" class="screen" hidden>
-      <h2 data-i18n="settings.heading"></h2>
-      <form id="settings-form" class="form">
-        <label><span data-i18n="settings.language"></span>
-          <select name="lang" id="settings-lang"></select>
-        </label>
-        <label class="check"><input type="checkbox" name="yearSummary"> <span data-i18n="settings.yearSummary"></span></label>
-        <label><span data-i18n="settings.speed"></span>
-          <select name="speed">
-            <option value="1">1x</option>
-            <option value="2">2x</option>
-          </select>
-        </label>
-      </form>
-      <div class="stack">
-        <button id="btn-clear" class="danger" data-i18n="settings.clear"></button>
-        <button class="ghost" data-back data-i18n="settings.back"></button>
-      </div>
-      <p class="hint" data-i18n="settings.clearHint"></p>
-    </section>
-  </main>
-
-  <!-- イベント -->
-  <div id="modal" class="modal" hidden>
-    <div class="modal-body" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div id="modal-illust"></div>
-      <h3 id="modal-title"></h3>
-      <p id="modal-text"></p>
-      <div id="modal-options" class="stack"></div>
     </div>
-  </div>
-
-  <script type="module" src="js/app.js"></script>
-<!-- consent:start -->
-<!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
-<div class="nacn-consent" id="nacnConsent" data-strings="{&quot;ja&quot;: {&quot;label&quot;: &quot;Cookie の同意&quot;, &quot;text&quot;: &quot;このサイトは、アクセスの集計のために Cookie を使います。同意しなくても、そのまま遊べます。&quot;, &quot;policy&quot;: &quot;プライバシーポリシー&quot;, &quot;policyHref&quot;: &quot;https://nacn.app/ja/privacy.html&quot;, &quot;accept&quot;: &quot;同意する&quot;, &quot;reject&quot;: &quot;同意しない&quot;, &quot;settings&quot;: &quot;Cookie の設定&quot;}, &quot;en&quot;: {&quot;label&quot;: &quot;Cookie consent&quot;, &quot;text&quot;: &quot;We use cookies for analytics. You can still play even if you decline.&quot;, &quot;policy&quot;: &quot;Privacy policy&quot;, &quot;policyHref&quot;: &quot;https://nacn.app/en/privacy.html&quot;, &quot;accept&quot;: &quot;Accept&quot;, &quot;reject&quot;: &quot;Decline&quot;, &quot;settings&quot;: &quot;Cookie settings&quot;}, &quot;zh-hant-tw&quot;: {&quot;label&quot;: &quot;Cookie 同意&quot;, &quot;text&quot;: &quot;本網站使用 Cookie 進行流量統計。即使不同意，也能照常遊玩。&quot;, &quot;policy&quot;: &quot;隱私權政策&quot;, &quot;policyHref&quot;: &quot;https://nacn.app/zh-tw/privacy.html&quot;, &quot;accept&quot;: &quot;同意&quot;, &quot;reject&quot;: &quot;不同意&quot;, &quot;settings&quot;: &quot;Cookie 設定&quot;}, &quot;ko&quot;: {&quot;label&quot;: &quot;쿠키 동의&quot;, &quot;text&quot;: &quot;이 사이트는 방문 통계를 위해 쿠키를 사용합니다. 동의하지 않아도 그대로 즐길 수 있습니다.&quot;, &quot;policy&quot;: &quot;개인정보 처리방침&quot;, &quot;policyHref&quot;: &quot;https://nacn.app/ko/privacy.html&quot;, &quot;accept&quot;: &quot;동의&quot;, &quot;reject&quot;: &quot;거부&quot;, &quot;settings&quot;: &quot;쿠키 설정&quot;}, &quot;es&quot;: {&quot;label&quot;: &quot;Consentimiento de cookies&quot;, &quot;text&quot;: &quot;Usamos cookies para estadísticas. Puedes seguir jugando aunque no aceptes.&quot;, &quot;policy&quot;: &quot;Aviso de privacidad&quot;, &quot;policyHref&quot;: &quot;https://nacn.app/es/privacy.html&quot;, &quot;accept&quot;: &quot;Aceptar&quot;, &quot;reject&quot;: &quot;Rechazar&quot;, &quot;settings&quot;: &quot;Configuración de cookies&quot;}}" role="region" aria-label="Cookie の同意" hidden>
-  <p>このサイトは、アクセスの集計のために Cookie を使います。同意しなくても、そのまま遊べます。 <a href="https://nacn.app/ja/privacy.html">プライバシーポリシー</a></p>
-  <div class="nacn-consent-btns">
-    <button type="button" data-consent="granted">同意する</button>
-    <button type="button" data-consent="denied">同意しない</button>
-  </div>
-</div>
-<style>
-.nacn-consent{ position:fixed; left:8px; right:8px; bottom:8px; z-index:1000; max-width:720px; margin:0 auto; padding:12px 14px;
-  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; color:#f4f1ff; background:#1d1a33; border:3px solid #f4f1ff;
-  box-shadow:0 4px 0 rgba(0,0,0,.35); font-size:.9rem; line-height:1.6; }
-.nacn-consent[hidden]{ display:none; }
-.nacn-consent p{ flex:1 1 280px; margin:0; }
-.nacn-consent a{ color:#ffd66b; }
-.nacn-consent-btns{ display:flex; gap:8px; }
-/* 同意する・しないは同じ大きさ・同じ見た目にする（どちらかに誘導しない） */
-.nacn-consent button{ min-width:7em; padding:6px 12px; font:inherit; color:#1d1a33; background:#f4f1ff; border:2px solid #f4f1ff; cursor:pointer; }
-.nacn-consent button:focus-visible{ outline:3px solid #ffd66b; outline-offset:2px; }
-</style>
-<script>
-(() => {
-  const bar = document.getElementById('nacnConsent');
-  // ページの中で言語を切り替えるアプリ（1つの HTML で全言語）は、data-strings に言語ごとの文言を持たせ、表示する前に今の言語の文言にする。
-  // キーは <html lang> を小文字にしたもの（なければ「-」の前）。値は {text, policy, policyHref, accept, reject, settings, label}
-  const strings = bar.dataset.strings ? JSON.parse(bar.dataset.strings) : null;
-  const localize = () => {
-    if (!strings) return;
-    const lang = (document.documentElement.lang || '').toLowerCase();
-    const t = strings[lang] || strings[lang.split('-')[0]];
-    if (!t) return;
-    const link = bar.querySelector('p a');
-    bar.querySelector('p').firstChild.textContent = t.text + ' ';
-    link.textContent = t.policy; link.href = t.policyHref;
-    bar.querySelector('[data-consent="granted"]').textContent = t.accept;
-    bar.querySelector('[data-consent="denied"]').textContent = t.reject;
-    bar.setAttribute('aria-label', t.label);
-    document.querySelectorAll('[data-consent-open]').forEach(a => { a.textContent = t.settings; });
-  };
-  const pad = () => { document.body.style.paddingBottom = bar.hidden ? '' : (bar.offsetHeight + 16) + 'px'; };
-  const show = () => { localize(); bar.hidden = false; pad(); };
-  const choose = v => {
-    // nacn.app の全サブドメインで同じ選択を使う（ローカルでは Domain を付けない）
-    const domain = /(^|\.)nacn\.app$/.test(location.hostname) ? '; Domain=.nacn.app' : '';
-    const secure = location.protocol === 'https:' ? '; Secure' : '';
-    document.cookie = `nacn_consent=v1.${v}; Max-Age=34128000; Path=/; SameSite=Lax${secure}${domain}`;
-    gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
-    bar.hidden = true; pad();
-  };
-  bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => choose(b.dataset.consent)));
-  // いつでも選び直せるように、ページ下のメニュー（data-consent-menu を付けた ul か .site-nav ul）に「Cookie の設定」を足す。
-  // ほかの場所に置くなら data-consent-open を付けた要素
-  const menu = document.querySelector('[data-consent-menu]') || document.querySelector('.site-nav ul');
-  if (menu) menu.insertAdjacentHTML('beforeend', '<li><a href="#" data-consent-open>Cookie の設定</a></li>');
-  document.querySelectorAll('[data-consent-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
-  localize();
-  const c = window.nacnConsent || {};
-  if (c.need && !c.saved) show();
-})();
-</script>
-<!-- consent:end -->
+  </main>
+  <script>
+  (() => {
+    // /?choose で開いたときは、ブラウザで一番希望している言語のカードを先頭に出して目立たせる
+    const MATCH = {"ja": ["ja"], "en": ["en"], "zh-tw": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "ko": ["ko"], "es": ["es", "!es-es"]};
+    const first = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
+    const matches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    const code = Object.keys(MATCH).find(c => matches(first, MATCH[c]));
+    const card = code && document.querySelector(`.lang-card[data-code="${code}"]`);
+    if (card) {
+      card.classList.add('pick');
+      card.parentNode.prepend(card);
+    }
+    // 選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（nacn.app の全サイトで同じキー）
+    document.querySelectorAll('.lang-card a').forEach(a => a.addEventListener('click', () => {
+      try { localStorage.setItem('lang', a.closest('.lang-card').dataset.code); } catch (e) { /* noop */ }
+    }));
+  })();
+  </script>
 </body>
 </html>

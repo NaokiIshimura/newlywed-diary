@@ -306,5 +306,25 @@
   "footer": {
     "privacy": "Aviso de privacidad",
     "moreGames": "Más juegos en nacn.app"
+  },
+  "site": {
+    "htmlLang": "es-419",
+    "hreflang": "es",
+    "ogLocale": "es_MX",
+    "langName": "Español",
+    "titleSep": " | ",
+    "suggest": {
+      "text": "Diario de recién casados también está disponible en español.",
+      "link": "Jugar en español",
+      "close": "Cerrar"
+    },
+    "consent": {
+      "label": "Consentimiento de cookies",
+      "text": "Usamos cookies para estadísticas. Puedes seguir jugando aunque no aceptes.",
+      "policy": "Aviso de privacidad",
+      "accept": "Aceptar",
+      "reject": "Rechazar",
+      "settings": "Configuración de cookies"
+    }
   }
 }

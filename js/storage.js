@@ -54,7 +54,7 @@ export function recordResult({ ending, title, achievements, netWorth }) {
 
 // ---- 設定 ----
 
-const DEFAULT_SETTINGS = { yearSummary: true, speed: 1, lang: null };
+const DEFAULT_SETTINGS = { yearSummary: true, speed: 1 };
 
 export function loadSettings() {
   return { ...DEFAULT_SETTINGS, ...read(KEYS.settings) };

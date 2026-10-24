@@ -1,4 +1,4 @@
-// 言語の切り替えと文の組み立て。
+// 文の組み立て。ページの言語は書き出したフォルダ（/ja/・/en/ など）で決まっていて、<html data-lang> に入っている。
 // UI の文は i18n/<言語>.json、国プロファイルの文（イベントの選択肢・日記・称号・実績・ランク）は
 // data/profiles/<国>/<言語>.json にある。どちらも同じ t() で引く。
 
@@ -20,29 +20,24 @@ let profile = { currency: "JPY", moneyUnit: 10000 };
 
 export const currentLang = () => lang;
 
-// ブラウザの言語から、対応している言語を選ぶ。なければ英語
-export function detectLang(saved) {
-  const param = new URLSearchParams(location.search).get("lang");
-  const candidates = [param, saved, ...(navigator.languages ?? [navigator.language])].filter(Boolean).map((l) => l.toLowerCase());
-  for (const c of candidates) {
-    if (LANGS.some((l) => l.code === c)) return c;
-    if (c.startsWith("zh")) return "zh-tw";
-    const base = c.split("-")[0];
-    if (LANGS.some((l) => l.code === base)) return base;
-  }
-  return "en";
+// このページの言語（build.py が <html data-lang> に入れる）
+export function pageLang() {
+  const code = document.documentElement.dataset.lang;
+  return LANGS.some((l) => l.code === code) ? code : "ja";
 }
+
+// 文のファイルは、このスクリプト（js/）から見た場所で読む（ページは /ja/ などのフォルダにある）
+const fromRoot = (path) => new URL(`../${path}`, import.meta.url);
 
 export async function loadLang(code, profileData, profileId) {
   const [u, p] = await Promise.all([
-    fetch(`i18n/${code}.json`).then((r) => r.json()),
-    fetch(`data/profiles/${profileId}/${code}.json`).then((r) => r.json()),
+    fetch(fromRoot(`i18n/${code}.json`)).then((r) => r.json()),
+    fetch(fromRoot(`data/profiles/${profileId}/${code}.json`)).then((r) => r.json()),
   ]);
   ui = u;
   profileTexts = p;
   lang = LANGS.find((l) => l.code === code);
   profile = profileData;
-  document.documentElement.lang = lang.locale.split("-")[0] === "zh" ? "zh-Hant-TW" : lang.locale.split("-")[0];
 }
 
 function lookup(key) {

@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "python3 build.py",
+    "og": "node tools/make_og.cjs",
     "simulate": "node tools/simulate.mjs",
     "test": "node --test",
     "check:i18n": "node tools/check-i18n.mjs"
