@@ -18,7 +18,7 @@ SRC = ROOT / 'src'
 SITE = 'https://newlywed-diary.nacn.app/'
 PROFILE = 'jp'
 # css・js・og.png を変えたら新しくする（古いキャッシュを使わせないため）
-ASSET_VER = '20261024'
+ASSET_VER = '20261024b'
 # hreflang・sitemap.xml の順
 LANGS = ['ja', 'en', 'zh-tw', 'ko', 'es']
 # 言語を選ぶページと言語の切り替えリンクは、話者が多い順に並べる（英語・中国語・スペイン語・日本語・韓国語）

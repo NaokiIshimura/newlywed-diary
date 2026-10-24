@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-Hant-TW" data-lang="zh-tw">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>玩法說明｜新婚日記</title>
+  <meta name="description" content="新婚日記的玩法說明。介紹開局設定、一年的進行方式、12項人生大事與金額、隨機事件、每年的金錢計算、退休時的等級與稱號、進度的儲存，以及玩得更好的訣竅。">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/zh-tw/howto">
+  <link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto">
+  <link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto">
+  <link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto">
+  <link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto">
+  <link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto">
+  <link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto">
+  <meta name="theme-color" content="#faf6ef">
+  <link rel="stylesheet" href="../css/style.css?v=20261024b">
+  <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(() => {
+  // 事前の同意が要る国：ページの言語か端末のタイムゾーンで見分け、同意するまで Cookie を使わない（バナーを出す）
+  const NEED_LANGS = ['id'];
+  const NEED_TZ = ['Asia/Jakarta', 'Asia/Pontianak', 'Asia/Makassar', 'Asia/Jayapura', 'Asia/Bangkok', 'Asia/Ho_Chi_Minh', 'Asia/Saigon'];
+  // Google の位置判定でも最初から拒否にする国と地域（上の国と、EU・EEA・英国・スイス。EU・英国などにはバナーを出さない）
+  const DENY_REGIONS = ['ID', 'TH', 'VN', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT',
+    'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
+  const saved = (document.cookie.match(/(?:^|; )nacn_consent=v1\.(granted|denied)/) || [])[1] || null;
+  let tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { /* 古いブラウザ */ }
+  const lang = (document.documentElement.lang || '').toLowerCase();
+  const need = NEED_LANGS.some(l => lang === l || lang.startsWith(l + '-')) || NEED_TZ.includes(tz);
+  const state = saved || (need ? 'denied' : 'granted');
+  const all = s => ({ad_storage: s, ad_user_data: s, ad_personalization: s, analytics_storage: s});
+  // 地域ごとの初期値は、地域なしの初期値より優先される。自分で選んだ人には地域の初期値を使わない
+  if (!saved) gtag('consent', 'default', Object.assign(all('denied'), {region: DENY_REGIONS}));
+  gtag('consent', 'default', Object.assign(all(state), {wait_for_update: 500}));
+  if (state === 'denied') (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+  window.nacnConsent = {need, saved};
+})();
+</script>
+<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+</head>
+<body>
+  <main id="app" class="doc">
+    <a class="doc-back" href="./">← 新婚日記</a>
+    <h1>玩法說明</h1>
+    <article class="doc-body">
+    <p>新婚日記是一款人生模擬遊戲，帶著一對新婚夫妻的家計，一年一年走到65歲退休。你要做的選擇只有「買或不買」，以及「高、普通、低」。本頁說明從開局設定、每年的進行方式、人生大事與隨機事件、金錢的計算方式，到退休時的結果。金額皆為日圓，故事背景在日本。</p>
+
+    <h2>開局要決定的事</h2>
+    <ul>
+      <li><strong>主角與另一半的性別</strong>：各自從「女性」「男性」中選擇。會改變工作方式的是另一半。</li>
+      <li><strong>結婚時的年齡</strong>：22〜45歲。越早開始，工作的年數就越長。</li>
+      <li><strong>存款</strong>：¥0〜¥1,000萬（以¥10萬為單位）。</li>
+      <li><strong>兩人的年收入</strong>：主角與另一半（全職工作時）的稅前年收入。初始值是結婚時年齡的年收入中位數。改變年齡時，沒有手動修改過的年收入會自動調整成該年齡的中位數。</li>
+      <li><strong>工作方式</strong>：從「雙薪（全職）」「雙薪（短工時·兼職）」「單薪」中選擇。短工時·兼職時另一半的年收入減半，單薪時另一半的年收入為0。</li>
+    </ul>
+    <p>每個項目都有「隨機」按鈕；按下「全部交給系統，直接開始」，所有項目都會隨機決定，馬上開始遊戲。</p>
+
+    <h2>一年的進行方式</h2>
+    <p>遊戲開始後，會一年一年自動推進。進行速度可以在「1x」「2x」「暫停」之間切換。遇到人生大事或需要做選擇的事件時，遊戲會停下來並打開選擇畫面。選好之後，年份會繼續推進。</p>
+    <p>每到年底，會計算當年的收入與支出，存款隨之增減，日記裡也會寫下「年底」這一行。畫面下方會顯示幾秒鐘的年底收支明細（也可以在設定中關閉）。</p>
+    <p>畫面上方的狀態列會顯示年齡、結婚第幾年、存款、工作方式、孩子的年齡、車和住處。存款為負數時會以紅色顯示。</p>
+
+    <h2>選擇的方式</h2>
+    <p>大多數事件分兩個步驟選擇。先選「買（要做）」或「不買（不做）」，只有選了買的時候，才再從「高、普通、低」中選擇。按鈕上會顯示金額，以及選擇後的存款（「→ 存款 ¥○○萬」）。</p>
+    <ul>
+      <li><strong>現在先不買</strong>：車、房子和孩子（孩子是「現在還不想」），3年後會再問一次。</li>
+      <li><strong>這輩子都不要</strong>：車（「這輩子不買車」）、房子（「一輩子租屋」）和孩子（「這輩子不生」），選了之後就不會再問。</li>
+    </ul>
+
+    <h2>人生大事</h2>
+    <div class="table">
+      <table>
+        <thead><tr><th>事件</th><th>發生時機</th><th>高／普通／低</th></tr></thead>
+        <tbody>
+          <tr><td>婚禮</td><td>一開始</td><td>豪華婚禮 ¥450萬（禮金 +¥200萬）／一般婚禮 ¥300萬（+¥180萬）／拍婚紗照·小型婚禮 ¥80萬（+¥30萬）</td></tr>
+          <tr><td>蜜月旅行</td><td>婚禮之後</td><td>歐洲 ¥100萬／夏威夷 ¥50萬／日本國內旅行 ¥15萬</td></tr>
+          <tr><td>想不想要孩子</td><td>婚禮之後；每生一個孩子會再問一次</td><td>想要（每年有35%的機率出生，最多3人）／現在還不想／這輩子不生</td></tr>
+          <tr><td>重新考慮工作方式</td><td>孩子出生時，以及老么上國小、國中時</td><td>雙薪（全職）／雙薪（短工時·兼職）／單薪</td></tr>
+          <tr><td>車</td><td>結婚第1〜3年；買了之後，到換車時期時</td><td>進口車 ¥600萬·養車費 每年 ¥45萬（10年後以 ¥150萬賣出）／國產新車 ¥300萬·每年 ¥35萬（10年後 ¥60萬）／二手車 ¥100萬·每年 ¥30萬（7年換車，容易故障）</td></tr>
+          <tr><td>托育</td><td>孩子出生時（0〜5歲）</td><td>私立托嬰·多才藝課 每年 ¥80萬／公立托兒所 每年 ¥30萬／請祖父母帶 每年 ¥10萬</td></tr>
+          <tr><td>國小、國中、高中</td><td>孩子滿6歲、12歲、15歲時</td><td>私立／公立＋才藝課（國小）或公立＋補習班（國中、高中）／公立。國小每年 ¥160萬、¥50萬、¥35萬，國中每年 ¥140萬、¥70萬、¥50萬，高中每年 ¥100萬、¥70萬、¥50萬</td></tr>
+          <tr><td>大學</td><td>孩子滿18歲時</td><td>私立理工·在外租屋 每年 ¥250萬（含生活費）／私立文組 每年 ¥150萬／國立大學 每年 ¥100萬。修業4年或6年。選擇不升學而「就業」，孩子18歲就獨立</td></tr>
+          <tr><td>買房</td><td>30〜50歲之間</td><td>自地自建 ¥6,000萬／新成屋大樓 ¥4,500萬／中古屋＋翻修 ¥2,500萬</td></tr>
+          <tr><td>家庭旅遊·紀念日</td><td>每結婚滿5年</td><td>出國旅行 ¥80萬／國內旅行 ¥30萬／近郊一日遊 ¥5萬</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>買房時，先付房價的20%作為頭期款（存款不夠時就用現有存款支付），其餘以35年房貸、利率1.5%每年償還。有了房子之後，每年要繳固定資產稅和修繕基金（大樓還有管理費）。還沒買房的期間，家庭型租屋的房租是每年 ¥120萬。</p>
+
+    <h2>每年的金錢計算</h2>
+    <p><strong>收入</strong>是兩人的年收入（另一半要乘上工作方式的比例），再乘上隨年齡的成長幅度和實領比例（78%）。隨年齡的成長幅度，是拿當年年齡的年收入中位數，和結婚時年齡的中位數相比來決定；60歲以後會因退休後回聘而下降。另外再加上孩子的兒童津貼（0〜2歲每年 ¥18萬，3〜17歲每年 ¥12萬），以及獨立的孩子給的孝親費。</p>
+    <p class="example">例：28歲、兩人年收入各 ¥350萬的雙薪家庭，第1年的實領收入是 (¥350萬＋¥350萬) × 78% ＝ ¥546萬。</p>
+    <p><strong>支出</strong>是以下項目的合計。</p>
+    <ul>
+      <li>夫妻的基本生活費：從每年 ¥220萬開始，每年上漲1.25%</li>
+      <li>孩子的生活費：0〜5歲每年 ¥40萬，國小每年 ¥50萬，國中每年 ¥70萬，高中每年 ¥90萬，從家裡通勤上大學的期間每年 ¥90萬</li>
+      <li>教育費：從托育到大學，所選學校的年度費用</li>
+      <li>居住費：買房之前是房租（新婚期間每年 ¥80萬，家庭型租屋每年 ¥120萬），買房之後是固定支出和房貸</li>
+      <li>車：養車費和故障的修理費。沒有車的話，有孩子的期間每年要花 ¥15萬搭計程車等</li>
+      <li>照護、代還學貸、信用貸款的利息（若有）</li>
+    </ul>
+
+    <h2>隨機事件</h2>
+    <p>每年有30%的機率，會發生以下其中一件事。即使做了一樣的選擇，每次玩都會走出不同的人生，原因就在這裡。</p>
+    <ul>
+      <li><strong>升職</strong>：主角或另一半的年收入提高10%</li>
+      <li><strong>跳槽邀約</strong>：接受的話，主角的年收入會在 −20%〜+20% 之間變動；拒絕則維持不變</li>
+      <li><strong>生病、受傷</strong>：醫療費 ¥30萬〜¥100萬</li>
+      <li><strong>照顧父母</strong>（40歲以後，最多2次）：為期3〜5年，住安養機構每年 ¥60萬。在家照顧每年只要 ¥20萬，但照顧期間另一半要離開職場</li>
+      <li><strong>獎金縮水</strong>：當年的實領收入減少一成</li>
+      <li><strong>臨時收入</strong>：中樂透或繼承遺產，獲得 ¥50萬〜¥500萬</li>
+    </ul>
+    <p>此外，擁有的車和房子也有各自的風險。車子故障的機率，二手車每年30%（新車、進口車5%），修理費 ¥20萬〜¥80萬。房屋修繕的機率，中古屋每年35%（新成屋大樓5%，自地自建3%），可以從「全面翻修」「局部修繕」「應急處理」中選擇修理方式。修得越貴，到下次損壞前的年數就越長（15年、8年、3年）。中古屋的修繕費是2倍，而且買下15年後還需要 ¥600萬的大規模翻修。</p>
+
+    <h2>工作方式與孩子獨立</h2>
+    <p>單薪時離開職場的另一半重返職場時，每離開1年，年收入就降低4%（最多40%）。</p>
+    <p>孩子獨立後，有時會給爸媽孝親費。把從托育到大學的選擇，以「高」2分、「普通」1分、「低」0分計算的教育分數（0〜10分）越高，拿到孝親費的機率（20%，每1分再加5%；就業的孩子再加20%）和金額（每年 ¥12萬〜¥60萬）就越高。家計付不起大學學費的年份，孩子可能會申請學貸，獨立時也可能由爸媽代為償還，分10年還清（教育分數越高，越不容易發生）。</p>
+
+    <h2>存款變成負數時</h2>
+    <p>存款低於0時會視為信用貸款，每年要付10%的利息。存款低於 −¥1,000萬，就會進入「家計破產結局」，遊戲在那一刻結束。</p>
+
+    <h2>退休與結果</h2>
+    <p>65歲退休時，依淨資產（存款＋房屋與車輛估值−貸款餘額）決定等級。</p>
+    <div class="table">
+      <table>
+        <thead><tr><th>等級</th><th>退休時的淨資產</th><th>結局</th></tr></thead>
+        <tbody>
+          <tr><td>S</td><td>¥5,000萬以上</td><td>優遊自在的晚年</td></tr>
+          <tr><td>A</td><td>¥3,000萬以上</td><td>從容寬裕的晚年</td></tr>
+          <tr><td>B</td><td>¥2,000萬以上</td><td>安心的晚年</td></tr>
+          <tr><td>C</td><td>¥500萬以上</td><td>有點擔心的晚年</td></tr>
+          <tr><td>D</td><td>未滿 ¥500萬</td><td>退休後繼續工作</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>結果畫面會顯示依選擇傾向決定的稱號（9種）、獲得的成就（12個）、一生支出明細和人生年表，也會顯示和同樣開局條件下「全選普通」相比的差額。結果可以做成分享用的圖片，儲存、分享或發佈到 X（Twitter）。看過的結局、稱號和成就，可以在標題畫面的「結局圖鑑」中查看。</p>
+
+    <h2>進度的儲存</h2>
+    <p>每推進一年、每做一次選擇，進度都會自動儲存在你使用的瀏覽器中。中途關掉頁面，下次打開時也能從標題畫面的「繼續」接著玩。切換語言後也能繼續玩。紀錄是以瀏覽器為單位，不會轉移到其他裝置或瀏覽器。在設定畫面按「清除資料」，可以清除中途存檔、結局圖鑑、成就與設定。</p>
+
+    <h2>玩得更好的訣竅</h2>
+    <ul>
+      <li>不是全部選便宜的就好。二手車故障和中古屋修繕接連發生的話，反而會花更多錢</li>
+      <li>「高」的選擇，就集中在效果長久的地方吧。光是一直維持全職雙薪，收入就會差很多</li>
+      <li>最花錢的是孩子上大學的時期。孩子年齡相近的話學費會重疊，要在那之前多存一點錢</li>
+      <li>看看按鈕上顯示的「選擇後的存款」，找出不會讓存款變成負數的選法吧</li>
+    </ul>
+    <p class="note">遊戲中的金額，是根據政府統計和市場行情、為了遊戲而簡化的參考值，並未納入年金、物價上漲幅度與詳細的稅金計算等。實際的家計、房貸與教育資金規劃，請諮詢理財規劃顧問等專業人士。</p>
+    </article>
+      <nav class="site-nav" aria-label="站內頁面">
+        <ul data-consent-menu>
+          <li><a href="./">開始遊戲</a></li>
+          <li><a href="howto.html" aria-current="page">玩法說明</a></li>
+          <li><a href="https://nacn.app/zh-tw/about.html">關於本站／聯絡我們</a></li>
+          <li><a href="privacy.html">隱私權政策</a></li>
+          <li><a href="https://nacn.app/zh-tw/">nacn.app 的其他遊戲</a></li>
+        </ul>
+      </nav>
+      <nav class="lang-switch langs"><a href="../en/howto.html" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/howto.html" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw" aria-current="true">繁體中文</a><a href="../es/howto.html" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/howto.html" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/howto.html" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
+  </main>
+<div class="suggest" id="langSuggest" hidden>
+    <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
+    <button type="button" class="suggest-close" id="langSuggestClose" aria-label="關閉">×</button>
+  </div>
+  <script>
+  (() => {
+    // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/howto.html", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/howto.html", "lang": "en", "code": "en", "current": false}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/howto.html", "lang": "zh-Hant-TW", "code": "zh-tw", "current": true}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/howto.html", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/howto.html", "lang": "es-419", "code": "es", "current": false}];
+    // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
+    const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
+    const remember = code => { try { localStorage.setItem('lang', code); } catch (e) { /* noop */ } };
+    // 切り替えリンクはこのあとに出てくるので、ページ全体でクリックを受け取る
+    document.addEventListener('click', e => {
+      const a = e.target.closest('.langs a[data-code], #langSuggestLink');
+      if (a && a.dataset.code) remember(a.dataset.code);
+    });
+    const KEY = 'lang-suggest-closed';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* 保存できない環境 */ }
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(l => l.toLowerCase());
+    // 一番希望している言語だけを見る。対応していない言語か、今のページの言語なら何も出さない
+    const first = langs[0] || '';
+    const alt = ALT.find(a => langMatches(first, a.match));
+    if (!alt || alt.current) return;
+    const box = document.getElementById('langSuggest');
+    document.getElementById('langSuggestText').textContent = alt.text;
+    const link = document.getElementById('langSuggestLink');
+    link.textContent = alt.link; link.href = alt.href; link.lang = alt.lang; link.dataset.code = alt.code;
+    box.lang = alt.lang;
+    box.hidden = false;
+    document.getElementById('langSuggestClose').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* noop */ }
+    });
+  })();
+  </script>
+
+<!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
+<div class="nacn-consent" id="nacnConsent" role="region" aria-label="Cookie 同意" hidden>
+  <p>本網站使用 Cookie 進行流量統計。即使不同意，也能照常遊玩。 <a href="/zh-tw/privacy.html">隱私權政策</a></p>
+  <div class="nacn-consent-btns">
+    <button type="button" data-consent="granted">同意</button>
+    <button type="button" data-consent="denied">不同意</button>
+  </div>
+</div>
+<style>
+.nacn-consent{ position:fixed; left:8px; right:8px; bottom:8px; z-index:1000; max-width:720px; margin:0 auto; padding:12px 14px;
+  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; color:#f4f1ff; background:#1d1a33; border:3px solid #f4f1ff;
+  box-shadow:0 4px 0 rgba(0,0,0,.35); font-size:.9rem; line-height:1.6; }
+.nacn-consent[hidden]{ display:none; }
+.nacn-consent p{ flex:1 1 280px; margin:0; }
+.nacn-consent a{ color:#ffd66b; }
+.nacn-consent-btns{ display:flex; gap:8px; }
+/* 同意する・しないは同じ大きさ・同じ見た目にする（どちらかに誘導しない） */
+.nacn-consent button{ min-width:7em; padding:6px 12px; font:inherit; color:#1d1a33; background:#f4f1ff; border:2px solid #f4f1ff; cursor:pointer; }
+.nacn-consent button:focus-visible{ outline:3px solid #ffd66b; outline-offset:2px; }
+</style>
+<script>
+(() => {
+  const bar = document.getElementById('nacnConsent');
+  // ページの中で言語を切り替えるアプリ（1つの HTML で全言語）は、data-strings に言語ごとの文言を持たせ、表示する前に今の言語の文言にする。
+  // キーは <html lang> を小文字にしたもの（なければ「-」の前）。値は {text, policy, policyHref, accept, reject, settings, label}
+  const strings = bar.dataset.strings ? JSON.parse(bar.dataset.strings) : null;
+  const localize = () => {
+    if (!strings) return;
+    const lang = (document.documentElement.lang || '').toLowerCase();
+    const t = strings[lang] || strings[lang.split('-')[0]];
+    if (!t) return;
+    const link = bar.querySelector('p a');
+    bar.querySelector('p').firstChild.textContent = t.text + ' ';
+    link.textContent = t.policy; link.href = t.policyHref;
+    bar.querySelector('[data-consent="granted"]').textContent = t.accept;
+    bar.querySelector('[data-consent="denied"]').textContent = t.reject;
+    bar.setAttribute('aria-label', t.label);
+    document.querySelectorAll('[data-consent-open]').forEach(a => { a.textContent = t.settings; });
+  };
+  const pad = () => { document.body.style.paddingBottom = bar.hidden ? '' : (bar.offsetHeight + 16) + 'px'; };
+  const show = () => { localize(); bar.hidden = false; pad(); };
+  const choose = v => {
+    // nacn.app の全サブドメインで同じ選択を使う（ローカルでは Domain を付けない）
+    const domain = /(^|\.)nacn\.app$/.test(location.hostname) ? '; Domain=.nacn.app' : '';
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `nacn_consent=v1.${v}; Max-Age=34128000; Path=/; SameSite=Lax${secure}${domain}`;
+    gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
+    bar.hidden = true; pad();
+  };
+  bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => choose(b.dataset.consent)));
+  // いつでも選び直せるように、ページ下のメニュー（data-consent-menu を付けた ul か .site-nav ul）に「Cookie の設定」を足す。
+  // ほかの場所に置くなら data-consent-open を付けた要素
+  const menu = document.querySelector('[data-consent-menu]') || document.querySelector('.site-nav ul');
+  if (menu) menu.insertAdjacentHTML('beforeend', '<li><a href="#" data-consent-open>Cookie 設定</a></li>');
+  document.querySelectorAll('[data-consent-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
+  localize();
+  const c = window.nacnConsent || {};
+  if (c.need && !c.saved) show();
+})();
+</script>
+</body>
+</html>

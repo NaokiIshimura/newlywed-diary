@@ -325,6 +325,8 @@ a.button {
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.12);
 }
 .suggest[hidden] { display: none; }
+/* 案内が出ているあいだは、上の部分（文章のページの戻るリンク・ゲームのステータス）が隠れないように下げる */
+body:has(#langSuggest:not([hidden])) #app { padding-top: 64px; }
 .suggest a { color: var(--accent); font-weight: bold; }
 .suggest-close {
   position: absolute;

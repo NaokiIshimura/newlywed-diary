@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es-419" data-lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cómo jugar | Diario de recién casados</title>
+  <meta name="description" content="Cómo jugar Diario de recién casados: configuración inicial, cómo avanza cada año, los 12 eventos de vida y sus montos, los imprevistos, cómo se calcula el dinero cada año, los rangos y títulos al jubilarte, cómo se guarda la partida y consejos para que te vaya bien.">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/es/howto">
+  <link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto">
+  <link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto">
+  <link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto">
+  <link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto">
+  <link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto">
+  <link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto">
+  <meta name="theme-color" content="#faf6ef">
+  <link rel="stylesheet" href="../css/style.css?v=20261024b">
+  <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(() => {
+  // 事前の同意が要る国：ページの言語か端末のタイムゾーンで見分け、同意するまで Cookie を使わない（バナーを出す）
+  const NEED_LANGS = ['id'];
+  const NEED_TZ = ['Asia/Jakarta', 'Asia/Pontianak', 'Asia/Makassar', 'Asia/Jayapura', 'Asia/Bangkok', 'Asia/Ho_Chi_Minh', 'Asia/Saigon'];
+  // Google の位置判定でも最初から拒否にする国と地域（上の国と、EU・EEA・英国・スイス。EU・英国などにはバナーを出さない）
+  const DENY_REGIONS = ['ID', 'TH', 'VN', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT',
+    'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
+  const saved = (document.cookie.match(/(?:^|; )nacn_consent=v1\.(granted|denied)/) || [])[1] || null;
+  let tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { /* 古いブラウザ */ }
+  const lang = (document.documentElement.lang || '').toLowerCase();
+  const need = NEED_LANGS.some(l => lang === l || lang.startsWith(l + '-')) || NEED_TZ.includes(tz);
+  const state = saved || (need ? 'denied' : 'granted');
+  const all = s => ({ad_storage: s, ad_user_data: s, ad_personalization: s, analytics_storage: s});
+  // 地域ごとの初期値は、地域なしの初期値より優先される。自分で選んだ人には地域の初期値を使わない
+  if (!saved) gtag('consent', 'default', Object.assign(all('denied'), {region: DENY_REGIONS}));
+  gtag('consent', 'default', Object.assign(all(state), {wait_for_update: 500}));
+  if (state === 'denied') (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+  window.nacnConsent = {need, saved};
+})();
+</script>
+<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+</head>
+<body>
+  <main id="app" class="doc">
+    <a class="doc-back" href="./">← Diario de recién casados</a>
+    <h1>Cómo jugar</h1>
+    <article class="doc-body">
+    <p>Diario de recién casados es un simulador de vida en el que llevas las finanzas de una pareja recién casada, año por año, hasta la jubilación a los 65. Solo eliges «comprar o no» y «caro, normal o barato». En esta página te explicamos todo: la configuración inicial, cómo avanza cada año, los eventos de vida y los imprevistos, cómo se calcula el dinero y el resultado al jubilarte. Los montos están en yenes japoneses y el juego transcurre en Japón.</p>
+
+    <h2>Lo que decides al principio</h2>
+    <ul>
+      <li><strong>Tu género y el de tu pareja</strong>: para cada uno eliges «Mujer» u «Hombre». La persona que puede cambiar de modo de trabajo es tu pareja.</li>
+      <li><strong>Edad al casarse</strong>: de 22 a 45 años. Cuanto más joven empiezas, más años trabajas.</li>
+      <li><strong>Ahorros</strong>: de ¥0 a ¥10 millones (en pasos de ¥100 mil).</li>
+      <li><strong>Ingreso anual de los dos</strong>: el ingreso bruto anual tuyo y de tu pareja (si trabajara a tiempo completo). El valor inicial es la mediana de ingresos para la edad al casarse. Si cambias la edad, los ingresos que no hayas modificado a mano se ajustan a la mediana de la nueva edad.</li>
+      <li><strong>Modo de trabajo</strong>: eliges entre «Ambos a tiempo completo», «Ambos trabajan (pareja a medio tiempo)» y «Un solo ingreso». Con medio tiempo, el ingreso de tu pareja se reduce a la mitad; con un solo ingreso, el de tu pareja es 0.</li>
+    </ul>
+    <p>Cada opción tiene un botón «Aleatorio», y con «Empezar con todo al azar» se decide todo al azar y la partida empieza de inmediato.</p>
+
+    <h2>Cómo avanza cada año</h2>
+    <p>Al empezar el juego, los años avanzan solos, uno por uno. Puedes cambiar la velocidad con «1x», «2x» y «Pausa». Cuando llega un evento de vida o un imprevisto con decisión, el avance se detiene y se abre la pantalla para elegir. Cuando eliges, los años siguen avanzando.</p>
+    <p>Al final de cada año se calculan los ingresos y gastos, los ahorros suben o bajan, y en el diario aparece una línea de «Fin de año». En la parte inferior de la pantalla se muestra durante unos segundos el desglose del balance de fin de año (puedes ocultarlo en los ajustes).</p>
+    <p>En la parte superior de la pantalla se ven la edad, los años de casados, los ahorros, el modo de trabajo, la edad de los hijos, el auto y la vivienda. Si los ahorros están en negativo, aparecen en rojo.</p>
+
+    <h2>Cómo se elige</h2>
+    <p>La mayoría de los eventos se deciden en dos pasos. Primero eliges si compras (o lo haces) o no, y solo si compras eliges entre «Caro», «Normal» y «Barato». Cada botón muestra el costo y cómo quedarían tus ahorros después de elegir («→ Ahorros ¥…»).</p>
+    <ul>
+      <li><strong>Ahora no</strong>: con el auto, la casa y los hijos, se te vuelve a preguntar en 3 años.</li>
+      <li><strong>Nunca</strong>: si eliges esta opción para el auto («Nunca tener auto»), la casa («Alquilar siempre») o los hijos («Nunca»), no se te vuelve a preguntar.</li>
+    </ul>
+
+    <h2>Eventos de vida</h2>
+    <div class="table">
+      <table>
+        <thead><tr><th>Evento</th><th>Cuándo ocurre</th><th>Caro / Normal / Barato</th></tr></thead>
+        <tbody>
+          <tr><td>Boda</td><td>Al principio</td><td>Boda de lujo ¥4.5 millones (regalos en efectivo +¥2 millones) / Boda tradicional ¥3 millones (+¥1.8 millones) / Solo fotos o boda íntima ¥800 mil (+¥300 mil)</td></tr>
+          <tr><td>Luna de miel</td><td>Después de la boda</td><td>Europa ¥1 millón / Hawái ¥500 mil / Viaje nacional ¥150 mil</td></tr>
+          <tr><td>Hijos</td><td>Después de la boda, y otra vez cada vez que nace uno</td><td>Sí, queremos (cada año hay 35% de probabilidad de que nazca uno; hasta 3) / Ahora no / Nunca</td></tr>
+          <tr><td>Revisar el trabajo</td><td>Cuando nace un hijo y cuando el menor entra a la primaria y a la secundaria</td><td>Ambos a tiempo completo / Ambos trabajan (pareja a medio tiempo) / Un solo ingreso</td></tr>
+          <tr><td>Auto</td><td>Entre el 1.er y el 3.er año de casados; si ya tienes uno, cuando toca cambiarlo</td><td>Auto importado ¥6 millones, mantenimiento ¥450 mil al año (se vende en ¥1.5 millones a los 10 años) / Auto nuevo japonés ¥3 millones, ¥350 mil al año (¥600 mil a los 10 años) / Auto usado ¥1 millón, ¥300 mil al año (se cambia a los 7 años; se avería seguido)</td></tr>
+          <tr><td>Guardería</td><td>Cuando nace un hijo (de 0 a 5 años)</td><td>Guardería privada + actividades ¥800 mil al año / Guardería autorizada ¥300 mil al año / Con los abuelos ¥100 mil al año</td></tr>
+          <tr><td>Primaria, secundaria y preparatoria</td><td>Cuando el hijo cumple 6, 12 y 15 años</td><td>Privada / Pública + actividades (primaria) o Pública + academia (secundaria y preparatoria) / Pública. Primaria: ¥1.6 millones, ¥500 mil y ¥350 mil al año; secundaria: ¥1.4 millones, ¥700 mil y ¥500 mil al año; preparatoria: ¥1 millón, ¥700 mil y ¥500 mil al año</td></tr>
+          <tr><td>Universidad</td><td>Cuando el hijo cumple 18 años</td><td>Privada de ciencias, fuera de casa ¥2.5 millones al año (gastos de vida incluidos) / Privada de humanidades ¥1.5 millones al año / Universidad pública ¥1 millón al año. Dura 4 o 6 años. Si elige «Ponerse a trabajar» en vez de estudiar, se independiza a los 18</td></tr>
+          <tr><td>Casa propia</td><td>Entre los 30 y los 50 años</td><td>Casa a medida ¥60 millones / Departamento nuevo ¥45 millones / Usada + remodelación ¥25 millones</td></tr>
+          <tr><td>Viaje y aniversario</td><td>Cada 5 años de casados</td><td>Viaje al extranjero ¥800 mil / Viaje nacional ¥300 mil / Paseo de un día ¥50 mil</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Al comprar una casa, pagas un enganche del 20% del precio (si los ahorros no alcanzan, pagas lo que tengas) y el resto es una hipoteca a 35 años con 1.5% de interés, que se paga cada año. Con casa propia también pagas cada año el impuesto predial y el fondo de reparaciones (y, en un departamento, la cuota de mantenimiento). Mientras no compres casa, el alquiler para familias cuesta ¥1.2 millones al año.</p>
+
+    <h2>Cómo se calcula el dinero cada año</h2>
+    <p>Los <strong>ingresos</strong> son el ingreso anual de los dos (el de tu pareja, multiplicado por el porcentaje de su modo de trabajo), multiplicado por el crecimiento según la edad y por la proporción de ingreso neto (78%). El crecimiento según la edad se calcula comparando la mediana de ingresos de cada edad con la de la edad al casarse, y desde los 60 años baja porque se pasa a un recontrato. A esto se suman el subsidio por hijos (¥180 mil al año de 0 a 2 años y ¥120 mil al año de 3 a 17 años) y la ayuda en dinero de los hijos que ya se independizaron.</p>
+    <p class="example">Ejemplo: si a los 28 años ambos trabajan y cada uno gana ¥3.5 millones al año, el ingreso neto del primer año es (¥3.5 millones + ¥3.5 millones) × 78% = ¥5.46 millones.</p>
+    <p>Los <strong>gastos</strong> son la suma de lo siguiente:</p>
+    <ul>
+      <li>Gastos de vida de la pareja: empiezan en ¥2.2 millones al año y suben 1.25% cada año</li>
+      <li>Gastos de los hijos: de 0 a 5 años, ¥400 mil al año; en primaria, ¥500 mil al año; en secundaria, ¥700 mil al año; en preparatoria, ¥900 mil al año; y mientras van a la universidad desde casa, ¥900 mil al año</li>
+      <li>Educación: el costo anual de la guardería o escuela elegida, desde la guardería hasta la universidad</li>
+      <li>Vivienda: hasta tener casa propia, el alquiler (¥800 mil al año de recién casados y ¥1.2 millones al año en el alquiler para familias); con casa propia, los gastos fijos y los pagos de la hipoteca</li>
+      <li>Auto: el mantenimiento y las reparaciones por averías. Sin auto, mientras haya hijos, se gastan ¥150 mil al año en taxis y similares</li>
+      <li>Cuidados de un familiar, el préstamo estudiantil que asumiste y los intereses de la deuda (si los hay)</li>
+    </ul>
+
+    <h2>Imprevistos</h2>
+    <p>Cada año hay 30% de probabilidad de que ocurra uno de estos imprevistos. Por eso, aunque elijas lo mismo, cada partida es una vida distinta.</p>
+    <ul>
+      <li><strong>Ascenso</strong>: tu ingreso anual o el de tu pareja sube 10%</li>
+      <li><strong>Oferta de trabajo</strong>: si aceptas, tu ingreso anual cambia a algún punto entre −20% y +20%. Si rechazas, sigue igual</li>
+      <li><strong>Enfermedad o lesión</strong>: gastos médicos de ¥300 mil a ¥1 millón</li>
+      <li><strong>Cuidar a un padre</strong> (desde los 40 años, hasta 2 veces): durante 3 a 5 años, ¥600 mil al año en una residencia. Cuidarlo en casa cuesta solo ¥200 mil al año, pero tu pareja deja de trabajar mientras tanto</li>
+      <li><strong>Recorte del bono</strong>: el ingreso neto de ese año baja 10%</li>
+      <li><strong>Ingreso extra</strong>: de ¥500 mil a ¥5 millones por lotería o herencia</li>
+    </ul>
+    <p>Aparte de esto, el auto y la casa que tengas también tienen riesgos. Un auto usado se avería con 30% de probabilidad cada año (uno nuevo o importado, 5%), y la reparación cuesta de ¥200 mil a ¥800 mil. La casa necesita reparaciones con 35% de probabilidad cada año si es usada (5% en un departamento nuevo y 3% en una casa a medida), y eliges cómo arreglarla: «Renovación total», «Reparación parcial» o «Arreglo provisional». Cuanto más cara la reparación, más años pasan hasta el siguiente daño (15, 8 y 3 años). En una casa usada las reparaciones cuestan el doble, y 15 años después de comprarla hay una gran remodelación de ¥6 millones.</p>
+
+    <h2>Modo de trabajo e independencia de los hijos</h2>
+    <p>Si tu pareja dejó el trabajo con un solo ingreso y vuelve a trabajar, su ingreso anual baja 4% por cada año sin trabajar (hasta un máximo de 40%).</p>
+    <p>Cuando un hijo se independiza, puede ayudarles con dinero. Las decisiones de educación, desde la guardería hasta la universidad, suman puntos de educación (0 a 10 puntos): 2 por «Caro», 1 por «Normal» y 0 por «Barato». Cuantos más puntos, mayor es la probabilidad de recibir ayuda (20% + 5% por punto, y +20% extra si el hijo se puso a trabajar en vez de ir a la universidad) y mayor el monto (de ¥120 mil a ¥600 mil al año). En los años en que la familia no alcanza a pagar la universidad, el hijo puede pedir un préstamo estudiantil, y al independizarse puede pasar que ustedes lo asuman y lo paguen en 10 años (es menos probable con más puntos de educación).</p>
+
+    <h2>Si los ahorros quedan en negativo</h2>
+    <p>Si los ahorros bajan de 0, se consideran deuda de tarjeta y generan 10% de interés al año. Si bajan de −¥10 millones, llegas al «Final: quiebra» y la partida termina ahí.</p>
+
+    <h2>Jubilación y resultado</h2>
+    <p>Al jubilarte a los 65, tu rango depende del patrimonio neto (ahorros + valor de la casa y del auto − lo que quede de hipoteca).</p>
+    <div class="table">
+      <table>
+        <thead><tr><th>Rango</th><th>Patrimonio neto al jubilarse</th><th>Final</th></tr></thead>
+        <tbody>
+          <tr><td>S</td><td>¥50 millones o más</td><td>Retiro sin preocupaciones</td></tr>
+          <tr><td>A</td><td>¥30 millones o más</td><td>Retiro holgado</td></tr>
+          <tr><td>B</td><td>¥20 millones o más</td><td>Retiro tranquilo</td></tr>
+          <tr><td>C</td><td>¥5 millones o más</td><td>Retiro algo justo</td></tr>
+          <tr><td>D</td><td>Menos de ¥5 millones</td><td>Trabajar tras jubilarse</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>La pantalla de resultados muestra un título según tu forma de elegir (9 en total), los logros que conseguiste (12 en total), el desglose de los gastos de toda la vida y una línea de vida. También muestra la diferencia frente a haber elegido «Normal» en todo con las mismas condiciones iniciales. Puedes convertir el resultado en una imagen para guardarla, compartirla o publicarla en X (Twitter). Los finales, títulos y logros que ya viste se pueden consultar en la «Galería de finales» de la pantalla de inicio.</p>
+
+    <h2>Cómo se guarda la partida</h2>
+    <p>El avance se guarda automáticamente en tu navegador cada vez que pasa un año o eliges algo. Si cierras la página a medio juego, la próxima vez puedes retomarla con «Continuar» en la pantalla de inicio. También puedes seguir la partida aunque cambies de idioma. Los datos se guardan por navegador, así que no pasan a otro dispositivo ni a otro navegador. Con «Borrar datos» en la pantalla de ajustes puedes borrar la partida guardada, la galería de finales, los logros y los ajustes.</p>
+
+    <h2>Consejos para que te vaya bien</h2>
+    <ul>
+      <li>Elegir siempre lo más barato no es la solución. Si se juntan las averías del auto usado y las reparaciones de la casa usada, al final sale más caro</li>
+      <li>Reserva las opciones caras para lo que rinde a largo plazo. Solo con que los dos sigan trabajando a tiempo completo, los ingresos cambian mucho</li>
+      <li>La etapa más cara es cuando los hijos van a la universidad. Si los hijos se llevan poca edad, las colegiaturas se juntan, así que conviene llegar a esa etapa con buenos ahorros</li>
+      <li>Fíjate en los ahorros que muestra cada botón («→ Ahorros») y busca la forma de elegir sin quedar en negativo</li>
+    </ul>
+    <p class="note">Los montos del juego son estimaciones simplificadas para el juego, basadas en estadísticas oficiales y precios de mercado. No incluyen pensiones, inflación ni el cálculo detallado de impuestos. Para planear tus finanzas familiares reales, una hipoteca o los gastos de educación, consulta a un profesional, como un asesor financiero.</p>
+    </article>
+      <nav class="site-nav" aria-label="Páginas del sitio">
+        <ul data-consent-menu>
+          <li><a href="./">Jugar</a></li>
+          <li><a href="howto.html" aria-current="page">Cómo jugar</a></li>
+          <li><a href="https://nacn.app/es/about.html">Acerca de y contacto</a></li>
+          <li><a href="privacy.html">Aviso de privacidad</a></li>
+          <li><a href="https://nacn.app/es/">Más juegos en nacn.app</a></li>
+        </ul>
+      </nav>
+      <nav class="lang-switch langs"><a href="../en/howto.html" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/howto.html" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/howto.html" hreflang="es" lang="es-419" data-code="es" aria-current="true">Español</a><a href="../ja/howto.html" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/howto.html" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
+  </main>
+<div class="suggest" id="langSuggest" hidden>
+    <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
+    <button type="button" class="suggest-close" id="langSuggestClose" aria-label="Cerrar">×</button>
+  </div>
+  <script>
+  (() => {
+    // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/howto.html", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/howto.html", "lang": "en", "code": "en", "current": false}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/howto.html", "lang": "zh-Hant-TW", "code": "zh-tw", "current": false}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/howto.html", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/howto.html", "lang": "es-419", "code": "es", "current": true}];
+    // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
+    const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
+    const remember = code => { try { localStorage.setItem('lang', code); } catch (e) { /* noop */ } };
+    // 切り替えリンクはこのあとに出てくるので、ページ全体でクリックを受け取る
+    document.addEventListener('click', e => {
+      const a = e.target.closest('.langs a[data-code], #langSuggestLink');
+      if (a && a.dataset.code) remember(a.dataset.code);
+    });
+    const KEY = 'lang-suggest-closed';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* 保存できない環境 */ }
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(l => l.toLowerCase());
+    // 一番希望している言語だけを見る。対応していない言語か、今のページの言語なら何も出さない
+    const first = langs[0] || '';
+    const alt = ALT.find(a => langMatches(first, a.match));
+    if (!alt || alt.current) return;
+    const box = document.getElementById('langSuggest');
+    document.getElementById('langSuggestText').textContent = alt.text;
+    const link = document.getElementById('langSuggestLink');
+    link.textContent = alt.link; link.href = alt.href; link.lang = alt.lang; link.dataset.code = alt.code;
+    box.lang = alt.lang;
+    box.hidden = false;
+    document.getElementById('langSuggestClose').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* noop */ }
+    });
+  })();
+  </script>
+
+<!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
+<div class="nacn-consent" id="nacnConsent" role="region" aria-label="Consentimiento de cookies" hidden>
+  <p>Usamos cookies para estadísticas. Puedes seguir jugando aunque no aceptes. <a href="/es/privacy.html">Aviso de privacidad</a></p>
+  <div class="nacn-consent-btns">
+    <button type="button" data-consent="granted">Aceptar</button>
+    <button type="button" data-consent="denied">Rechazar</button>
+  </div>
+</div>
+<style>
+.nacn-consent{ position:fixed; left:8px; right:8px; bottom:8px; z-index:1000; max-width:720px; margin:0 auto; padding:12px 14px;
+  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; color:#f4f1ff; background:#1d1a33; border:3px solid #f4f1ff;
+  box-shadow:0 4px 0 rgba(0,0,0,.35); font-size:.9rem; line-height:1.6; }
+.nacn-consent[hidden]{ display:none; }
+.nacn-consent p{ flex:1 1 280px; margin:0; }
+.nacn-consent a{ color:#ffd66b; }
+.nacn-consent-btns{ display:flex; gap:8px; }
+/* 同意する・しないは同じ大きさ・同じ見た目にする（どちらかに誘導しない） */
+.nacn-consent button{ min-width:7em; padding:6px 12px; font:inherit; color:#1d1a33; background:#f4f1ff; border:2px solid #f4f1ff; cursor:pointer; }
+.nacn-consent button:focus-visible{ outline:3px solid #ffd66b; outline-offset:2px; }
+</style>
+<script>
+(() => {
+  const bar = document.getElementById('nacnConsent');
+  // ページの中で言語を切り替えるアプリ（1つの HTML で全言語）は、data-strings に言語ごとの文言を持たせ、表示する前に今の言語の文言にする。
+  // キーは <html lang> を小文字にしたもの（なければ「-」の前）。値は {text, policy, policyHref, accept, reject, settings, label}
+  const strings = bar.dataset.strings ? JSON.parse(bar.dataset.strings) : null;
+  const localize = () => {
+    if (!strings) return;
+    const lang = (document.documentElement.lang || '').toLowerCase();
+    const t = strings[lang] || strings[lang.split('-')[0]];
+    if (!t) return;
+    const link = bar.querySelector('p a');
+    bar.querySelector('p').firstChild.textContent = t.text + ' ';
+    link.textContent = t.policy; link.href = t.policyHref;
+    bar.querySelector('[data-consent="granted"]').textContent = t.accept;
+    bar.querySelector('[data-consent="denied"]').textContent = t.reject;
+    bar.setAttribute('aria-label', t.label);
+    document.querySelectorAll('[data-consent-open]').forEach(a => { a.textContent = t.settings; });
+  };
+  const pad = () => { document.body.style.paddingBottom = bar.hidden ? '' : (bar.offsetHeight + 16) + 'px'; };
+  const show = () => { localize(); bar.hidden = false; pad(); };
+  const choose = v => {
+    // nacn.app の全サブドメインで同じ選択を使う（ローカルでは Domain を付けない）
+    const domain = /(^|\.)nacn\.app$/.test(location.hostname) ? '; Domain=.nacn.app' : '';
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `nacn_consent=v1.${v}; Max-Age=34128000; Path=/; SameSite=Lax${secure}${domain}`;
+    gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
+    bar.hidden = true; pad();
+  };
+  bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => choose(b.dataset.consent)));
+  // いつでも選び直せるように、ページ下のメニュー（data-consent-menu を付けた ul か .site-nav ul）に「Cookie の設定」を足す。
+  // ほかの場所に置くなら data-consent-open を付けた要素
+  const menu = document.querySelector('[data-consent-menu]') || document.querySelector('.site-nav ul');
+  if (menu) menu.insertAdjacentHTML('beforeend', '<li><a href="#" data-consent-open>Configuración de cookies</a></li>');
+  document.querySelectorAll('[data-consent-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
+  localize();
+  const c = window.nacnConsent || {};
+  if (c.need && !c.saved) show();
+})();
+</script>
+</body>
+</html>

@@ -55,4 +55,94 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/"/>
   </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/ja/howto</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/en/howto</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/zh-tw/howto</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/ko/howto</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/es/howto</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/ja/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/privacy"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/en/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/privacy"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/zh-tw/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/privacy"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/ko/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/privacy"/>
+  </url>
+  <url>
+    <loc>https://newlywed-diary.nacn.app/es/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/privacy"/>
+  </url>
 </urlset>

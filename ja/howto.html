@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>遊び方｜新婚日記</title>
+  <meta name="description" content="新婚日記の遊び方。最初の設定、1年の進み方、12のライフイベントと金額、ランダムな出来事、毎年のお金の計算、定年のランクと称号、記録の保存、上手に進めるコツを説明します。">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/ja/howto">
+  <link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto">
+  <link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto">
+  <link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto">
+  <link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto">
+  <link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto">
+  <link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto">
+  <meta name="theme-color" content="#faf6ef">
+  <link rel="stylesheet" href="../css/style.css?v=20261024b">
+  <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(() => {
+  // 事前の同意が要る国：ページの言語か端末のタイムゾーンで見分け、同意するまで Cookie を使わない（バナーを出す）
+  const NEED_LANGS = ['id'];
+  const NEED_TZ = ['Asia/Jakarta', 'Asia/Pontianak', 'Asia/Makassar', 'Asia/Jayapura', 'Asia/Bangkok', 'Asia/Ho_Chi_Minh', 'Asia/Saigon'];
+  // Google の位置判定でも最初から拒否にする国と地域（上の国と、EU・EEA・英国・スイス。EU・英国などにはバナーを出さない）
+  const DENY_REGIONS = ['ID', 'TH', 'VN', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT',
+    'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
+  const saved = (document.cookie.match(/(?:^|; )nacn_consent=v1\.(granted|denied)/) || [])[1] || null;
+  let tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { /* 古いブラウザ */ }
+  const lang = (document.documentElement.lang || '').toLowerCase();
+  const need = NEED_LANGS.some(l => lang === l || lang.startsWith(l + '-')) || NEED_TZ.includes(tz);
+  const state = saved || (need ? 'denied' : 'granted');
+  const all = s => ({ad_storage: s, ad_user_data: s, ad_personalization: s, analytics_storage: s});
+  // 地域ごとの初期値は、地域なしの初期値より優先される。自分で選んだ人には地域の初期値を使わない
+  if (!saved) gtag('consent', 'default', Object.assign(all('denied'), {region: DENY_REGIONS}));
+  gtag('consent', 'default', Object.assign(all(state), {wait_for_update: 500}));
+  if (state === 'denied') (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+  window.nacnConsent = {need, saved};
+})();
+</script>
+<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+</head>
+<body>
+  <main id="app" class="doc">
+    <a class="doc-back" href="./">← 新婚日記</a>
+    <h1>遊び方</h1>
+    <article class="doc-body">
+    <p>新婚日記は、結婚したふたりの家計を、65歳の定年まで1年ずつ進めていく人生シミュレーションです。選ぶのは「買う・買わない」と「高い・普通・安い」だけ。このページでは、最初の設定から、毎年の進み方、ライフイベントとランダムな出来事、お金の計算、定年の結果までを説明します。金額は日本円で、舞台は日本です。</p>
+
+    <h2>最初に決めること</h2>
+    <ul>
+      <li><strong>主人公とパートナーの性別</strong>：それぞれ「女性」「男性」から選びます。働き方を変えるのはパートナーです。</li>
+      <li><strong>結婚時の年齢</strong>：22〜45歳。若く始めるほど働く年数が長くなります。</li>
+      <li><strong>貯金</strong>：0〜1,000万円（10万円単位）。</li>
+      <li><strong>ふたりの年収</strong>：主人公とパートナー（フルタイムで働く場合）の額面の年収です。初期値は、結婚時の年齢の年収の中央値です。年齢を変えると、手で直していない年収はその年齢の中央値に合わせて変わります。</li>
+      <li><strong>働き方</strong>：「共働き（フルタイム）」「共働き（時短・パート）」「片働き」から選びます。時短・パートはパートナーの年収が半分、片働きはパートナーの年収が0になります。</li>
+    </ul>
+    <p>どの項目にも「ランダム」ボタンがあり、「全部おまかせではじめる」を押すと、全部をランダムに決めてすぐに始められます。</p>
+
+    <h2>1年の進み方</h2>
+    <p>ゲームが始まると、1年ずつ自動で進みます。進む速さは「1x」「2x」「一時停止」で切り替えられます。ライフイベントや選択のある出来事が来ると進行が止まり、選ぶ画面が開きます。選び終わると、また年が進みます。</p>
+    <p>年末には、その年の収入と支出が計算されて貯金が増えたり減ったりし、日記に「年末」の行が書かれます。画面の下には年末の収支の内訳が数秒表示されます（設定で表示しないようにもできます）。</p>
+    <p>画面の上のステータスには、年齢・結婚して何年目か・貯金・働き方・子どもの年齢・車・住まいが出ます。貯金がマイナスのときは赤く表示されます。</p>
+
+    <h2>選び方</h2>
+    <p>多くのイベントは2段階で選びます。まず「買う（やる）」か「買わない（やらない）」を選び、買う場合だけ「高い・普通・安い」を選びます。ボタンには金額と、選んだあとの貯金（「→ 貯金 ○○万円」）が出ます。</p>
+    <ul>
+      <li><strong>今は買わない</strong>：車・家・子どもは、3年後にもう一度聞かれます。</li>
+      <li><strong>生涯持たない</strong>：車・家（「生涯賃貸」）・子どもは、これを選ぶと二度と聞かれません。</li>
+    </ul>
+
+    <h2>ライフイベント</h2>
+    <div class="table">
+      <table>
+        <thead><tr><th>イベント</th><th>起きるとき</th><th>高い／普通／安い</th></tr></thead>
+        <tbody>
+          <tr><td>結婚式</td><td>最初</td><td>豪華挙式 450万円（ご祝儀 +200万円）／一般的な式 300万円（+180万円）／フォト婚・少人数 80万円（+30万円）</td></tr>
+          <tr><td>新婚旅行</td><td>結婚式のあと</td><td>ヨーロッパ 100万円／ハワイ 50万円／国内旅行 15万円</td></tr>
+          <tr><td>子どもを望むか</td><td>結婚式のあと。生まれるたびにもう一度</td><td>望む（毎年35%の確率で生まれる。3人まで）／今は望まない／生涯持たない</td></tr>
+          <tr><td>働き方の見直し</td><td>子どもが生まれたとき、末っ子が小学校・中学校に入るとき</td><td>共働き（フルタイム）／共働き（時短・パート）／片働き</td></tr>
+          <tr><td>車</td><td>結婚1〜3年目。買ったら買い替えの時期に</td><td>輸入車 600万円・維持費 年45万円（10年後に150万円で売れる）／国産新車 300万円・年35万円（10年後に60万円）／中古車 100万円・年30万円（7年で買い替え、故障しやすい）</td></tr>
+          <tr><td>保育</td><td>子どもが生まれたとき（0〜5歳）</td><td>認可外・習い事多め 年80万円／認可保育園 年30万円／祖父母に頼る 年10万円</td></tr>
+          <tr><td>小学校・中学校・高校</td><td>子どもが6歳・12歳・15歳になったとき</td><td>私立／公立＋習い事・塾／公立。小学校は年160・50・35万円、中学校は年140・70・50万円、高校は年100・70・50万円</td></tr>
+          <tr><td>大学</td><td>子どもが18歳になったとき</td><td>私立理系・下宿 年250万円（生活費こみ）／私立文系 年150万円／国公立 年100万円。期間は4年か6年。進学しないで就職すると18歳で独立</td></tr>
+          <tr><td>マイホーム</td><td>30〜50歳のあいだ</td><td>注文住宅 6,000万円／新築マンション 4,500万円／中古＋リフォーム 2,500万円</td></tr>
+          <tr><td>家族旅行・記念日</td><td>結婚5年ごと</td><td>海外旅行 80万円／国内旅行 30万円／近場・日帰り 5万円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>家は、価格の20%を頭金として払い（貯金が足りなければ貯金の範囲で払います）、残りを35年ローン・金利1.5%で毎年返します。家を持つと、固定資産税と修繕積立金（マンションは管理費も）が毎年かかります。家を買わないあいだは、家族向けの賃貸の家賃が年120万円かかります。</p>
+
+    <h2>毎年のお金の計算</h2>
+    <p><strong>収入</strong>は、ふたりの年収（パートナーは働き方の割合をかける）に、年齢による伸びと、手取りの割合（78%）をかけたものです。年齢による伸びは、その年齢の年収の中央値を、結婚したときの年齢の中央値とくらべて決まり、60歳以降は再雇用で下がります。これに、子どもの児童手当（0〜2歳は年18万円、3〜17歳は年12万円）と、独立した子どもからの仕送りが加わります。</p>
+    <p class="example">例：28歳で、ふたりの年収が350万円ずつの共働きなら、1年目の手取りは (350＋350) × 78% ＝ 546万円です。</p>
+    <p><strong>支出</strong>は、次の合計です。</p>
+    <ul>
+      <li>夫婦の基本生活費：年220万円から始まり、毎年1.25%ずつ上がる</li>
+      <li>子どもの生活費：0〜5歳は年40万円、小学生 年50万円、中学生 年70万円、高校生 年90万円、自宅から大学に通うあいだは年90万円</li>
+      <li>教育費：保育から大学まで、選んだ学校の年額</li>
+      <li>住居費：家を持つまでは家賃（新婚のあいだは年80万円、家族向けの賃貸は年120万円）、家を持ったら固定費とローンの返済</li>
+      <li>車：維持費と故障の修理代。車を持たないと、子どもがいるあいだはタクシーなどに年15万円</li>
+      <li>介護・奨学金の肩代わり・カードローンの利息（あれば）</li>
+    </ul>
+
+    <h2>ランダムな出来事</h2>
+    <p>毎年30%の確率で、次のどれか1つが起きます。同じ選択をしても、遊ぶたびに違う人生になるのはこのためです。</p>
+    <ul>
+      <li><strong>昇進</strong>：主人公かパートナーの年収が10%上がる</li>
+      <li><strong>転職の誘い</strong>：受けると主人公の年収が −20%〜+20% のどこかに変わる。断れば変わらない</li>
+      <li><strong>病気・ケガ</strong>：医療費 30〜100万円</li>
+      <li><strong>親の介護</strong>（40歳以降、2回まで）：3〜5年のあいだ、施設なら年60万円。家で介護すると年20万円で済むかわりに、パートナーは介護のあいだ仕事を離れる</li>
+      <li><strong>ボーナスカット</strong>：その年の手取りが1割減る</li>
+      <li><strong>臨時収入</strong>：宝くじや相続で 50〜500万円</li>
+    </ul>
+    <p>これとは別に、持っている車と家にもリスクがあります。車の故障は中古車で毎年30%（新車・輸入車は5%）、修理代は20〜80万円です。家の修繕は中古住宅で毎年35%（新築マンション5%、注文住宅3%）起き、「全面改修」「部分修理」「応急処置」から直し方を選びます。高い直し方ほど、次に傷むまでの年数が長くなります（15年・8年・3年）。中古住宅は修繕費が2倍で、買って15年後に600万円の大規模リフォームがかかります。</p>
+
+    <h2>働き方と子どもの独立</h2>
+    <p>片働きで仕事を離れたパートナーがまた働き始めると、離れていた年数1年につき年収が4%下がります（最大40%）。</p>
+    <p>子どもが独立すると、仕送りをもらえることがあります。保育から大学までの選択を「高い」2点・「普通」1点・「安い」0点で数えた教育ポイント（0〜10点）が高いほど、仕送りをもらえる確率（20%＋1点ごとに5%。就職した子どもはさらに＋20%）と金額（年12〜60万円）が上がります。大学の学費を家計で払いきれない年は、子どもが奨学金を借りることがあり、独立のときに親が肩代わりして10年で返すこともあります（教育ポイントが高いほど起きにくくなります）。</p>
+
+    <h2>貯金がマイナスになったら</h2>
+    <p>貯金が0を下回るとカードローンの扱いになり、毎年10%の利息がかかります。貯金が −1,000万円を下回ると「家計破綻エンド」で、その時点で終わります。</p>
+
+    <h2>定年と結果</h2>
+    <p>65歳で定年を迎えると、純資産（貯金＋家と車の評価額−ローンの残り）でランクが決まります。</p>
+    <div class="table">
+      <table>
+        <thead><tr><th>ランク</th><th>定年時の純資産</th><th>エンディング</th></tr></thead>
+        <tbody>
+          <tr><td>S</td><td>5,000万円以上</td><td>悠々自適の老後</td></tr>
+          <tr><td>A</td><td>3,000万円以上</td><td>ゆとりある老後</td></tr>
+          <tr><td>B</td><td>2,000万円以上</td><td>安心の老後</td></tr>
+          <tr><td>C</td><td>500万円以上</td><td>ちょっと心配な老後</td></tr>
+          <tr><td>D</td><td>500万円未満</td><td>定年後も働く老後</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>結果の画面には、選び方の傾向から決まる称号（9種類）、手に入れた実績（12個）、生涯支出の内訳、人生年表が出ます。同じ開始条件で「全部普通」を選んだ場合とくらべた差額も出ます。結果はシェア用の画像にして、保存・共有・X（Twitter）への投稿ができます。見たエンディング・称号・実績は、タイトル画面の「エンディング図鑑」で確かめられます。</p>
+
+    <h2>記録の保存</h2>
+    <p>進み具合は、年が進むたび・選ぶたびに、お使いのブラウザに自動で保存されます。途中でページを閉じても、次に開いたときにタイトル画面の「続きから」で再開できます。言語を変えても続きから遊べます。記録はブラウザごとなので、別の端末やブラウザには引き継がれません。設定画面の「データを消去する」で、途中の記録・エンディング図鑑・実績・設定を消せます。</p>
+
+    <h2>上手に進めるコツ</h2>
+    <ul>
+      <li>全部を安くすればいいわけではありません。中古車の故障や中古住宅の修繕が重なると、かえって高くつきます</li>
+      <li>高い選択は、長く効くところに絞りましょう。フルタイムの共働きを続けるだけでも、収入は大きく変わります</li>
+      <li>お金が一番かかるのは、子どもが大学に通う時期です。子どもの年が近いと学費が重なるので、その前に貯金を厚くしておきましょう</li>
+      <li>ボタンに出る「選んだあとの貯金」を見て、マイナスにならない選び方を探しましょう</li>
+    </ul>
+    <p class="note">ゲームの金額は、公的な統計や相場をもとにした、ゲームとして単純化した目安です。年金や物価の上がり方、細かい税金の計算などは含んでいません。実際の家計や住宅ローン、教育資金の計画は、ファイナンシャルプランナーなどの専門家に相談してください。</p>
+    </article>
+      <nav class="site-nav" aria-label="サイト内のページ">
+        <ul data-consent-menu>
+          <li><a href="./">ゲームで遊ぶ</a></li>
+          <li><a href="howto.html" aria-current="page">遊び方</a></li>
+          <li><a href="https://nacn.app/ja/about.html">運営者情報・お問い合わせ</a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+          <li><a href="https://nacn.app/ja/">nacn.app のほかのゲーム</a></li>
+        </ul>
+      </nav>
+      <nav class="lang-switch langs"><a href="../en/howto.html" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/howto.html" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/howto.html" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/howto.html" hreflang="ja" lang="ja" data-code="ja" aria-current="true">日本語</a><a href="../ko/howto.html" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
+  </main>
+<div class="suggest" id="langSuggest" hidden>
+    <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
+    <button type="button" class="suggest-close" id="langSuggestClose" aria-label="閉じる">×</button>
+  </div>
+  <script>
+  (() => {
+    // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/howto.html", "lang": "ja", "code": "ja", "current": true}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/howto.html", "lang": "en", "code": "en", "current": false}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/howto.html", "lang": "zh-Hant-TW", "code": "zh-tw", "current": false}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/howto.html", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/howto.html", "lang": "es-419", "code": "es", "current": false}];
+    // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
+    const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
+    const remember = code => { try { localStorage.setItem('lang', code); } catch (e) { /* noop */ } };
+    // 切り替えリンクはこのあとに出てくるので、ページ全体でクリックを受け取る
+    document.addEventListener('click', e => {
+      const a = e.target.closest('.langs a[data-code], #langSuggestLink');
+      if (a && a.dataset.code) remember(a.dataset.code);
+    });
+    const KEY = 'lang-suggest-closed';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* 保存できない環境 */ }
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(l => l.toLowerCase());
+    // 一番希望している言語だけを見る。対応していない言語か、今のページの言語なら何も出さない
+    const first = langs[0] || '';
+    const alt = ALT.find(a => langMatches(first, a.match));
+    if (!alt || alt.current) return;
+    const box = document.getElementById('langSuggest');
+    document.getElementById('langSuggestText').textContent = alt.text;
+    const link = document.getElementById('langSuggestLink');
+    link.textContent = alt.link; link.href = alt.href; link.lang = alt.lang; link.dataset.code = alt.code;
+    box.lang = alt.lang;
+    box.hidden = false;
+    document.getElementById('langSuggestClose').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* noop */ }
+    });
+  })();
+  </script>
+
+<!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
+<div class="nacn-consent" id="nacnConsent" role="region" aria-label="Cookie の同意" hidden>
+  <p>このサイトは、アクセスの集計のために Cookie を使います。同意しなくても、そのまま遊べます。 <a href="/ja/privacy.html">プライバシーポリシー</a></p>
+  <div class="nacn-consent-btns">
+    <button type="button" data-consent="granted">同意する</button>
+    <button type="button" data-consent="denied">同意しない</button>
+  </div>
+</div>
+<style>
+.nacn-consent{ position:fixed; left:8px; right:8px; bottom:8px; z-index:1000; max-width:720px; margin:0 auto; padding:12px 14px;
+  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; color:#f4f1ff; background:#1d1a33; border:3px solid #f4f1ff;
+  box-shadow:0 4px 0 rgba(0,0,0,.35); font-size:.9rem; line-height:1.6; }
+.nacn-consent[hidden]{ display:none; }
+.nacn-consent p{ flex:1 1 280px; margin:0; }
+.nacn-consent a{ color:#ffd66b; }
+.nacn-consent-btns{ display:flex; gap:8px; }
+/* 同意する・しないは同じ大きさ・同じ見た目にする（どちらかに誘導しない） */
+.nacn-consent button{ min-width:7em; padding:6px 12px; font:inherit; color:#1d1a33; background:#f4f1ff; border:2px solid #f4f1ff; cursor:pointer; }
+.nacn-consent button:focus-visible{ outline:3px solid #ffd66b; outline-offset:2px; }
+</style>
+<script>
+(() => {
+  const bar = document.getElementById('nacnConsent');
+  // ページの中で言語を切り替えるアプリ（1つの HTML で全言語）は、data-strings に言語ごとの文言を持たせ、表示する前に今の言語の文言にする。
+  // キーは <html lang> を小文字にしたもの（なければ「-」の前）。値は {text, policy, policyHref, accept, reject, settings, label}
+  const strings = bar.dataset.strings ? JSON.parse(bar.dataset.strings) : null;
+  const localize = () => {
+    if (!strings) return;
+    const lang = (document.documentElement.lang || '').toLowerCase();
+    const t = strings[lang] || strings[lang.split('-')[0]];
+    if (!t) return;
+    const link = bar.querySelector('p a');
+    bar.querySelector('p').firstChild.textContent = t.text + ' ';
+    link.textContent = t.policy; link.href = t.policyHref;
+    bar.querySelector('[data-consent="granted"]').textContent = t.accept;
+    bar.querySelector('[data-consent="denied"]').textContent = t.reject;
+    bar.setAttribute('aria-label', t.label);
+    document.querySelectorAll('[data-consent-open]').forEach(a => { a.textContent = t.settings; });
+  };
+  const pad = () => { document.body.style.paddingBottom = bar.hidden ? '' : (bar.offsetHeight + 16) + 'px'; };
+  const show = () => { localize(); bar.hidden = false; pad(); };
+  const choose = v => {
+    // nacn.app の全サブドメインで同じ選択を使う（ローカルでは Domain を付けない）
+    const domain = /(^|\.)nacn\.app$/.test(location.hostname) ? '; Domain=.nacn.app' : '';
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `nacn_consent=v1.${v}; Max-Age=34128000; Path=/; SameSite=Lax${secure}${domain}`;
+    gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
+    bar.hidden = true; pad();
+  };
+  bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => choose(b.dataset.consent)));
+  // いつでも選び直せるように、ページ下のメニュー（data-consent-menu を付けた ul か .site-nav ul）に「Cookie の設定」を足す。
+  // ほかの場所に置くなら data-consent-open を付けた要素
+  const menu = document.querySelector('[data-consent-menu]') || document.querySelector('.site-nav ul');
+  if (menu) menu.insertAdjacentHTML('beforeend', '<li><a href="#" data-consent-open>Cookie の設定</a></li>');
+  document.querySelectorAll('[data-consent-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
+  localize();
+  const c = window.nacnConsent || {};
+  if (c.need && !c.saved) show();
+})();
+</script>
+</body>
+</html>

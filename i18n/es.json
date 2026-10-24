@@ -303,10 +303,6 @@
     "bankrupt": "Nuestras finanzas quebraron.",
     "retired": "Llegó la jubilación."
   },
-  "footer": {
-    "privacy": "Aviso de privacidad",
-    "moreGames": "Más juegos en nacn.app"
-  },
   "site": {
     "htmlLang": "es-419",
     "hreflang": "es",
@@ -325,6 +321,24 @@
       "accept": "Aceptar",
       "reject": "Rechazar",
       "settings": "Configuración de cookies"
+    }
+  },
+  "nav": {
+    "label": "Páginas del sitio",
+    "play": "Jugar",
+    "howto": "Cómo jugar",
+    "about": "Acerca de y contacto",
+    "privacy": "Aviso de privacidad",
+    "portal": "Más juegos en nacn.app"
+  },
+  "pages": {
+    "howto": {
+      "title": "Cómo jugar",
+      "description": "Cómo jugar Diario de recién casados: configuración inicial, cómo avanza cada año, los 12 eventos de vida y sus montos, los imprevistos, cómo se calcula el dinero cada año, los rangos y títulos al jubilarte, cómo se guarda la partida y consejos para que te vaya bien."
+    },
+    "privacy": {
+      "title": "Aviso de privacidad",
+      "description": "Qué información guarda Diario de recién casados (solo en tu navegador), cómo se comparte el resultado, la analítica (Google Analytics), el consentimiento de cookies y tus derechos."
     }
   }
 }
