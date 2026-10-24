@@ -197,6 +197,22 @@ def build_game(locales, code):
     return prerender(page, loc)
 
 
+def with_card(page_html, image, site_name, og_locale):
+    """文章のページにも、X（Twitter）などで URL を共有したときのカード（OGP と twitter:card）を入れる。
+    タイトル・説明・URL は書き出したページの <title>・description・canonical から取り、画像はその言語のゲームと同じ og.png"""
+    title = html.escape(html.unescape(re.search(r'<title>(.*?)</title>', page_html, re.S).group(1)), quote=True)
+    desc = re.search(r'<meta name="description" content="([^"]*)">', page_html).group(1)
+    m = re.search(r'\n([ \t]*)<link rel="canonical" href="([^"]*)">', page_html)
+    indent, url = m.group(1), m.group(2)
+    tags = [('property', 'og:type', 'article'), ('property', 'og:site_name', html.escape(site_name, quote=True)),
+            ('property', 'og:locale', og_locale), ('property', 'og:title', title), ('property', 'og:description', desc),
+            ('property', 'og:url', url), ('property', 'og:image', image),
+            ('property', 'og:image:width', '1200'), ('property', 'og:image:height', '630'),
+            ('name', 'twitter:card', 'summary_large_image')]
+    block = ''.join(f'\n{indent}<meta {attr}="{key}" content="{value}">' for attr, key, value in tags)
+    return page_html[:m.end()] + block + page_html[m.end():]
+
+
 def build_text_page(locales, code, page):
     """文章のページ（遊び方・プライバシーポリシー）"""
     loc = locales[code]
@@ -206,7 +222,8 @@ def build_text_page(locales, code, page):
            'hreflang': hreflang_links(locales, page), 'langNav': lang_nav(locales, code, page),
            'siteNav': site_nav(loc, code, page), 'suggestBanner': suggest_banner(locales, code, page),
            'body': (SRC / 'pages' / code / f'{page}.html').read_text(encoding='utf-8').rstrip('\n')}
-    return render((SRC / 'page.html').read_text(encoding='utf-8'), ctx, {'hreflang', 'langNav', 'siteNav', 'suggestBanner', 'body'})
+    return with_card(render((SRC / 'page.html').read_text(encoding='utf-8'), ctx, {'hreflang', 'langNav', 'siteNav', 'suggestBanner', 'body'}),
+                     f'{page_url(code)}og.png?v={ASSET_VER}', loc['ui']['meta']['gameName'], loc['ui']['site']['ogLocale'])
 
 
 def build_root(locales):
