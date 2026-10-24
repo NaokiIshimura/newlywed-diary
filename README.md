@@ -72,18 +72,22 @@ python3 -m http.server 8000
 各言語のページは `build.py` で書き出します（Python 3 の標準ライブラリだけ）。Cloudflare Pages ではビルドしないので、`src/`・`i18n/`・`data/profiles/<国>/<言語>.json` を変えたら、書き出して一緒にコミットします。
 
 ```bash
-python3 build.py      # <言語>/index.html・index.html（言語を選ぶページ）・404.html・sitemap.xml を書き出す
+python3 build.py      # <言語>/index.html・<言語>/howto.html・<言語>/privacy.html・index.html（言語を選ぶページ）・404.html・sitemap.xml を書き出す
 node tools/make_og.cjs # <言語>/og.png（OGP 画像）を作る。作り直したら build.py の ASSET_VER を新しくして書き出し直す
 ```
 
 | ファイル | 内容 |
 | --- | --- |
 | `src/game.html` | ゲームのページの枠。`{{...}}` に言語ごとの値を差し込み、`data-i18n` の要素にはその言語の文を入れて書き出す |
+| `src/page.html` | 文章のページ（遊び方・プライバシーポリシー）の枠 |
+| `src/pages/<言語>/howto.html`・`privacy.html` | 文章のページの本文。名前と説明は `i18n/<言語>.json` の `pages` |
 | `src/root.html`・`src/404.html` | ルートの言語を選ぶページと、見つからないページ |
 | `src/parts/suggest.html` | ブラウザの言語に合わせた1行の案内（nacn.app 共通） |
 | `src/parts/consent-head.html`・`src/parts/consent.html` | Cookie の同意の初期値とバナー（nacn.app 共通） |
 
-`<言語>/index.html`・ルートの `index.html`・`404.html`・`sitemap.xml` は書き出したファイルなので、直接は編集しないでください。
+`<言語>/*.html`・ルートの `index.html`・`404.html`・`sitemap.xml` は書き出したファイルなので、直接は編集しないでください。
+
+ゲームと文章のページの画面下には、同じサイト内メニュー（遊び方・運営者情報・お問い合わせ・プライバシーポリシー・nacn.app のほかのゲーム。文章のページでは先頭に「ゲームで遊ぶ」）を `build.py` の `site_nav()` で書き出します。運営者情報とお問い合わせは、nacn のゲームで共通の nacn.app のページ（`https://nacn.app/<言語>/about.html`）へリンクしています。遊び方とプライバシーポリシーに書いた数値や保存する情報は、ゲームのコードとデータ（`data/profiles/jp.json`・`js/storage.js`）から取っているので、ゲームを変えたらこの2ページも直します。
 
 ## ファイル構成
 
@@ -126,5 +130,5 @@ https://newlywed-diary.nacn.app/ で公開しています。Cloudflare Pages で
 - Cookie の同意のしくみ（Google Consent Mode v2 と同意のバナー）は nacn.app 共通のものです。部品は `src/parts/consent-head.html`・`src/parts/consent.html`、言語ごとの文言は `i18n/<言語>.json` の `site.consent` にあり、`build.py` の `with_consent()` が書き出すときに入れます（初期値は全ページ、バナーは言語のページだけ）。部品の元の版は claude-skills の `consent-mode` スキルにあるので、直すときはそちらを先に直して写します
 - 同意を求めるのは、端末のタイムゾーンがインドネシア・タイ・ベトナムの人です。EU・英国・スイスは Google の位置判定で最初から拒否にします。選択は `.nacn.app` の Cookie `nacn_consent` に保存され、nacn.app の全サイトで共通です
 - AdSense を入れていないので、バナーは「アクセスの集計のため」だけの文言にしています。AdSense を入れたら、`i18n/<言語>.json` の `site.consent.text` を広告ありの文言に戻します
-- このゲームには自前の文章のページがないので、バナーとタイトル画面のメニューの「プライバシーポリシー」は nacn.app のポリシー（`https://nacn.app/<言語>/privacy.html`。サブドメインの全ゲームが対象）へのリンクにしています。タイトル画面のメニューには「Cookie の設定」も自動で足されます
+- 同意のバナーの「プライバシーポリシー」は、このゲームのポリシー（`/<言語>/privacy.html`）へのリンクです。ゲームと文章のページの画面下のメニューには「Cookie の設定」も自動で足されます
 - `<html lang>` はページを書き出すときに決まるので、同意の判定（言語が `id` か）にもそのまま使えます

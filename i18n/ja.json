@@ -300,10 +300,6 @@
     "bankrupt": "家計が破綻した。",
     "retired": "定年を迎えた。"
   },
-  "footer": {
-    "privacy": "プライバシーポリシー",
-    "moreGames": "nacn.app のほかのゲーム"
-  },
   "site": {
     "htmlLang": "ja",
     "hreflang": "ja",
@@ -322,6 +318,24 @@
       "accept": "同意する",
       "reject": "同意しない",
       "settings": "Cookie の設定"
+    }
+  },
+  "nav": {
+    "label": "サイト内のページ",
+    "play": "ゲームで遊ぶ",
+    "howto": "遊び方",
+    "about": "運営者情報・お問い合わせ",
+    "privacy": "プライバシーポリシー",
+    "portal": "nacn.app のほかのゲーム"
+  },
+  "pages": {
+    "howto": {
+      "title": "遊び方",
+      "description": "新婚日記の遊び方。最初の設定、1年の進み方、12のライフイベントと金額、ランダムな出来事、毎年のお金の計算、定年のランクと称号、記録の保存、上手に進めるコツを説明します。"
+    },
+    "privacy": {
+      "title": "プライバシーポリシー",
+      "description": "新婚日記で保存する情報（お使いのブラウザの中だけ）、結果のシェア、アクセス解析（Google アナリティクス）、Cookie の同意について説明します。"
     }
   }
 }

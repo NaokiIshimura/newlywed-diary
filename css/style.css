@@ -349,3 +349,26 @@ a.button {
   font-size: 0.8rem;
 }
 .site-nav a { color: var(--muted); }
+
+/* 文章のページ（遊び方・プライバシーポリシー） */
+#app.doc { max-width: 720px; min-height: auto; padding-bottom: 40px; }
+.doc-back { display: inline-block; margin: 8px 0 16px; color: var(--muted); }
+.doc h1 { font-size: 1.6rem; color: var(--accent); }
+.doc-body {
+  padding: 4px 20px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+}
+.doc-body h2 { margin: 24px 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--line); font-size: 1.15rem; }
+.doc-body p, .doc-body ul { margin: 0 0 12px; }
+.doc-body ul { padding-left: 1.3em; }
+.doc-body li { margin-bottom: 4px; }
+.doc-body a { color: var(--accent); overflow-wrap: anywhere; }
+.doc-body .table { overflow-x: auto; margin: 8px 0 14px; }
+.doc-body table { min-width: 100%; font-size: 0.85rem; }
+.doc-body th, .doc-body td { padding: 6px 8px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+.doc-body th { background: var(--bg); }
+.doc-body .example { padding: 8px 12px; border-radius: 10px; background: var(--bg); font-size: 0.9rem; }
+.doc-body .note, .doc-body .date { color: var(--muted); font-size: 0.85rem; }
+.doc .site-nav ul { font-size: 0.85rem; }

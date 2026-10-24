@@ -3,7 +3,8 @@
 
 src/game.html（ゲームのページの枠）に、i18n/<言語>.json と data/profiles/jp/<言語>.json の文を差し込み、
 /ja/・/en/・/zh-tw/・/ko/・/es/ に書き出す。各ページは最初からその言語で書き出すので、検索エンジンと SNS の OGP も言語ごとになる。
-ルート（/）には言語を選ぶページ（src/root.html）、ほかに 404.html・sitemap.xml を書き出す。
+文章のページ（遊び方・プライバシーポリシー）は、src/page.html（枠）に src/pages/<言語>/<ページ>.html（本文）を差し込んで
+/<言語>/<ページ>.html に書き出す。ルート（/）には言語を選ぶページ（src/root.html）、ほかに 404.html・sitemap.xml を書き出す。
 Cloudflare Pages ではビルドしないので、src・i18n を変えたら `python3 build.py` を実行して、書き出したファイルもコミットする。
 """
 import html
@@ -31,6 +32,8 @@ BROWSER_MATCH = {
     'ko': ['ko'],
     'es': ['es', '!es-es'],
 }
+# 文章のページ。名前と説明は言語データの pages.<ページ>、本文は src/pages/<言語>/<ページ>.html
+TEXT_PAGES = ['howto', 'privacy']
 # 国プロファイルの文が入っているキーの先頭（js/i18n.js の PROFILE_ROOTS と同じ）
 PROFILE_ROOTS = {'events', 'workStyles', 'ranks', 'titles', 'achievements'}
 
@@ -92,8 +95,14 @@ def render(template, ctx, raw_keys):
     return out
 
 
-def page_url(code):
-    return f'{SITE}{code}/'
+def page_url(code, page='index'):
+    """正規URL。Cloudflare Pages は .html を外した URL で配信する"""
+    return f'{SITE}{code}/' + ('' if page == 'index' else page)
+
+
+def rel_href(page):
+    """同じ言語のフォルダの中のページへの相対リンク"""
+    return './' if page == 'index' else f'{page}.html'
 
 
 def plain(text):
@@ -107,28 +116,46 @@ def page_title(loc):
     return ui['meta']['gameName'] + ui['site']['titleSep'] + plain(ui['title']['lead'])
 
 
-def hreflang_links(locales):
-    out = [f'  <link rel="alternate" hreflang="{locales[c]["ui"]["site"]["hreflang"]}" href="{page_url(c)}">' for c in LANGS]
-    # どの言語にも当てはまらない人向け（x-default）は言語を選ぶページ
-    out.append(f'  <link rel="alternate" hreflang="x-default" href="{SITE}">')
+def x_default(page):
+    """どの言語にも当てはまらない人向け（x-default）。ゲームは言語を選ぶページ、文章のページは英語版"""
+    return SITE if page == 'index' else page_url('en', page)
+
+
+def hreflang_links(locales, page='index'):
+    out = [f'  <link rel="alternate" hreflang="{locales[c]["ui"]["site"]["hreflang"]}" href="{page_url(c, page)}">' for c in LANGS]
+    out.append(f'  <link rel="alternate" hreflang="x-default" href="{x_default(page)}">')
     return '\n'.join(out)
 
 
-def lang_nav(locales, code):
+def lang_nav(locales, code, page='index'):
+    """同じページのほかの言語へのリンク"""
     links = []
     for c in SPEAKER_ORDER:
         s = locales[c]['ui']['site']
         cur = ' aria-current="true"' if c == code else ''
-        links.append(f'<a href="../{c}/" hreflang="{s["hreflang"]}" lang="{s["htmlLang"]}" data-code="{c}"{cur}>{html.escape(s["langName"])}</a>')
+        links.append(f'<a href="../{c}/{"" if page == "index" else page + ".html"}" hreflang="{s["hreflang"]}" lang="{s["htmlLang"]}" data-code="{c}"{cur}>{html.escape(s["langName"])}</a>')
     return '      <nav class="lang-switch langs">' + ''.join(links) + '</nav>'
 
 
-def suggest_banner(locales, code):
+def site_nav(loc, code, page):
+    """画面下のサイト内メニュー（ゲームと文章のページで同じもの）。運営者情報とお問い合わせは nacn.app の共通のページ。
+    ul の data-consent-menu に、Cookie の同意のバナーのスクリプトが「Cookie の設定」を足す"""
+    nav = loc['ui']['nav']
+    items = [] if page == 'index' else [(rel_href('index'), nav['play'], False)]
+    items += [(rel_href('howto'), nav['howto'], page == 'howto'),
+              (f'https://nacn.app/{code}/about.html', nav['about'], False),
+              (rel_href('privacy'), nav['privacy'], page == 'privacy'),
+              (f'https://nacn.app/{code}/', nav['portal'], False)]
+    lis = ''.join(f'\n          <li><a href="{href}"{" aria-current=\"page\"" if cur else ""}>{html.escape(label)}</a></li>' for href, label, cur in items)
+    return f'      <nav class="site-nav" aria-label="{html.escape(nav["label"])}">\n        <ul data-consent-menu>{lis}\n        </ul>\n      </nav>'
+
+
+def suggest_banner(locales, code, page='index'):
     data = []
     for c in LANGS:
         s = locales[c]['ui']['site']
         data.append({'match': BROWSER_MATCH[c], 'text': s['suggest']['text'], 'link': s['suggest']['link'],
-                     'href': f'../{c}/', 'lang': s['htmlLang'], 'code': c, 'current': c == code})
+                     'href': f'../{c}/{"" if page == "index" else page + ".html"}', 'lang': s['htmlLang'], 'code': c, 'current': c == code})
     out = (SRC / 'parts' / 'suggest.html').read_text(encoding='utf-8').replace(
         '/*@SUGGEST@*/[]', json.dumps(data, ensure_ascii=False).replace('</', '<\\/'))
     return out.replace('{{closeLabel}}', html.escape(locales[code]['ui']['site']['suggest']['close']))
@@ -165,9 +192,21 @@ def build_game(locales, code):
     loc = locales[code]
     ctx = {**loc['ui'], 'code': code, 'v': ASSET_VER, 'pageTitle': page_title(loc), 'canonical': page_url(code),
            'hreflang': hreflang_links(locales), 'ogp': ogp(loc, code), 'jsonld': jsonld(loc, code),
-           'langNav': lang_nav(locales, code), 'suggestBanner': suggest_banner(locales, code)}
-    page = render((SRC / 'game.html').read_text(encoding='utf-8'), ctx, {'hreflang', 'ogp', 'jsonld', 'langNav', 'suggestBanner'})
+           'langNav': lang_nav(locales, code), 'siteNav': site_nav(loc, code, 'index'), 'suggestBanner': suggest_banner(locales, code)}
+    page = render((SRC / 'game.html').read_text(encoding='utf-8'), ctx, {'hreflang', 'ogp', 'jsonld', 'langNav', 'siteNav', 'suggestBanner'})
     return prerender(page, loc)
+
+
+def build_text_page(locales, code, page):
+    """文章のページ（遊び方・プライバシーポリシー）"""
+    loc = locales[code]
+    info = loc['ui']['pages'][page]
+    ctx = {**loc['ui'], 'code': code, 'v': ASSET_VER, 'page': info, 'canonical': page_url(code, page),
+           'fullTitle': info['title'] + loc['ui']['site']['titleSep'] + loc['ui']['meta']['gameName'],
+           'hreflang': hreflang_links(locales, page), 'langNav': lang_nav(locales, code, page),
+           'siteNav': site_nav(loc, code, page), 'suggestBanner': suggest_banner(locales, code, page),
+           'body': (SRC / 'pages' / code / f'{page}.html').read_text(encoding='utf-8').rstrip('\n')}
+    return render((SRC / 'page.html').read_text(encoding='utf-8'), ctx, {'hreflang', 'langNav', 'siteNav', 'suggestBanner', 'body'})
 
 
 def build_root(locales):
@@ -195,9 +234,12 @@ def build_404(locales):
 
 
 def build_sitemap(locales):
-    alts = ''.join(f'\n    <xhtml:link rel="alternate" hreflang="{locales[c]["ui"]["site"]["hreflang"]}" href="{page_url(c)}"/>' for c in LANGS)
-    rows = [f'  <url>\n    <loc>{SITE}</loc>{alts}\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}"/>\n  </url>']
-    rows += [f'  <url>\n    <loc>{page_url(c)}</loc>{alts}\n    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}"/>\n  </url>' for c in LANGS]
+    def alts(page):
+        links = ''.join(f'\n    <xhtml:link rel="alternate" hreflang="{locales[c]["ui"]["site"]["hreflang"]}" href="{page_url(c, page)}"/>' for c in LANGS)
+        return links + f'\n    <xhtml:link rel="alternate" hreflang="x-default" href="{x_default(page)}"/>'
+    rows = [f'  <url>\n    <loc>{SITE}</loc>{alts("index")}\n  </url>']
+    for page in ['index'] + TEXT_PAGES:
+        rows += [f'  <url>\n    <loc>{page_url(c, page)}</loc>{alts(page)}\n  </url>' for c in LANGS]
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<!-- build.py が書き出す -->\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
@@ -222,8 +264,7 @@ def with_consent(rel, text, locales):
         # ルートの言語を選ぶページと 404 は、初期値だけ（同意が要る人は、言語のページでバナーを見る）
         return text
     c = locales[code]['ui']['site']['consent']
-    # このゲームには自分のプライバシーポリシーがないので、サブドメインの全ゲームが対象の nacn.app のポリシーへ
-    values = {**c, 'policyHref': f'https://nacn.app/{code}/privacy.html'}
+    values = {**c, 'policyHref': f'/{code}/privacy.html'}
     banner = (SRC / 'parts' / 'consent.html').read_text(encoding='utf-8').rstrip('\n')
     for key, value in values.items():
         banner = banner.replace('{{' + key + '}}', html.escape(value, quote=True))
@@ -237,6 +278,8 @@ def main():
     files = {'index.html': build_root(locales), '404.html': build_404(locales), 'sitemap.xml': build_sitemap(locales)}
     for code in LANGS:
         files[f'{code}/index.html'] = build_game(locales, code)
+        for page in TEXT_PAGES:
+            files[f'{code}/{page}.html'] = build_text_page(locales, code, page)
     for rel, text in files.items():
         path = ROOT / rel
         path.parent.mkdir(parents=True, exist_ok=True)

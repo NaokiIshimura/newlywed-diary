@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="{{site.htmlLang}}" data-lang="{{code}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{fullTitle}}</title>
+  <meta name="description" content="{{page.description}}">
+  <link rel="canonical" href="{{canonical}}">
+{{hreflang}}
+  <meta name="theme-color" content="#faf6ef">
+  <link rel="stylesheet" href="../css/style.css?v={{v}}">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+</head>
+<body>
+  <main id="app" class="doc">
+    <a class="doc-back" href="./">← {{meta.gameName}}</a>
+    <h1>{{page.title}}</h1>
+    <article class="doc-body">
+{{body}}
+    </article>
+{{siteNav}}
+{{langNav}}
+  </main>
+{{suggestBanner}}
+</body>
+</html>
