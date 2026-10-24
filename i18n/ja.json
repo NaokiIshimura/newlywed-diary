@@ -196,7 +196,7 @@
       "facility": "施設に入ってもらう",
       "facilitySub": "年{annual:money}",
       "home": "家で介護する",
-      "homeSub": "年{annual:money}・パートナーは介護のあいだ仕事を離れる"
+      "homeSub": "年{annual:money}・パートナーは介護のあいだ時短・パートになる"
     }
   },
   "result": {
@@ -287,6 +287,7 @@
     "jobAccepted": "転職した。年収は{pct:signed}%になった。",
     "jobDeclined": "転職の誘いは断った。",
     "careHomeLeaveWork": "親の介護が始まった。パートナーが仕事を離れて、家で介護することにした（{years}年の見込み）。",
+    "careHomeReduceWork": "親の介護が始まった。パートナーが時短・パートに切り替えて、家で介護することにした（{years}年の見込み）。",
     "careHome": "親の介護が始まった。家で介護することにした（{years}年の見込み）。",
     "careFacility": "親の介護が始まった。施設に入ってもらうことにした（{years}年の見込み）。",
     "scholarshipTakeover": "子どもの奨学金{amount:money}を、親が肩代わりして返すことになった。",

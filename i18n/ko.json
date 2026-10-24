@@ -196,7 +196,7 @@
       "facility": "요양 시설에 모신다",
       "facilitySub": "연 {annual:money}",
       "home": "집에서 간병한다",
-      "homeSub": "연 {annual:money} · 간병 동안 배우자는 일을 쉰다"
+      "homeSub": "연 {annual:money} · 간병 동안 배우자는 단축·파트타임으로 일한다"
     }
   },
   "result": {
@@ -287,6 +287,7 @@
     "jobAccepted": "이직했다. 연봉이 {pct:signed}% 바뀌었다.",
     "jobDeclined": "이직 제안은 거절했다.",
     "careHomeLeaveWork": "부모님 간병이 시작됐다. 배우자가 일을 쉬고 집에서 간병하기로 했다({years}년 예상).",
+    "careHomeReduceWork": "부모님 간병이 시작됐다. 배우자가 단축·파트타임으로 바꾸고 집에서 간병하기로 했다({years}년 예상).",
     "careHome": "부모님 간병이 시작됐다. 집에서 간병하기로 했다({years}년 예상).",
     "careFacility": "부모님 간병이 시작됐다. 요양 시설에 모시기로 했다({years}년 예상).",
     "scholarshipTakeover": "아이의 학자금 대출 {amount:money}을 부모가 대신 갚게 됐다.",

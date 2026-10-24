@@ -424,9 +424,11 @@ export function choose(data, state, event, choice) {
       const home = choice.mode === "home";
       if (home) state.flags.homeCare = true;
       state.care = { mode: choice.mode, annual: home ? def.homeAnnual : def.facilityAnnual, untilYear: state.year + event.years, prevWorkStyle: state.workStyle };
-      if (home && state.workStyle !== "single") {
-        state.workStyle = "single";
-        addHistory(state, "h.careHomeLeaveWork", { years: event.years });
+      // 家で介護するあいだは、パートナーの働き方を data の homeWorkStyle まで減らす（今の働き方のほうが少なければそのまま）
+      const rate = (w) => data.workStyles[w].partnerRate;
+      if (home && rate(state.workStyle) > rate(def.homeWorkStyle)) {
+        state.workStyle = def.homeWorkStyle;
+        addHistory(state, def.homeWorkStyle === "single" ? "h.careHomeLeaveWork" : "h.careHomeReduceWork", { years: event.years });
       } else if (home) {
         addHistory(state, "h.careHome", { years: event.years });
       } else {
@@ -597,7 +599,7 @@ export function endYear(data, state) {
     const { prevWorkStyle, mode } = state.care;
     state.care = null;
     addHistory(state, "h.careEnded");
-    if (mode === "home" && prevWorkStyle !== "single") setWorkStyle(data, state, prevWorkStyle);
+    if (mode === "home" && prevWorkStyle !== state.workStyle) setWorkStyle(data, state, prevWorkStyle);
   }
 
   const youngestBefore = Math.min(...state.children.map((c) => c.age));

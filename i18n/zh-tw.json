@@ -196,7 +196,7 @@
       "facility": "請他們住進安養機構",
       "facilitySub": "每年{annual:money}",
       "home": "在家照顧",
-      "homeSub": "每年{annual:money}·照顧期間另一半離開職場"
+      "homeSub": "每年{annual:money}·照顧期間另一半改為短工時·兼職"
     }
   },
   "result": {
@@ -287,6 +287,7 @@
     "jobAccepted": "跳槽了。年收入變動{pct:signed}%。",
     "jobDeclined": "婉拒了跳槽邀約。",
     "careHomeLeaveWork": "開始照顧父母了。另一半離開職場，決定在家照顧（預計{years}年）。",
+    "careHomeReduceWork": "開始照顧父母了。另一半改為短工時·兼職，決定在家照顧（預計{years}年）。",
     "careHome": "開始照顧父母了。決定在家照顧（預計{years}年）。",
     "careFacility": "開始照顧父母了。決定請他們住進安養機構（預計{years}年）。",
     "scholarshipTakeover": "孩子的學貸{amount:money}，由爸媽代為償還。",
