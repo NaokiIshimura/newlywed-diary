@@ -23,7 +23,7 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-// info: { rank, ending, title, netWorth, lines: [string], hashtag }
+// info: { gameName, rank, ending, titleLabel, title, netWorthLabel, netWorth, lines: [string], hashtag }
 export function drawShareCard(canvas, info) {
   canvas.width = W;
   canvas.height = H;
@@ -53,11 +53,11 @@ export function drawShareCard(canvas, info) {
   ctx.fillStyle = COLORS.accent;
   ctx.font = `bold 40px ${FONT}`;
   ctx.textBaseline = "alphabetic";
-  ctx.fillText("新婚日記", 96, 116);
+  ctx.fillText(info.gameName, 96, 116, 640);
   ctx.fillStyle = COLORS.muted;
   ctx.font = `26px ${FONT}`;
   ctx.textAlign = "right";
-  ctx.fillText(info.hashtag, W - 96, 116);
+  ctx.fillText(info.hashtag, W - 96, 116, 380);
   ctx.textAlign = "left";
 
   // ランク
@@ -67,17 +67,17 @@ export function drawShareCard(canvas, info) {
   ctx.fillText(info.rank, 290, 410);
   ctx.font = `bold 40px ${FONT}`;
   ctx.fillStyle = COLORS.ink;
-  ctx.fillText(info.ending, 290, 486);
+  ctx.fillText(info.ending, 290, 486, 420);
   ctx.textAlign = "left";
 
   // 称号と純資産
   const x = 540;
   ctx.fillStyle = COLORS.muted;
   ctx.font = `28px ${FONT}`;
-  ctx.fillText("称号", x, 206);
+  ctx.fillText(info.titleLabel, x, 206);
   ctx.fillStyle = COLORS.ink;
   ctx.font = `bold 52px ${FONT}`;
-  ctx.fillText(info.title, x, 262);
+  ctx.fillText(info.title, x, 262, W - 96 - x);
 
   ctx.fillStyle = COLORS.muted;
   ctx.font = `28px ${FONT}`;
@@ -88,7 +88,7 @@ export function drawShareCard(canvas, info) {
 
   ctx.fillStyle = COLORS.ink;
   ctx.font = `28px ${FONT}`;
-  info.lines.forEach((line, i) => ctx.fillText(line, x, 432 + i * 56));
+  info.lines.forEach((line, i) => ctx.fillText(line, x, 432 + i * 56, W - 96 - x));
 }
 
 export function canvasToBlob(canvas) {

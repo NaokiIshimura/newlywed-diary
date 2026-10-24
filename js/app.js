@@ -1,4 +1,4 @@
-// 画面の操作。ゲームの計算は engine.js にまかせる。
+// 画面の操作。ゲームの計算は engine.js、文は i18n.js にまかせる。
 import {
   SAVE_VERSION,
   SCHOOL_STAGES,
@@ -20,21 +20,54 @@ import {
   rankOf,
   titleOf,
 } from "./engine.js";
+import { LANGS, applyStatic, currentLang, detectLang, loadLang, money, t } from "./i18n.js";
 import { illustFor } from "./illust.js";
 import { canvasToBlob, drawShareCard } from "./share.js";
 import { clearAll, loadRecords, loadSave, loadSettings, recordResult, writeSave, writeSettings } from "./storage.js";
 
+const PROFILE = "jp"; // v1 は日本プロファイルだけ
 const SPEED_MS = { 1: 900, 2: 400 };
 
 const $ = (sel) => document.querySelector(sel);
-const man = (v) => `${(Math.round(v) || 0).toLocaleString()}万円`;
-const signed = (v) => `${v >= 0 ? "+" : "−"}${Math.abs(Math.round(v)).toLocaleString()}`;
 
 let data;
 let state = null;
 let speed = 1;
 let timer = null;
 let settings = loadSettings();
+
+// ---- 言語 ----
+
+async function setLang(code) {
+  await loadLang(code, data, PROFILE);
+  applyStatic();
+  document.title = t("meta.title");
+  document.querySelector('meta[name="description"]').content = t("meta.description");
+  renderLangSwitch();
+  updateMoneyHints();
+}
+
+function renderLangSwitch() {
+  const code = currentLang().code;
+  $("#lang-switch").innerHTML = LANGS.map((l) => (l.code === code ? `<strong>${l.name}</strong>` : `<a href="?lang=${l.code}" data-lang="${l.code}">${l.name}</a>`)).join("");
+  $("#settings-lang").innerHTML = LANGS.map((l) => `<option value="${l.code}"${l.code === code ? " selected" : ""}>${l.name}</option>`).join("");
+}
+
+async function changeLang(code) {
+  settings = { ...settings, lang: code };
+  writeSettings(settings);
+  const url = new URL(location.href);
+  url.searchParams.set("lang", code);
+  history.replaceState(null, "", url);
+  await setLang(code);
+}
+
+$("#lang-switch").addEventListener("click", (e) => {
+  const code = e.target.dataset?.lang;
+  if (!code) return;
+  e.preventDefault();
+  changeLang(code);
+});
 
 // ---- 保存 ----
 
@@ -51,6 +84,7 @@ function load() {
 
 function show(id) {
   for (const el of document.querySelectorAll(".screen")) el.hidden = el.id !== id;
+  window.scrollTo(0, 0);
 }
 
 function showTitle() {
@@ -75,6 +109,14 @@ function fillForm(s) {
   form.incomeA.value = s.income.a;
   form.incomeB.value = s.income.b;
   form.workStyle.value = s.workStyle;
+  updateMoneyHints();
+}
+
+// 金額の入力欄の下に、表示用の金額（日本語以外では円の額）を出す
+function updateMoneyHints() {
+  for (const out of document.querySelectorAll("[data-money-for]")) {
+    out.textContent = currentLang().code === "ja" ? "" : `= ${money(Number(form[out.dataset.moneyFor].value) || 0)}`;
+  }
 }
 
 function readForm() {
@@ -99,9 +141,11 @@ form.age.addEventListener("input", () => {
   const median = Math.round(medianIncome(data, readForm().age) / 10) * 10;
   if (!incomeEdited.a) form.incomeA.value = median;
   if (!incomeEdited.b) form.incomeB.value = median;
+  updateMoneyHints();
 });
 form.incomeA.addEventListener("input", () => (incomeEdited.a = true));
 form.incomeB.addEventListener("input", () => (incomeEdited.b = true));
+form.addEventListener("input", updateMoneyHints);
 
 form.addEventListener("click", (e) => {
   const key = e.target.dataset?.random;
@@ -117,6 +161,7 @@ form.addEventListener("click", (e) => {
     form[key].value = Math.round((median * (0.7 + Math.random() * 0.6)) / 10) * 10;
     incomeEdited[key === "incomeA" ? "a" : "b"] = true;
   } else if (key === "workStyle") form.workStyle.value = r.workStyle;
+  updateMoneyHints();
 });
 
 form.addEventListener("submit", (e) => {
@@ -125,18 +170,17 @@ form.addEventListener("submit", (e) => {
 });
 
 $("#btn-omakase").addEventListener("click", () => startGame(randomSettings(data, newSeed())));
-$("#btn-setup-back").addEventListener("click", showTitle);
 
 // ---- メイン ----
 
-function startGame(settings) {
-  state = createGame(data, settings);
+function startGame(start) {
+  state = createGame(data, start);
   $("#diary").replaceChildren();
   shown = 0;
   flushDiary();
   addDiary(
     state.age,
-    `貯金${man(state.savings)}、年収はふたりで${man(settings.income.a + settings.income.b)}。${data.workStyles[state.workStyle].fullLabel}でスタート。`,
+    t("main.startLine", { savings: state.savings, income: start.income.a + start.income.b, workStyle: t(`workStyles.${state.workStyle}.fullLabel`) }),
   );
   enterMain();
 }
@@ -147,7 +191,7 @@ function continueGame() {
   $("#diary").replaceChildren();
   shown = 0;
   flushDiary();
-  addDiary(state.age, "続きから再開した。");
+  addDiary(state.age, t("main.resumed"));
   enterMain();
 }
 
@@ -157,44 +201,39 @@ function enterMain() {
   setSpeed(settings.speed);
 }
 
-function addDiary(age, text, money) {
+function addDiary(age, html, moneyHtml) {
   const li = document.createElement("li");
-  const a = document.createElement("span");
-  a.className = "age";
-  a.textContent = `${age}歳`;
-  li.append(a, text);
-  if (money) {
-    const m = document.createElement("span");
-    m.className = "money";
-    m.innerHTML = money;
-    li.append(" ", m);
-  }
+  li.innerHTML = `<span class="age">${t("main.age", { n: age })}</span>${html}${moneyHtml ? ` <span class="money">${moneyHtml}</span>` : ""}`;
   const list = $("#diary");
   list.append(li);
   list.scrollTop = list.scrollHeight;
 }
 
+// 日記の出来事（キーと値）を、今の言語の文にする
+const historyText = (h) => t(h.key, h.params);
+
 // まだ日記に書いていない出来事を書く
 let shown = 0;
 function flushDiary() {
-  for (const h of state.history.slice(shown)) addDiary(h.age, h.text);
+  for (const h of state.history.slice(shown)) addDiary(h.age, historyText(h));
   shown = state.history.length;
 }
 
 function renderStatus() {
-  const kids = state.children.length ? state.children.map((c) => (c.independent ? "独立" : `${c.age}歳`)).join("・") : "なし";
-  const car = state.car ? data.events.car.options.find((o) => o.tier === state.car.tier).label : "なし";
-  const home = state.house
-    ? data.events.house.options.find((o) => o.tier === state.house.tier).label
-    : state.rentMode === "family" ? "賃貸（家族向け）" : "賃貸";
+  const s = (k, p) => t(`main.status.${k}`, p);
+  const kids = state.children.length
+    ? state.children.map((c) => (c.independent ? s("independent") : s("childAge", { n: c.age }))).join(s("listSep"))
+    : s("none");
+  const car = state.car ? t(`events.car.${state.car.tier}.label`) : s("none");
+  const home = state.house ? t(`events.house.${state.house.tier}.label`) : state.rentMode === "family" ? s("familyRent") : s("rent");
   const items = [
-    ["年齢", `${state.age}歳`],
-    ["結婚", `${state.year + 1}年目`],
-    ["貯金", man(state.savings), "savings" + (state.savings < 0 ? " minus" : "")],
-    ["働き方", data.workStyles[state.workStyle].label + (state.care ? "・介護中" : "")],
-    ["子ども", kids],
-    ["車", car],
-    ["住まい", home],
+    [s("age"), t("main.age", { n: state.age })],
+    [s("married"), s("marriedYear", { n: state.year + 1 })],
+    [s("savings"), money(state.savings), "savings" + (state.savings < 0 ? " minus" : "")],
+    [s("workStyle"), t(`workStyles.${state.workStyle}.label`) + (state.care ? s("caring") : "")],
+    [s("children"), kids],
+    [s("car"), car],
+    [s("home"), home],
   ];
   $("#status").replaceChildren(
     ...items.map(([label, value, cls]) => {
@@ -234,12 +273,7 @@ function tick() {
   }
   const r = endYear(data, state);
   if (settings.yearSummary) showYearSummary(r);
-  const cls = r.delta >= 0 ? "plus" : "minus";
-  addDiary(
-    r.age,
-    "年末",
-    `収入 ${Math.round(r.income).toLocaleString()}・支出 ${Math.round(r.expense).toLocaleString()}（<span class="${cls}">${signed(r.delta)}</span>）→ ${man(r.savings)}`,
-  );
+  addDiary(r.age, t("main.yearEnd"), t("main.yearEndMoney", { income: r.income, expense: r.expense, delta: r.delta, savings: r.savings }));
   flushDiary();
   renderStatus();
   save();
@@ -250,20 +284,16 @@ function tick() {
 }
 
 // 年末の収支を数秒だけ表示する
-const ITEM_LABEL = {
-  living: "生活費", child: "子ども", education: "教育費", housing: "住居費", loan: "ローン", car: "車",
-  breakdown: "車の故障", care: "介護", scholarship: "奨学金", interest: "利息",
-};
 let summaryTimer = null;
 function showYearSummary(r) {
   const el = $("#year-summary");
   const rows = Object.entries(r.items)
     .filter(([, v]) => v > 0.5)
-    .map(([k, v]) => `<span>${ITEM_LABEL[k]}</span><span class="num minus">−${Math.round(v).toLocaleString()}</span>`)
+    .map(([k, v]) => `<span>${t(`summary.items.${k}`)}</span><span class="num minus">−${money(v)}</span>`)
     .join("");
   el.innerHTML = `
-    <div class="ys-head">${r.age}歳の家計 <span class="${r.delta >= 0 ? "plus" : "minus"}">${signed(r.delta)}万円</span></div>
-    <div class="ys-grid"><span>収入</span><span class="num plus">+${Math.round(r.income).toLocaleString()}</span>${rows}</div>`;
+    <div class="ys-head">${t("summary.head", { age: r.age })} ${t("summary.unit", { delta: r.delta })}</div>
+    <div class="ys-grid"><span>${t("summary.income")}</span><span class="num plus">+${money(r.income)}</span>${rows}</div>`;
   el.hidden = false;
   clearTimeout(summaryTimer);
   summaryTimer = setTimeout(() => (el.hidden = true), speed === 2 ? 1200 : 2000);
@@ -271,82 +301,70 @@ function showYearSummary(r) {
 
 // ---- イベント ----
 
-const TIER_LABEL = { high: "高い", mid: "普通", low: "安い" };
-const LATER = "今は買わない（3年後にまた考える）";
-
 function childName(i) {
-  return state.children.length > 1 ? `${i + 1}人目の子ども` : "子ども";
+  return state.children.length > 1 ? t("event.childNth", { n: i + 1 }) : t("event.child");
 }
 
 function describe(ev) {
+  const e = (k, p) => t(`event.${ev.id}.${k}`, p);
+  const buy = { yes: t("event.car.yes"), no: t("event.later") };
   switch (ev.id) {
     case "wedding":
-      return { title: "結婚式", text: "結婚式を挙げますか？", yes: "やる", no: "やらない" };
     case "honeymoon":
-      return { title: "新婚旅行", text: "新婚旅行に行きますか？", yes: "行く", no: "行かない" };
+    case "familyTrip":
+      return { title: e("title"), text: e("text", { n: state.year }), yes: e("yes"), no: e("no") };
     case "childPlan":
-      return state.children.length
-        ? { title: "子ども", text: `子どもは${state.children.length}人。もうひとり望みますか？` }
-        : { title: "子ども", text: "子どもを望みますか？望む場合は、毎年一定の確率で生まれます。" };
-    case "workStyle": {
-      const why = { birth: "子どもが生まれた。", elementary: "末っ子が小学校に入学する。", juniorHigh: "末っ子が中学校に入学する。" }[ev.reason];
-      return { title: "働き方の見直し", text: `${why}パートナーの働き方をどうしますか？（今は${data.workStyles[state.workStyle].fullLabel}）` };
-    }
+      return { title: e("title"), text: state.children.length ? e("textNext", { n: state.children.length }) : e("textFirst") };
+    case "workStyle":
+      return { title: e("title"), text: e("text", { why: t(`event.workStyle.why.${ev.reason}`), current: t(`workStyles.${state.workStyle}.fullLabel`) }) };
     case "childcare":
-      return { title: "保育", text: `${childName(ev.child)}の0〜5歳の預け先を決めます。` };
     case "elementary":
-      return { title: "小学校", text: `${childName(ev.child)}が小学校に入学します（6年間）。` };
     case "juniorHigh":
-      return { title: "中学校", text: `${childName(ev.child)}が中学校に入学します（3年間）。` };
     case "highSchool":
-      return { title: "高校", text: `${childName(ev.child)}が高校に進学します（3年間）。` };
+      return { title: e("title"), text: e("text", { child: childName(ev.child) }) };
     case "university":
-      return { title: "大学", text: `${childName(ev.child)}は高校を卒業します。進学しますか？`, yes: "進学する", no: "就職する" };
+      return { title: e("title"), text: e("text", { child: childName(ev.child) }), yes: e("yes"), no: e("no") };
     case "car":
       return ev.replace
-        ? { title: "車の買い替え", text: `車を買って${state.year - state.car.boughtYear}年。今の車を${man(carValue(state.car, state.year))}で手放して、新しい車を買いますか？`, yes: "買う", no: LATER, never: "生涯持たない" }
-        : { title: "車の購入", text: "車を買いますか？", yes: "買う", no: LATER, never: "生涯持たない" };
+        ? { title: e("titleReplace"), text: e("textReplace", { years: state.year - state.car.boughtYear, value: carValue(state.car, state.year) }), ...buy, never: e("never") }
+        : { title: e("titleBuy"), text: e("textBuy"), ...buy, never: e("never") };
     case "house":
-      return { title: "マイホーム", text: `家を買いますか？頭金は20%（貯金が足りなければ貯金の範囲）、残りは35年ローン（金利1.5%）で返します。買わない場合は家族向けの広い賃貸（年${data.familyRent}万円）に住みます。`, yes: "買う", no: LATER, never: "生涯賃貸" };
-    case "repair":
-      return { title: "家の修繕", text: "家のあちこちが傷んできた。どう直しますか？" };
-    case "familyTrip":
-      return { title: "家族旅行・記念日", text: `結婚${state.year}年目の記念日。旅行に行きますか？`, yes: "行く", no: "行かない" };
-    case "jobOffer":
-      return { title: "転職の誘い", text: "主人公に転職の誘いがきた。年収は上がるかもしれないし、下がるかもしれない（±20%）。" };
+      return { title: e("title"), text: e("text", { rent: data.familyRent }), yes: e("yes"), no: t("event.later"), never: e("never") };
     case "care":
-      return { title: "親の介護", text: `親の介護が必要になった（${ev.years}年の見込み）。どうしますか？` };
+      return { title: e("title"), text: e("text", { years: ev.years }) };
+    default:
+      return { title: e("title"), text: e("text") };
   }
 }
 
 function optionDetail(ev, opt) {
   switch (ev.id) {
     case "wedding":
-      return `${man(opt.oneTime)}（ご祝儀 +${man(opt.gift)}）`;
+      return t("event.wedding.detail", { cost: opt.oneTime, gift: opt.gift });
     case "car":
-      return `${man(opt.oneTime)}・維持費 年${opt.annual}万円・${opt.years}年後に${man(opt.resale)}で売却${opt.breakdownChance >= 0.2 ? "・故障しやすい" : ""}`;
+      return t("event.car.detail", { cost: opt.oneTime, annual: opt.annual, years: opt.years, resale: opt.resale }) + (opt.breakdownChance >= 0.2 ? t("event.car.fragile") : "");
     case "house": {
       const h = data.events.house;
       const down = downPayment(data, state, opt.oneTime);
       const loan = loanPayment(opt.oneTime - down, h.loanRate, h.loanYears);
       const fixed = Object.values(opt.annual).reduce((x, y) => x + y, 0);
-      return `${man(opt.oneTime)}（頭金 ${man(down)}）・ローン 年${Math.round(loan)}万円・固定費 年${fixed}万円${opt.majorRepair ? "・修繕が多い" : ""}`;
+      return t("event.house.detail", { cost: opt.oneTime, down, loan, fixed }) + (opt.majorRepair ? t("event.house.manyRepairs") : "");
     }
     case "repair":
-      return `${man(immediateCost(data, state, ev, { tier: opt.tier }))}・次に傷むまで${opt.freeYears}年`;
+      return t("event.repair.detail", { cost: immediateCost(data, state, ev, { tier: opt.tier }), years: opt.freeYears });
     case "childcare":
     case "elementary":
     case "juniorHigh":
     case "highSchool":
     case "university":
-      return `年${opt.annual}万円${opt.boarding ? "（下宿・生活費こみ）" : ""}`;
+      return t("event.schoolDetail", { annual: opt.annual }) + (opt.boarding ? t("event.boarding") : "");
     default:
-      return man(opt.oneTime);
+      return money(opt.oneTime);
   }
 }
 
 function predicted(ev, choice) {
-  return `→ 貯金 ${man(state.savings - immediateCost(data, state, ev, choice))}`;
+  return t("event.predicted", { money: state.savings - immediateCost(data, state, ev, choice) });
 }
 
 function button(label, sub, onClick, primary) {
@@ -359,8 +377,8 @@ function button(label, sub, onClick, primary) {
 
 function partnerIncomeText(workStyle) {
   const rate = data.workStyles[workStyle].partnerRate;
-  if (rate === 0) return "パートナーの年収 0";
-  return `パートナーの年収 約${man(state.baseIncome.b * rate * (medianIncome(data, state.age) / medianIncome(data, state.startAge)))}`;
+  if (rate === 0) return t("event.workStyle.partnerIncomeZero");
+  return t("event.workStyle.partnerIncome", { money: state.baseIncome.b * rate * (medianIncome(data, state.age) / medianIncome(data, state.startAge)) });
 }
 
 function openEvent(ev) {
@@ -368,7 +386,7 @@ function openEvent(ev) {
   $("#year-summary").hidden = true;
   $("#modal-illust").innerHTML = illustFor(ev.id);
   $("#modal-title").textContent = d.title;
-  $("#modal-text").textContent = d.text;
+  $("#modal-text").innerHTML = d.text;
   const box = $("#modal-options");
   const decide = (choice) => {
     $("#modal").hidden = true;
@@ -386,55 +404,62 @@ function openEvent(ev) {
   // 大学は、進学先のあとに期間を選ぶ
   const durations = (tier) => {
     box.replaceChildren(
-      ...data.events.university.durations.map((y) => button(`${y}年`, y === 6 ? "医学部・薬学部・大学院（修士）など" : "", () => decide({ tier, years: y }))),
-      button("戻る", "", tiers),
+      ...data.events.university.durations.map((y) =>
+        button(t("event.university.years", { n: y }), y === 6 ? t("event.university.years6Note") : "", () => decide({ tier, years: y })),
+      ),
+      button(t("event.back"), "", tiers),
     );
   };
 
   const tiers = () => {
     const opts = data.events[ev.id].options.map((o) => {
+      const label = t("event.tierOption", { tier: t(`event.tier.${o.tier}`), label: t(`events.${ev.id}.${o.tier}.label`) });
       const sub = SCHOOL_STAGES.includes(ev.id) ? optionDetail(ev, o) : `${optionDetail(ev, o)}<br>${predicted(ev, { tier: o.tier })}`;
-      return button(`${TIER_LABEL[o.tier]}：${o.label}`, sub, () => (ev.id === "university" ? durations(o.tier) : decide({ tier: o.tier })));
+      return button(label, sub, () => (ev.id === "university" ? durations(o.tier) : decide({ tier: o.tier })));
     });
-    if (d.yes) opts.push(button("戻る", "", firstStep));
+    if (d.yes) opts.push(button(t("event.back"), "", firstStep));
     box.replaceChildren(...opts);
   };
 
   const firstStep = () => {
+    const e = (k, p) => t(`event.${ev.id}.${k}`, p);
     switch (ev.id) {
       case "childPlan":
         return box.replaceChildren(
-          button("望む", "", () => decide({ plan: "want" }), true),
-          button("今は望まない", "3年後にまた考える", () => decide({ plan: "not_now" })),
-          button("生涯持たない", "以降は聞かれません", () => decide({ plan: "never" })),
+          button(e("want"), "", () => decide({ plan: "want" }), true),
+          button(e("notNow"), e("notNowSub"), () => decide({ plan: "not_now" })),
+          button(e("never"), e("neverSub"), () => decide({ plan: "never" })),
         );
       case "workStyle":
         return box.replaceChildren(
           ...data.events.workStyle.options.map((o) =>
             button(
-              data.workStyles[o.workStyle].fullLabel + (o.workStyle === state.workStyle ? "（今のまま）" : ""),
-              partnerIncomeText(o.workStyle) + (o.workStyle === "single" ? "<br>復帰するとき、離れていた年数ぶん年収が下がる" : ""),
+              t(`workStyles.${o.workStyle}.fullLabel`) + (o.workStyle === state.workStyle ? e("current") : ""),
+              partnerIncomeText(o.workStyle) + (o.workStyle === "single" ? `<br>${e("singleNote")}` : ""),
               () => decide({ workStyle: o.workStyle }),
             ),
           ),
         );
       case "jobOffer":
         return box.replaceChildren(
-          button("転職する", "年収が −20%〜+20% のどこかに変わる", () => decide({ accept: true })),
-          button("断る", "年収はそのまま", () => decide({ accept: false })),
+          button(e("accept"), e("acceptSub"), () => decide({ accept: true })),
+          button(e("decline"), e("declineSub"), () => decide({ accept: false })),
         );
       case "care": {
         const c = data.random.events.care;
         return box.replaceChildren(
-          button("施設に入ってもらう", `年${c.facilityAnnual}万円`, () => decide({ mode: "facility" })),
-          button("家で介護する", `年${c.homeAnnual}万円・パートナーは介護のあいだ仕事を離れる`, () => decide({ mode: "home" })),
+          button(e("facility"), e("facilitySub", { annual: c.facilityAnnual }), () => decide({ mode: "facility" })),
+          button(e("home"), e("homeSub", { annual: c.homeAnnual }), () => decide({ mode: "home" })),
         );
       }
     }
     if (!d.yes) return tiers();
-    const noSub = ev.id === "house" ? `家賃 年${data.familyRent}万円<br>${predicted(ev, { skip: true })}` : ev.id === "university" ? "18歳で独立。仕送りをもらえる確率が上がる" : predicted(ev, { skip: true });
+    const noSub =
+      ev.id === "house" ? `${t("event.house.rentSub", { rent: data.familyRent })}<br>${predicted(ev, { skip: true })}`
+      : ev.id === "university" ? t("event.university.noSub")
+      : predicted(ev, { skip: true });
     const opts = [button(d.yes, "", tiers, true), button(d.no, noSub, () => decide({ skip: true }))];
-    if (d.never) opts.push(button(d.never, `以降は提案されません<br>${predicted(ev, { never: true })}`, () => decide({ never: true })));
+    if (d.never) opts.push(button(d.never, `${t("event.neverSub")}<br>${predicted(ev, { never: true })}`, () => decide({ never: true })));
     box.replaceChildren(...opts);
   };
 
@@ -444,19 +469,20 @@ function openEvent(ev) {
 
 // ---- リザルト ----
 
-const NEW = '<span class="new">NEW</span>';
+const newBadge = () => `<span class="new">${t("result.new")}</span>`;
 
 function endingOf(nw) {
-  if (state.ended === "bankrupt") return { key: "bankrupt", rank: "―", ...data.bankruptEnding };
-  const r = rankOf(data, nw.total);
-  return { key: r.rank, ...r };
+  const key = state.ended === "bankrupt" ? "bankrupt" : rankOf(data, nw.total).rank;
+  return { key, rank: key === "bankrupt" ? "―" : key, ending: t(`ranks.${key}.ending`), comment: t(`ranks.${key}.comment`) };
 }
 
-function lifeLines(nw) {
-  const kids = state.children.length ? `子ども${state.children.length}人` : "子どもなし";
-  const home = state.house ? data.events.house.options.find((o) => o.tier === state.house.tier).label : "賃貸";
-  const car = state.car ? data.events.car.options.find((o) => o.tier === state.car.tier).label : state.carNever ? "車なし" : "車なし";
-  return [`${state.startAge}歳で結婚 → ${state.age}歳${state.ended === "bankrupt" ? "で破綻" : "で定年"}`, `${kids}・${home}・${car}`];
+function lifeLines() {
+  const r = (k, p) => t(`result.${k}`, p);
+  const kids = state.children.length ? r("kids", { n: state.children.length }) : r("noKids");
+  const home = state.house ? t(`events.house.${state.house.tier}.label`) : r("rent");
+  const car = state.car ? t(`events.car.${state.car.tier}.label`) : r("noCar");
+  const sep = t("main.status.listSep");
+  return [r(state.ended === "bankrupt" ? "lifeBankrupt" : "lifeRetire", { start: state.startAge, end: state.age }), [kids, home, car].join(sep)];
 }
 
 function showResult() {
@@ -465,96 +491,99 @@ function showResult() {
   const title = titleOf(data, state);
   const achieved = achievementsOf(data, state);
   if (!state.recorded) {
-    state.fresh = recordResult({ ending: ending.key, title: title.id, achievements: achieved, netWorth: state.ended === "retire" ? nw.total : null });
+    state.fresh = recordResult({ ending: ending.key, title, achievements: achieved, netWorth: state.ended === "retire" ? nw.total : null });
     state.recorded = true;
   }
   const fresh = state.fresh;
   const mid = compareWithMid(data, state);
-  const t = state.totals;
-  const row = (label, v, cls = "") => `<tr class="${cls}"><td>${label}</td><td class="num">${man(v)}</td></tr>`;
+  const tt = state.totals;
+  const r = (k, p) => t(`result.${k}`, p);
+  const row = (label, v, cls = "") => `<tr class="${cls}"><td>${label}</td><td class="num">${money(v)}</td></tr>`;
+  const bankrupt = state.ended === "bankrupt";
 
   const spending = [
-    ["生活費", t.living + t.child],
-    ["教育費", t.education + t.scholarship],
-    ["住居費", t.housing + t.house + t.repair],
-    ["車", t.car],
-    ["イベント（結婚式・旅行）", t.wedding + t.leisure],
-    ["その他（介護・医療・利息）", t.care + t.medical + t.interest],
+    ["living", tt.living + tt.child],
+    ["education", tt.education + tt.scholarship],
+    ["housing", tt.housing + tt.house + tt.repair],
+    ["car", tt.car],
+    ["events", tt.wedding + tt.leisure],
+    ["other", tt.care + tt.medical + tt.interest],
   ];
   const maxSpend = Math.max(...spending.map(([, v]) => v), 1);
-  const compare =
-    state.ended === "bankrupt" ? ""
-    : mid === null ? `<p class="compare">同じ条件で「全部普通」を選ぶと破綻していました。</p>`
-    : `<p class="compare">同じ条件で「全部普通」を選んだ場合（${man(mid)}）より <strong class="${nw.total - mid >= 0 ? "plus" : "minus"}">${signed(nw.total - mid)}万円</strong></p>`;
+  const compare = bankrupt ? "" : `<p class="compare">${mid === null ? r("compareBankrupt") : r("compare", { mid, diff: `<strong>${signedMoneyHtml(nw.total - mid)}</strong>` })}</p>`;
 
   $("#result").innerHTML = `
     <div class="result-head">
       <div class="rank">${ending.rank}</div>
-      <p class="ending">${ending.ending}${fresh.ending ? NEW : ""}</p>
+      <p class="ending">${ending.ending}${fresh.ending ? newBadge() : ""}</p>
       <p class="comment">${ending.comment}</p>
-      <p class="title-badge"><span class="label">称号</span>${title.name}${fresh.title ? NEW : ""}<span class="sub">${title.desc}</span></p>
-      <p class="note">${lifeLines(nw).join("<br>")}</p>
+      <p class="title-badge"><span class="label">${r("titleLabel")}</span>${t(`titles.${title}.name`)}${fresh.title ? newBadge() : ""}<span class="sub">${t(`titles.${title}.desc`)}</span></p>
+      <p class="note">${lifeLines().join("<br>")}</p>
     </div>
     <section>
-      <h3>${state.ended === "bankrupt" ? "破綻時" : "定年時"}の純資産</h3>
+      <h3>${r(bankrupt ? "netWorthBankrupt" : "netWorthRetire")}</h3>
       <table>
-        ${row("貯金", nw.savings)}
-        ${row("家の評価額", nw.house)}
-        ${row("車の評価額", nw.car)}
-        ${row("ローン残高", -nw.loan)}
-        ${row("純資産", nw.total, "total")}
+        ${row(r("savings"), nw.savings)}
+        ${row(r("houseValue"), nw.house)}
+        ${row(r("carValue"), nw.car)}
+        ${row(r("loan"), -nw.loan)}
+        ${row(r("netWorth"), nw.total, "total")}
       </table>
       ${compare}
     </section>
     <section>
-      <h3>生涯支出の内訳</h3>
+      <h3>${r("spending")}</h3>
       <div class="bars">${spending
-        .map(([label, v]) => `<div class="bar"><span class="bar-label">${label}</span><span class="bar-track"><span class="bar-fill" style="width:${(v / maxSpend) * 100}%"></span></span><span class="num">${man(v)}</span></div>`)
+        .map(([k, v]) => `<div class="bar"><span class="bar-label">${r(`spendingItems.${k}`)}</span><span class="bar-track"><span class="bar-fill" style="width:${(v / maxSpend) * 100}%"></span></span><span class="num">${money(v)}</span></div>`)
         .join("")}</div>
-      <p class="hint">収入は手取り ${man(t.income)}、児童手当・仕送り・臨時収入 ${man(t.extraIncome)}。</p>
+      <p class="hint">${r("incomeNote", { income: tt.income, extra: tt.extraIncome })}</p>
     </section>
     <section>
-      <h3>実績</h3>
+      <h3>${r("achievements")}</h3>
       ${achieved.length
         ? `<ul class="achievements">${achieved
-            .map((id) => data.achievements.find((a) => a.id === id))
-            .map((a) => `<li><strong>${a.name}</strong>${fresh.achievements.includes(a.id) ? NEW : ""}<span class="sub">${a.desc}</span></li>`)
+            .map((id) => `<li><strong>${t(`achievements.${id}.name`)}</strong>${fresh.achievements.includes(id) ? newBadge() : ""}<span class="sub">${t(`achievements.${id}.desc`)}</span></li>`)
             .join("")}</ul>`
-        : '<p class="hint">今回は実績なし。</p>'}
+        : `<p class="hint">${r("noAchievements")}</p>`}
     </section>
     <section>
-      <h3>人生年表</h3>
-      <ol class="timeline">${state.history.map((h) => `<li><span class="age">${h.age}歳</span>${h.text}</li>`).join("")}</ol>
+      <h3>${r("timeline")}</h3>
+      <ol class="timeline">${state.history.map((h) => `<li><span class="age">${t("main.age", { n: h.age })}</span>${historyText(h)}</li>`).join("")}</ol>
     </section>`;
-
   renderShare(nw, ending, title);
   show("screen-result");
   save();
-  window.scrollTo(0, 0);
+}
+
+function signedMoneyHtml(v) {
+  return `<span class="${v >= 0 ? "plus" : "minus"}">${v >= 0 ? "+" : "−"}${money(Math.abs(v))}</span>`;
 }
 
 // ---- シェア ----
 
-let shareBlob = null;
-
 async function renderShare(nw, ending, title) {
   const canvas = document.createElement("canvas");
+  const bankrupt = state.ended === "bankrupt";
   drawShareCard(canvas, {
+    gameName: t("meta.gameName"),
     rank: ending.rank,
     ending: ending.ending,
-    title: title.name,
-    netWorthLabel: state.ended === "bankrupt" ? "破綻時の純資産" : "定年時の純資産",
-    netWorth: man(nw.total),
-    lines: lifeLines(nw),
-    hashtag: "#新婚日記",
+    titleLabel: t("result.titleLabel"),
+    title: t(`titles.${title}.name`),
+    netWorthLabel: t(bankrupt ? "result.netWorthBankrupt" : "result.netWorthRetire"),
+    netWorth: money(nw.total),
+    lines: lifeLines(),
+    hashtag: t("meta.hashtag"),
   });
   const url = canvas.toDataURL("image/png");
   $("#share-preview").src = url;
   $("#btn-download").href = url;
-  shareBlob = await canvasToBlob(canvas);
-  const text = `新婚日記で「${ending.ending}」（${ending.rank === "―" ? "破綻" : `${ending.rank}ランク`}）になった。称号は「${title.name}」。 #新婚日記`;
-  $("#btn-post").href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(location.href.split("#")[0])}`;
-  const file = shareBlob && new File([shareBlob], "newlywed-diary.png", { type: "image/png" });
+  const blob = await canvasToBlob(canvas);
+  const rank = bankrupt ? t("result.bankruptWord") : t("result.rankWord", { rank: ending.rank });
+  const text = `${t("result.shareText", { ending: ending.ending, rank, title: t(`titles.${title}.name`) })} ${t("meta.hashtag")}`;
+  const pageUrl = `${location.origin}${location.pathname}?lang=${currentLang().code}`;
+  $("#btn-post").href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`;
+  const file = blob && new File([blob], "newlywed-diary.png", { type: "image/png" });
   const canShare = !!(file && navigator.canShare && navigator.canShare({ files: [file] }));
   $("#btn-share").hidden = !canShare;
   $("#btn-share").onclick = () => navigator.share({ files: [file], text }).catch(() => {});
@@ -563,27 +592,29 @@ async function renderShare(nw, ending, title) {
 // ---- エンディング図鑑 ----
 
 function showGallery() {
-  const r = loadRecords();
-  const endings = [...data.ranks.map((x) => ({ key: x.rank, rank: x.rank, ending: x.ending })), { key: "bankrupt", rank: "―", ending: data.bankruptEnding.ending }];
-  const count = (list, seen) => `${list.filter((x) => seen[x]).length} / ${list.length}`;
+  const rec = loadRecords();
+  const g = (k, p) => t(`gallery.${k}`, p);
+  const endings = [...data.ranks.map((x) => x.rank), "bankrupt"];
+  const count = (ids, seen) => `${ids.filter((x) => seen[x]).length} / ${ids.length}`;
+  const locked = g("locked");
   $("#gallery").innerHTML = `
-    <p class="note">遊んだ回数 ${r.plays}回${r.best !== null ? `・最高の純資産 ${man(r.best)}` : ""}</p>
+    <p class="note">${g("plays", { n: rec.plays })}${rec.best !== null ? g("best", { money: rec.best }) : ""}</p>
     <section>
-      <h3>エンディング <span class="count">${count(endings.map((e) => e.key), r.endings)}</span></h3>
+      <h3>${g("endings")} <span class="count">${count(endings, rec.endings)}</span></h3>
       <ul class="cards">${endings
-        .map((e) => (r.endings[e.key] ? `<li><span class="card-rank">${e.rank}</span>${e.ending}</li>` : `<li class="locked"><span class="card-rank">？</span>？？？</li>`))
+        .map((k) => (rec.endings[k] ? `<li><span class="card-rank">${k === "bankrupt" ? "―" : k}</span>${t(`ranks.${k}.ending`)}</li>` : `<li class="locked"><span class="card-rank">?</span>${locked}</li>`))
         .join("")}</ul>
     </section>
     <section>
-      <h3>称号 <span class="count">${count(data.titles.map((x) => x.id), r.titles)}</span></h3>
+      <h3>${g("titles")} <span class="count">${count(data.titles, rec.titles)}</span></h3>
       <ul class="cards">${data.titles
-        .map((x) => (r.titles[x.id] ? `<li><strong>${x.name}</strong><span class="sub">${x.desc}</span></li>` : `<li class="locked">？？？</li>`))
+        .map((id) => (rec.titles[id] ? `<li><strong>${t(`titles.${id}.name`)}</strong><span class="sub">${t(`titles.${id}.desc`)}</span></li>` : `<li class="locked">${locked}</li>`))
         .join("")}</ul>
     </section>
     <section>
-      <h3>実績 <span class="count">${count(data.achievements.map((x) => x.id), r.achievements)}</span></h3>
+      <h3>${g("achievements")} <span class="count">${count(data.achievements, rec.achievements)}</span></h3>
       <ul class="achievements">${data.achievements
-        .map((a) => `<li class="${r.achievements[a.id] ? "" : "locked"}"><strong>${r.achievements[a.id] ? a.name : "？？？"}</strong><span class="sub">${a.desc}</span></li>`)
+        .map((id) => `<li class="${rec.achievements[id] ? "" : "locked"}"><strong>${rec.achievements[id] ? t(`achievements.${id}.name`) : locked}</strong><span class="sub">${t(`achievements.${id}.desc`)}</span></li>`)
         .join("")}</ul>
     </section>`;
   show("screen-gallery");
@@ -596,16 +627,18 @@ const settingsForm = $("#settings-form");
 function showSettings() {
   settingsForm.yearSummary.checked = settings.yearSummary;
   settingsForm.speed.value = String(settings.speed);
+  settingsForm.lang.value = currentLang().code;
   show("screen-settings");
 }
 
-settingsForm.addEventListener("change", () => {
-  settings = { yearSummary: settingsForm.yearSummary.checked, speed: Number(settingsForm.speed.value) };
+settingsForm.addEventListener("change", (e) => {
+  if (e.target.name === "lang") return changeLang(e.target.value);
+  settings = { ...settings, yearSummary: settingsForm.yearSummary.checked, speed: Number(settingsForm.speed.value) };
   writeSettings(settings);
 });
 
 $("#btn-clear").addEventListener("click", () => {
-  if (!confirm("途中保存・エンディング図鑑・実績・設定をすべて消します。よろしいですか？")) return;
+  if (!confirm(t("settings.confirm"))) return;
   clearAll();
   settings = loadSettings();
   showSettings();
@@ -614,9 +647,9 @@ $("#btn-clear").addEventListener("click", () => {
 $("#btn-start").addEventListener("click", showSetup);
 $("#btn-continue").addEventListener("click", continueGame);
 $("#btn-again").addEventListener("click", showSetup);
-$("#btn-result-title").addEventListener("click", showTitle);
 $("#btn-gallery").addEventListener("click", showGallery);
 $("#btn-settings").addEventListener("click", showSettings);
 
-data = await (await fetch("data/jp.json")).json();
+data = await (await fetch(`data/profiles/${PROFILE}.json`)).json();
+await setLang(detectLang(settings.lang));
 showTitle();

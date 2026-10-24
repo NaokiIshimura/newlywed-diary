@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "simulate": "node tools/simulate.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "check:i18n": "node tools/check-i18n.mjs"
   }
 }

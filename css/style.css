@@ -295,3 +295,15 @@ a.button {
 
 .share-preview { display: block; width: 100%; border-radius: 12px; border: 1px solid var(--line); }
 .share button[hidden] { display: none; }
+
+/* 言語の切り替え */
+.lang-switch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  margin-top: 24px;
+  font-size: 0.85rem;
+}
+.lang-switch a { color: var(--muted); }
+.lang-switch strong { color: var(--accent); }

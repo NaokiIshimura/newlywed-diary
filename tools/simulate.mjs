@@ -4,7 +4,7 @@
 import { readFileSync } from "node:fs";
 import { STRATEGIES, defaultSettings, netWorth, playToEnd, rankOf } from "../js/engine.js";
 
-const data = JSON.parse(readFileSync(new URL("../data/jp.json", import.meta.url), "utf8"));
+const data = JSON.parse(readFileSync(new URL("../data/profiles/jp.json", import.meta.url), "utf8"));
 const runs = Number(process.argv[2] ?? 1000);
 const settings = defaultSettings(data);
 
