@@ -138,7 +138,7 @@
       "manyRepairs": "・常需要修繕"
     },
     "repair": { "title": "房屋修繕", "text": "家裡到處開始老舊損壞。要怎麼修？", "detail": "{cost:money}・{years}年後才會再壞" },
-    "familyTrip": { "title": "家族旅行・紀念日", "text": "結婚第{n}年的紀念日。要去旅行嗎？", "yes": "去", "no": "不去" },
+    "familyTrip": { "title": "家庭旅遊・紀念日", "text": "結婚第{n}年的紀念日。要去旅行嗎？", "yes": "去", "no": "不去" },
     "jobOffer": {
       "title": "跳槽邀約",
       "text": "主角收到跳槽邀約。年收入可能會變高，也可能變低（±20%）。",
