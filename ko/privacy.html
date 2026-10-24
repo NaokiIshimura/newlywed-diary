@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>개인정보 처리방침 | 신혼일기</title>
+  <meta name="description" content="신혼일기에서 저장하는 정보(사용 중인 브라우저 안에만 저장), 결과 공유, 접속 분석(Google 애널리틱스), 쿠키 동의와 쿠키 거부 방법을 설명합니다.">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/ko/privacy">
+  <link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/privacy">
+  <link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/privacy">
+  <link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/privacy">
+  <link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/privacy">
+  <link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/privacy">
+  <link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/privacy">
+  <meta name="theme-color" content="#faf6ef">
+  <link rel="stylesheet" href="../css/style.css?v=20261024b">
+  <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(() => {
+  // 事前の同意が要る国：ページの言語か端末のタイムゾーンで見分け、同意するまで Cookie を使わない（バナーを出す）
+  const NEED_LANGS = ['id'];
+  const NEED_TZ = ['Asia/Jakarta', 'Asia/Pontianak', 'Asia/Makassar', 'Asia/Jayapura', 'Asia/Bangkok', 'Asia/Ho_Chi_Minh', 'Asia/Saigon'];
+  // Google の位置判定でも最初から拒否にする国と地域（上の国と、EU・EEA・英国・スイス。EU・英国などにはバナーを出さない）
+  const DENY_REGIONS = ['ID', 'TH', 'VN', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT',
+    'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
+  const saved = (document.cookie.match(/(?:^|; )nacn_consent=v1\.(granted|denied)/) || [])[1] || null;
+  let tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { /* 古いブラウザ */ }
+  const lang = (document.documentElement.lang || '').toLowerCase();
+  const need = NEED_LANGS.some(l => lang === l || lang.startsWith(l + '-')) || NEED_TZ.includes(tz);
+  const state = saved || (need ? 'denied' : 'granted');
+  const all = s => ({ad_storage: s, ad_user_data: s, ad_personalization: s, analytics_storage: s});
+  // 地域ごとの初期値は、地域なしの初期値より優先される。自分で選んだ人には地域の初期値を使わない
+  if (!saved) gtag('consent', 'default', Object.assign(all('denied'), {region: DENY_REGIONS}));
+  gtag('consent', 'default', Object.assign(all(state), {wait_for_update: 500}));
+  if (state === 'denied') (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+  window.nacnConsent = {need, saved};
+})();
+</script>
+<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+</head>
+<body>
+  <main id="app" class="doc">
+    <a class="doc-back" href="./">← 신혼일기</a>
+    <h1>개인정보 처리방침</h1>
+    <article class="doc-body">
+    <p>'신혼일기'(https://newlywed-diary.nacn.app/, 이하 '본 게임')에서 이용자의 정보를 어떻게 다루는지 설명합니다.</p>
+
+    <h2>1. 브라우저에 저장하는 정보</h2>
+    <p>본 게임은 플레이에 필요한 다음 정보를 사용 중인 브라우저 안(localStorage)에만 저장합니다. 운영자의 서버로 전송하지 않습니다.</p>
+    <ul>
+      <li>중간 저장: 시작 설정(성별, 나이, 저축, 연봉, 근무 형태)과 게임 진행 상황(고른 내용, 일기, 가계)</li>
+      <li>엔딩 도감과 업적 기록: 본 엔딩, 칭호, 업적, 플레이 횟수, 최고 순자산</li>
+      <li>설정: 연말 수지를 표시할지 여부, 진행 속도 기본값</li>
+      <li>선택한 언어(lang)와 언어 안내를 닫았다는 정보(lang-suggest-closed). nacn.app의 각 사이트에서 공통으로 사용합니다</li>
+    </ul>
+    <p>이 정보는 설정 화면의 '데이터 삭제'나 브라우저의 인터넷 사용 기록 삭제로 지울 수 있습니다.</p>
+
+    <h2>2. 결과 공유</h2>
+    <p>결과 공유용 이미지는 사용 중인 브라우저 안에서 만듭니다. '이미지 공유'나 'X(트위터)에 게시'를 사용하면, 이미지와 글은 이용자가 공유할 곳으로 고른 서비스에만 전송됩니다.</p>
+
+    <h2>3. 접속 분석에 대해</h2>
+    <p>본 게임은 이용 현황을 파악하고 게임을 개선하기 위해 Google의 접속 분석 도구 'Google 애널리틱스'를 이용합니다. Google 애널리틱스는 쿠키를 사용해 트래픽 데이터를 수집합니다. 이 데이터는 익명으로 수집되며 개인을 식별하지 않습니다. 게임 안에서 고른 내용이나 결과는 Google 애널리틱스로 전송하지 않습니다.</p>
+    <p>쿠키를 사용 중지하면 수집을 거부할 수 있습니다(방법은 '5. 쿠키 거부 방법'을 참고하세요). 또한 <a href="https://tools.google.com/dlpage/gaoptout?hl=ko" rel="noopener">Google 애널리틱스 차단 브라우저 부가기능</a>을 이용할 수도 있습니다. 데이터 처리에 대해서는 <a href="https://policies.google.com/technologies/partner-sites?hl=ko" rel="noopener">Google 개인정보처리방침 및 약관</a>을 참고하세요.</p>
+    <p>본 게임에는 광고를 게재하지 않습니다.</p>
+
+    <h2>4. 쿠키 동의</h2>
+    <p>인도네시아, 태국, 베트남 등 사전 동의가 필요한 나라에서 접속한 경우, 화면 아래에 쿠키 동의를 구하는 안내를 표시하고, 동의하기 전까지 Google 애널리틱스 쿠키를 사용하지 않습니다. 그동안에도 쿠키를 사용하지 않는 간단한 측정(페이지가 열렸다는 정보 등)은 Google에 전송됩니다. EU, 유럽경제지역, 영국, 스위스에서 접속한 경우에는 쿠키를 사용하지 않는 설정으로 표시합니다.</p>
+    <p>선택한 내용은 nacn.app의 모든 사이트에서 공통으로 쓰는 쿠키(nacn_consent, 약 13개월 보관)에 저장됩니다. 타이틀 화면 아래의 '쿠키 설정'에서 언제든지 동의를 변경하거나 철회할 수 있습니다.</p>
+
+    <h2>5. 쿠키 거부 방법</h2>
+    <p>이용자는 브라우저 설정에서 쿠키 저장을 거부하거나, 이미 저장된 쿠키를 삭제할 수 있습니다. 메뉴 이름과 위치는 브라우저와 버전에 따라 다를 수 있습니다.</p>
+    <ul>
+      <li>Chrome: 설정 &gt; 개인 정보 보호 및 보안 &gt; 서드 파티 쿠키(또는 '인터넷 사용 기록 삭제')</li>
+      <li>Safari: 설정 &gt; 개인정보 보호 &gt; 모든 쿠키 차단(iPhone·iPad에서는 설정 앱 &gt; Safari)</li>
+      <li>Edge: 설정 &gt; 쿠키 및 사이트 권한 &gt; 쿠키 및 사이트 데이터 관리 및 삭제</li>
+    </ul>
+    <p>쿠키를 거부해도 본 게임은 그대로 플레이할 수 있습니다. 다만 브라우저 데이터를 삭제하면 localStorage에 저장된 중간 저장이나 엔딩 도감도 함께 지워질 수 있습니다.</p>
+
+    <h2>6. 문의 시 받은 정보</h2>
+    <p>문의 양식(Google 설문지)으로 받은 내용과 이메일 주소는 문의에 대한 답변을 위해서만 사용하며, 다른 목적으로는 사용하지 않습니다.</p>
+
+    <h2>7. 면책 사항</h2>
+    <p>본 게임의 연봉, 생활비, 교육비, 주택 비용 등은 공적 통계와 시세를 바탕으로, 게임에 맞게 단순화한 대략적인 기준입니다. 연금, 물가 상승, 세세한 세금 계산 등은 포함하지 않았으며, 실제 가계나 자산 운용의 결과를 나타내지 않습니다. 가계나 주택 대출, 교육 자금 계획은 재무설계사 등 전문가와 상담하세요. 본 게임 이용으로 발생한 손해에 대해 운영자는 책임을 지지 않습니다.</p>
+
+    <h2>8. 운영자·문의</h2>
+    <p>본 게임은 nacn이 운영합니다. 운영자와 문의처는 nacn.app의 '<a href="https://nacn.app/ko/about.html">운영자 정보·문의</a>'를 참고하세요. nacn.app과 그 서브도메인에서 공개하는 각 게임에 공통으로 적용되는 <a href="https://nacn.app/ko/privacy.html">개인정보 처리방침</a>도 함께 참고하세요.</p>
+
+    <h2>9. 개인정보 처리방침의 변경</h2>
+    <p>본 방침의 내용은 필요에 따라 예고 없이 변경될 수 있습니다. 변경된 내용은 본 페이지에 게재한 시점부터 효력이 발생합니다.</p>
+
+    <p class="date">시행일: 2026년 10월 24일</p>
+    </article>
+      <nav class="site-nav" aria-label="사이트 내 페이지">
+        <ul data-consent-menu>
+          <li><a href="./">게임 플레이</a></li>
+          <li><a href="howto.html">플레이 방법</a></li>
+          <li><a href="https://nacn.app/ko/about.html">운영자 정보·문의</a></li>
+          <li><a href="privacy.html" aria-current="page">개인정보 처리방침</a></li>
+          <li><a href="https://nacn.app/ko/">nacn.app의 다른 게임</a></li>
+        </ul>
+      </nav>
+      <nav class="lang-switch langs"><a href="../en/privacy.html" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/privacy.html" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/privacy.html" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/privacy.html" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/privacy.html" hreflang="ko" lang="ko" data-code="ko" aria-current="true">한국어</a></nav>
+  </main>
+<div class="suggest" id="langSuggest" hidden>
+    <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
+    <button type="button" class="suggest-close" id="langSuggestClose" aria-label="닫기">×</button>
+  </div>
+  <script>
+  (() => {
+    // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/privacy.html", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/privacy.html", "lang": "en", "code": "en", "current": false}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/privacy.html", "lang": "zh-Hant-TW", "code": "zh-tw", "current": false}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/privacy.html", "lang": "ko", "code": "ko", "current": true}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/privacy.html", "lang": "es-419", "code": "es", "current": false}];
+    // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
+    const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
+    const remember = code => { try { localStorage.setItem('lang', code); } catch (e) { /* noop */ } };
+    // 切り替えリンクはこのあとに出てくるので、ページ全体でクリックを受け取る
+    document.addEventListener('click', e => {
+      const a = e.target.closest('.langs a[data-code], #langSuggestLink');
+      if (a && a.dataset.code) remember(a.dataset.code);
+    });
+    const KEY = 'lang-suggest-closed';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* 保存できない環境 */ }
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(l => l.toLowerCase());
+    // 一番希望している言語だけを見る。対応していない言語か、今のページの言語なら何も出さない
+    const first = langs[0] || '';
+    const alt = ALT.find(a => langMatches(first, a.match));
+    if (!alt || alt.current) return;
+    const box = document.getElementById('langSuggest');
+    document.getElementById('langSuggestText').textContent = alt.text;
+    const link = document.getElementById('langSuggestLink');
+    link.textContent = alt.link; link.href = alt.href; link.lang = alt.lang; link.dataset.code = alt.code;
+    box.lang = alt.lang;
+    box.hidden = false;
+    document.getElementById('langSuggestClose').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* noop */ }
+    });
+  })();
+  </script>
+
+<!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
+<div class="nacn-consent" id="nacnConsent" role="region" aria-label="쿠키 동의" hidden>
+  <p>이 사이트는 방문 통계를 위해 쿠키를 사용합니다. 동의하지 않아도 그대로 즐길 수 있습니다. <a href="/ko/privacy.html">개인정보 처리방침</a></p>
+  <div class="nacn-consent-btns">
+    <button type="button" data-consent="granted">동의</button>
+    <button type="button" data-consent="denied">거부</button>
+  </div>
+</div>
+<style>
+.nacn-consent{ position:fixed; left:8px; right:8px; bottom:8px; z-index:1000; max-width:720px; margin:0 auto; padding:12px 14px;
+  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; color:#f4f1ff; background:#1d1a33; border:3px solid #f4f1ff;
+  box-shadow:0 4px 0 rgba(0,0,0,.35); font-size:.9rem; line-height:1.6; }
+.nacn-consent[hidden]{ display:none; }
+.nacn-consent p{ flex:1 1 280px; margin:0; }
+.nacn-consent a{ color:#ffd66b; }
+.nacn-consent-btns{ display:flex; gap:8px; }
+/* 同意する・しないは同じ大きさ・同じ見た目にする（どちらかに誘導しない） */
+.nacn-consent button{ min-width:7em; padding:6px 12px; font:inherit; color:#1d1a33; background:#f4f1ff; border:2px solid #f4f1ff; cursor:pointer; }
+.nacn-consent button:focus-visible{ outline:3px solid #ffd66b; outline-offset:2px; }
+</style>
+<script>
+(() => {
+  const bar = document.getElementById('nacnConsent');
+  // ページの中で言語を切り替えるアプリ（1つの HTML で全言語）は、data-strings に言語ごとの文言を持たせ、表示する前に今の言語の文言にする。
+  // キーは <html lang> を小文字にしたもの（なければ「-」の前）。値は {text, policy, policyHref, accept, reject, settings, label}
+  const strings = bar.dataset.strings ? JSON.parse(bar.dataset.strings) : null;
+  const localize = () => {
+    if (!strings) return;
+    const lang = (document.documentElement.lang || '').toLowerCase();
+    const t = strings[lang] || strings[lang.split('-')[0]];
+    if (!t) return;
+    const link = bar.querySelector('p a');
+    bar.querySelector('p').firstChild.textContent = t.text + ' ';
+    link.textContent = t.policy; link.href = t.policyHref;
+    bar.querySelector('[data-consent="granted"]').textContent = t.accept;
+    bar.querySelector('[data-consent="denied"]').textContent = t.reject;
+    bar.setAttribute('aria-label', t.label);
+    document.querySelectorAll('[data-consent-open]').forEach(a => { a.textContent = t.settings; });
+  };
+  const pad = () => { document.body.style.paddingBottom = bar.hidden ? '' : (bar.offsetHeight + 16) + 'px'; };
+  const show = () => { localize(); bar.hidden = false; pad(); };
+  const choose = v => {
+    // nacn.app の全サブドメインで同じ選択を使う（ローカルでは Domain を付けない）
+    const domain = /(^|\.)nacn\.app$/.test(location.hostname) ? '; Domain=.nacn.app' : '';
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `nacn_consent=v1.${v}; Max-Age=34128000; Path=/; SameSite=Lax${secure}${domain}`;
+    gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
+    bar.hidden = true; pad();
+  };
+  bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => choose(b.dataset.consent)));
+  // いつでも選び直せるように、ページ下のメニュー（data-consent-menu を付けた ul か .site-nav ul）に「Cookie の設定」を足す。
+  // ほかの場所に置くなら data-consent-open を付けた要素
+  const menu = document.querySelector('[data-consent-menu]') || document.querySelector('.site-nav ul');
+  if (menu) menu.insertAdjacentHTML('beforeend', '<li><a href="#" data-consent-open>쿠키 설정</a></li>');
+  document.querySelectorAll('[data-consent-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
+  localize();
+  const c = window.nacnConsent || {};
+  if (c.need && !c.saved) show();
+})();
+</script>
+</body>
+</html>

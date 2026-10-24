@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Privacy policy | Newlywed Diary</title>
+  <meta name="description" content="What Newlywed Diary stores (only in your browser), how sharing results works, analytics with Google Analytics, cookie consent, and a notice for U.S. residents.">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/en/privacy">
+  <link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/privacy">
+  <link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/privacy">
+  <link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/privacy">
+  <link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/privacy">
+  <link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/privacy">
+  <link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/privacy">
+  <meta name="theme-color" content="#faf6ef">
+  <link rel="stylesheet" href="../css/style.css?v=20261024b">
+  <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(() => {
+  // 事前の同意が要る国：ページの言語か端末のタイムゾーンで見分け、同意するまで Cookie を使わない（バナーを出す）
+  const NEED_LANGS = ['id'];
+  const NEED_TZ = ['Asia/Jakarta', 'Asia/Pontianak', 'Asia/Makassar', 'Asia/Jayapura', 'Asia/Bangkok', 'Asia/Ho_Chi_Minh', 'Asia/Saigon'];
+  // Google の位置判定でも最初から拒否にする国と地域（上の国と、EU・EEA・英国・スイス。EU・英国などにはバナーを出さない）
+  const DENY_REGIONS = ['ID', 'TH', 'VN', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT',
+    'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
+  const saved = (document.cookie.match(/(?:^|; )nacn_consent=v1\.(granted|denied)/) || [])[1] || null;
+  let tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { /* 古いブラウザ */ }
+  const lang = (document.documentElement.lang || '').toLowerCase();
+  const need = NEED_LANGS.some(l => lang === l || lang.startsWith(l + '-')) || NEED_TZ.includes(tz);
+  const state = saved || (need ? 'denied' : 'granted');
+  const all = s => ({ad_storage: s, ad_user_data: s, ad_personalization: s, analytics_storage: s});
+  // 地域ごとの初期値は、地域なしの初期値より優先される。自分で選んだ人には地域の初期値を使わない
+  if (!saved) gtag('consent', 'default', Object.assign(all('denied'), {region: DENY_REGIONS}));
+  gtag('consent', 'default', Object.assign(all(state), {wait_for_update: 500}));
+  if (state === 'denied') (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+  window.nacnConsent = {need, saved};
+})();
+</script>
+<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+</head>
+<body>
+  <main id="app" class="doc">
+    <a class="doc-back" href="./">← Newlywed Diary</a>
+    <h1>Privacy policy</h1>
+    <article class="doc-body">
+    <p>This policy explains how Newlywed Diary (https://newlywed-diary.nacn.app/, "this game") handles information about its users.</p>
+
+    <h2>Information stored in your browser</h2>
+    <p>This game stores the following information, which it needs in order to be played, only in your browser (localStorage). It is never sent to our servers.</p>
+    <ul>
+      <li>Your save in progress: your starting settings (gender, age, savings, income and work style) and your game progress (the choices you made, the diary and your household finances)</li>
+      <li>Your endings and achievements record: the endings, titles and achievements you've seen, how many times you've played, and your best net worth</li>
+      <li>Settings: whether to show year-end finances, and the default speed</li>
+      <li>Your chosen language (lang) and whether you closed the language suggestion (lang-suggest-closed). These are shared across all nacn.app sites</li>
+    </ul>
+    <p>You can erase this information with "Delete data" in Settings, or by clearing your browser data.</p>
+
+    <h2>Sharing your results</h2>
+    <p>The image for sharing your results is created inside your browser. When you use "Share image" or "Post to X (Twitter)", the image and text are sent only to the service you choose to share to.</p>
+
+    <h2>Analytics</h2>
+    <p>This game uses Google Analytics, an analytics tool by Google, to understand how the game is used and to improve it. Google Analytics uses cookies to collect traffic data. This data is collected anonymously and does not identify you personally. The choices you make in the game and your results are never sent to Google Analytics.</p>
+    <p>You can refuse this collection by disabling cookies in your browser settings. You can also use the <a href="https://tools.google.com/dlpage/gaoptout?hl=en" rel="noopener">Google Analytics Opt-out Browser Add-on</a>. For how this data is handled, see <a href="https://policies.google.com/technologies/partner-sites?hl=en" rel="noopener">Google's Privacy &amp; Terms</a>.</p>
+    <p>This game does not show ads.</p>
+
+    <h2>Cookie consent</h2>
+    <p>For visitors from countries where prior consent is required, such as Indonesia, Thailand, and Vietnam, we show a cookie consent notice at the bottom of the screen and do not use Google Analytics cookies until you agree. Until then, basic measurements that do not use cookies (such as the fact that a page was opened) are still sent to Google. For visitors from the EU, the European Economic Area, the United Kingdom, and Switzerland, the game is shown with cookies turned off.</p>
+    <p>Your choice is saved in a cookie shared by all nacn.app sites (nacn_consent, kept for about 13 months). You can change or withdraw your consent at any time from "Cookie settings" at the bottom of the title screen.</p>
+
+    <h2>Information you send through the contact form</h2>
+    <p>Information you send through the contact form (Google Forms), such as your message and email address, is used only to reply to you and is not used for any other purpose.</p>
+
+    <h2>Notice for U.S. residents</h2>
+    <p>We do not sell or share your personal information. This game is not directed to children under 13, and we do not knowingly collect personal information from children under 13, in line with the Children's Online Privacy Protection Act (COPPA).</p>
+
+    <h2>Disclaimer</h2>
+    <p>The incomes, living costs, education costs, housing costs and other amounts in this game are simplified estimates for gameplay, based on public statistics and typical market prices. They don't include pensions, inflation or detailed tax calculations, and they do not represent actual household finances or investment results. For household budgets, mortgages or education savings plans, please consult a professional such as a financial planner. We are not responsible for any damages arising from the use of this game.</p>
+
+    <h2>Operator and contact</h2>
+    <p>This game is operated by nacn. For the operator and how to contact us, see <a href="https://nacn.app/en/about.html">About &amp; Contact</a> on nacn.app. Please also see the <a href="https://nacn.app/en/privacy.html">Privacy Policy</a> shared by nacn.app and the games published on its subdomains.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>This policy may be changed without notice as needed. Changes take effect when they are posted on this page.</p>
+
+    <p class="date">Effective: October 24, 2026</p>
+    </article>
+      <nav class="site-nav" aria-label="Site pages">
+        <ul data-consent-menu>
+          <li><a href="./">Play the game</a></li>
+          <li><a href="howto.html">How to play</a></li>
+          <li><a href="https://nacn.app/en/about.html">About &amp; contact</a></li>
+          <li><a href="privacy.html" aria-current="page">Privacy policy</a></li>
+          <li><a href="https://nacn.app/en/">More games on nacn.app</a></li>
+        </ul>
+      </nav>
+      <nav class="lang-switch langs"><a href="../en/privacy.html" hreflang="en" lang="en" data-code="en" aria-current="true">English</a><a href="../zh-tw/privacy.html" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/privacy.html" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/privacy.html" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/privacy.html" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
+  </main>
+<div class="suggest" id="langSuggest" hidden>
+    <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
+    <button type="button" class="suggest-close" id="langSuggestClose" aria-label="Close">×</button>
+  </div>
+  <script>
+  (() => {
+    // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/privacy.html", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/privacy.html", "lang": "en", "code": "en", "current": true}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/privacy.html", "lang": "zh-Hant-TW", "code": "zh-tw", "current": false}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/privacy.html", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/privacy.html", "lang": "es-419", "code": "es", "current": false}];
+    // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
+    const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
+    const remember = code => { try { localStorage.setItem('lang', code); } catch (e) { /* noop */ } };
+    // 切り替えリンクはこのあとに出てくるので、ページ全体でクリックを受け取る
+    document.addEventListener('click', e => {
+      const a = e.target.closest('.langs a[data-code], #langSuggestLink');
+      if (a && a.dataset.code) remember(a.dataset.code);
+    });
+    const KEY = 'lang-suggest-closed';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* 保存できない環境 */ }
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(l => l.toLowerCase());
+    // 一番希望している言語だけを見る。対応していない言語か、今のページの言語なら何も出さない
+    const first = langs[0] || '';
+    const alt = ALT.find(a => langMatches(first, a.match));
+    if (!alt || alt.current) return;
+    const box = document.getElementById('langSuggest');
+    document.getElementById('langSuggestText').textContent = alt.text;
+    const link = document.getElementById('langSuggestLink');
+    link.textContent = alt.link; link.href = alt.href; link.lang = alt.lang; link.dataset.code = alt.code;
+    box.lang = alt.lang;
+    box.hidden = false;
+    document.getElementById('langSuggestClose').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* noop */ }
+    });
+  })();
+  </script>
+
+<!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
+<div class="nacn-consent" id="nacnConsent" role="region" aria-label="Cookie consent" hidden>
+  <p>We use cookies for analytics. You can still play even if you decline. <a href="/en/privacy.html">Privacy policy</a></p>
+  <div class="nacn-consent-btns">
+    <button type="button" data-consent="granted">Accept</button>
+    <button type="button" data-consent="denied">Decline</button>
+  </div>
+</div>
+<style>
+.nacn-consent{ position:fixed; left:8px; right:8px; bottom:8px; z-index:1000; max-width:720px; margin:0 auto; padding:12px 14px;
+  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; color:#f4f1ff; background:#1d1a33; border:3px solid #f4f1ff;
+  box-shadow:0 4px 0 rgba(0,0,0,.35); font-size:.9rem; line-height:1.6; }
+.nacn-consent[hidden]{ display:none; }
+.nacn-consent p{ flex:1 1 280px; margin:0; }
+.nacn-consent a{ color:#ffd66b; }
+.nacn-consent-btns{ display:flex; gap:8px; }
+/* 同意する・しないは同じ大きさ・同じ見た目にする（どちらかに誘導しない） */
+.nacn-consent button{ min-width:7em; padding:6px 12px; font:inherit; color:#1d1a33; background:#f4f1ff; border:2px solid #f4f1ff; cursor:pointer; }
+.nacn-consent button:focus-visible{ outline:3px solid #ffd66b; outline-offset:2px; }
+</style>
+<script>
+(() => {
+  const bar = document.getElementById('nacnConsent');
+  // ページの中で言語を切り替えるアプリ（1つの HTML で全言語）は、data-strings に言語ごとの文言を持たせ、表示する前に今の言語の文言にする。
+  // キーは <html lang> を小文字にしたもの（なければ「-」の前）。値は {text, policy, policyHref, accept, reject, settings, label}
+  const strings = bar.dataset.strings ? JSON.parse(bar.dataset.strings) : null;
+  const localize = () => {
+    if (!strings) return;
+    const lang = (document.documentElement.lang || '').toLowerCase();
+    const t = strings[lang] || strings[lang.split('-')[0]];
+    if (!t) return;
+    const link = bar.querySelector('p a');
+    bar.querySelector('p').firstChild.textContent = t.text + ' ';
+    link.textContent = t.policy; link.href = t.policyHref;
+    bar.querySelector('[data-consent="granted"]').textContent = t.accept;
+    bar.querySelector('[data-consent="denied"]').textContent = t.reject;
+    bar.setAttribute('aria-label', t.label);
+    document.querySelectorAll('[data-consent-open]').forEach(a => { a.textContent = t.settings; });
+  };
+  const pad = () => { document.body.style.paddingBottom = bar.hidden ? '' : (bar.offsetHeight + 16) + 'px'; };
+  const show = () => { localize(); bar.hidden = false; pad(); };
+  const choose = v => {
+    // nacn.app の全サブドメインで同じ選択を使う（ローカルでは Domain を付けない）
+    const domain = /(^|\.)nacn\.app$/.test(location.hostname) ? '; Domain=.nacn.app' : '';
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `nacn_consent=v1.${v}; Max-Age=34128000; Path=/; SameSite=Lax${secure}${domain}`;
+    gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
+    bar.hidden = true; pad();
+  };
+  bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => choose(b.dataset.consent)));
+  // いつでも選び直せるように、ページ下のメニュー（data-consent-menu を付けた ul か .site-nav ul）に「Cookie の設定」を足す。
+  // ほかの場所に置くなら data-consent-open を付けた要素
+  const menu = document.querySelector('[data-consent-menu]') || document.querySelector('.site-nav ul');
+  if (menu) menu.insertAdjacentHTML('beforeend', '<li><a href="#" data-consent-open>Cookie settings</a></li>');
+  document.querySelectorAll('[data-consent-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
+  localize();
+  const c = window.nacnConsent || {};
+  if (c.need && !c.saved) show();
+})();
+</script>
+</body>
+</html>

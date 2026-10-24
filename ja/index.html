@@ -19,7 +19,7 @@
   <meta property="og:title" content="新婚日記｜結婚から定年まで、選択だけで駆け抜ける人生シミュレーション">
   <meta property="og:description" content="結婚から定年までを「買う・買わない／高い・普通・安い」の選択だけで駆け抜ける人生シミュレーション。">
   <meta property="og:url" content="https://newlywed-diary.nacn.app/ja/">
-  <meta property="og:image" content="https://newlywed-diary.nacn.app/ja/og.png?v=20261024">
+  <meta property="og:image" content="https://newlywed-diary.nacn.app/ja/og.png?v=20261024b">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -46,7 +46,7 @@
   }
 }
   </script>
-  <link rel="stylesheet" href="../css/style.css?v=20261024">
+  <link rel="stylesheet" href="../css/style.css?v=20261024b">
   <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -97,10 +97,12 @@ function gtag(){dataLayer.push(arguments);}
         <button id="btn-settings" class="ghost" data-i18n="title.settings">設定</button>
       </div>
       <nav class="lang-switch langs"><a href="../en/" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/" hreflang="ja" lang="ja" data-code="ja" aria-current="true">日本語</a><a href="../ko/" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
-      <nav class="site-nav">
+      <nav class="site-nav" aria-label="サイト内のページ">
         <ul data-consent-menu>
-          <li><a href="https://nacn.app/ja/privacy.html" data-i18n="footer.privacy">プライバシーポリシー</a></li>
-          <li><a href="https://nacn.app/ja/" data-i18n="footer.moreGames">nacn.app のほかのゲーム</a></li>
+          <li><a href="howto.html">遊び方</a></li>
+          <li><a href="https://nacn.app/ja/about.html">運営者情報・お問い合わせ</a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+          <li><a href="https://nacn.app/ja/">nacn.app のほかのゲーム</a></li>
         </ul>
       </nav>
     </section>
@@ -223,7 +225,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
   </div>
 
-  <script type="module" src="../js/app.js?v=20261024"></script>
+  <script type="module" src="../js/app.js?v=20261024b"></script>
 <div class="suggest" id="langSuggest" hidden>
     <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
     <button type="button" class="suggest-close" id="langSuggestClose" aria-label="閉じる">×</button>
@@ -263,7 +265,7 @@ function gtag(){dataLayer.push(arguments);}
 
 <!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
 <div class="nacn-consent" id="nacnConsent" role="region" aria-label="Cookie の同意" hidden>
-  <p>このサイトは、アクセスの集計のために Cookie を使います。同意しなくても、そのまま遊べます。 <a href="https://nacn.app/ja/privacy.html">プライバシーポリシー</a></p>
+  <p>このサイトは、アクセスの集計のために Cookie を使います。同意しなくても、そのまま遊べます。 <a href="/ja/privacy.html">プライバシーポリシー</a></p>
   <div class="nacn-consent-btns">
     <button type="button" data-consent="granted">同意する</button>
     <button type="button" data-consent="denied">同意しない</button>

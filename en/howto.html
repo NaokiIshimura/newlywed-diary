@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>How to play | Newlywed Diary</title>
+  <meta name="description" content="How to play Newlywed Diary: setup, how a year passes, life events and costs, random events, the yearly money math, retirement ranks and titles, saving and tips.">
+  <link rel="canonical" href="https://newlywed-diary.nacn.app/en/howto">
+  <link rel="alternate" hreflang="ja" href="https://newlywed-diary.nacn.app/ja/howto">
+  <link rel="alternate" hreflang="en" href="https://newlywed-diary.nacn.app/en/howto">
+  <link rel="alternate" hreflang="zh-TW" href="https://newlywed-diary.nacn.app/zh-tw/howto">
+  <link rel="alternate" hreflang="ko" href="https://newlywed-diary.nacn.app/ko/howto">
+  <link rel="alternate" hreflang="es" href="https://newlywed-diary.nacn.app/es/howto">
+  <link rel="alternate" hreflang="x-default" href="https://newlywed-diary.nacn.app/en/howto">
+  <meta name="theme-color" content="#faf6ef">
+  <link rel="stylesheet" href="../css/style.css?v=20261024b">
+  <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(() => {
+  // 事前の同意が要る国：ページの言語か端末のタイムゾーンで見分け、同意するまで Cookie を使わない（バナーを出す）
+  const NEED_LANGS = ['id'];
+  const NEED_TZ = ['Asia/Jakarta', 'Asia/Pontianak', 'Asia/Makassar', 'Asia/Jayapura', 'Asia/Bangkok', 'Asia/Ho_Chi_Minh', 'Asia/Saigon'];
+  // Google の位置判定でも最初から拒否にする国と地域（上の国と、EU・EEA・英国・スイス。EU・英国などにはバナーを出さない）
+  const DENY_REGIONS = ['ID', 'TH', 'VN', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT',
+    'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH'];
+  const saved = (document.cookie.match(/(?:^|; )nacn_consent=v1\.(granted|denied)/) || [])[1] || null;
+  let tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { /* 古いブラウザ */ }
+  const lang = (document.documentElement.lang || '').toLowerCase();
+  const need = NEED_LANGS.some(l => lang === l || lang.startsWith(l + '-')) || NEED_TZ.includes(tz);
+  const state = saved || (need ? 'denied' : 'granted');
+  const all = s => ({ad_storage: s, ad_user_data: s, ad_personalization: s, analytics_storage: s});
+  // 地域ごとの初期値は、地域なしの初期値より優先される。自分で選んだ人には地域の初期値を使わない
+  if (!saved) gtag('consent', 'default', Object.assign(all('denied'), {region: DENY_REGIONS}));
+  gtag('consent', 'default', Object.assign(all(state), {wait_for_update: 500}));
+  if (state === 'denied') (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+  window.nacnConsent = {need, saved};
+})();
+</script>
+<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFHQNP9CT8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFHQNP9CT8');
+  </script>
+</head>
+<body>
+  <main id="app" class="doc">
+    <a class="doc-back" href="./">← Newlywed Diary</a>
+    <h1>How to play</h1>
+    <article class="doc-body">
+    <p>Newlywed Diary is a life simulation that follows a married couple's household finances one year at a time, from the wedding to retirement at 65. The only decisions you make are whether to buy something or skip it, and whether to go High, Mid or Low. This page explains everything from the first setup to how each year plays out, the life events and random events, how the money is calculated, and the results at retirement. The game is set in Japan, and all amounts are in Japanese yen.</p>
+
+    <h2>What you decide at the start</h2>
+    <ul>
+      <li><strong>Your gender and your partner's gender</strong>: choose "Female" or "Male" for each. Your partner is the one whose work style can change.</li>
+      <li><strong>Age at marriage</strong>: 22 to 45. The younger you start, the more years you work.</li>
+      <li><strong>Savings</strong>: ¥0 to ¥10M, in steps of ¥100K.</li>
+      <li><strong>Your incomes</strong>: the gross annual income for you and for your partner (if working full-time). The defaults are the median income for your age at marriage. If you change the age, any income you haven't edited by hand is updated to the median for the new age.</li>
+      <li><strong>Work style</strong>: choose "Dual income (full-time)", "Dual income (part-time)" or "Single income". Part-time halves your partner's income, and single income sets it to 0.</li>
+    </ul>
+    <p>Every item has a "Random" button, and "Randomize all and start" picks everything at random and starts the game right away.</p>
+
+    <h2>How a year goes by</h2>
+    <p>Once the game starts, it moves forward one year at a time on its own. You can switch the pace with "1x", "2x" and "Pause". When a life event or an event with a choice comes up, the game stops and opens a choice screen. After you choose, the years start moving again.</p>
+    <p>At the end of each year, that year's income and spending are calculated, your savings go up or down, and a "Year end" line is written in the diary. A breakdown of the year-end finances appears at the bottom of the screen for a few seconds (you can turn it off with "Show year-end finances" in Settings).</p>
+    <p>The status bar at the top of the screen shows your age, how many years you've been married, savings, work style, your kids' ages, car and home. Savings are shown in red when they are negative.</p>
+
+    <h2>How choices work</h2>
+    <p>Most events are decided in two steps. First you choose whether to buy (or do) it or skip it, and only if you buy do you choose High, Mid or Low. Each button shows the cost and what your savings will be after you choose it ("→ Savings ¥…").</p>
+    <ul>
+      <li><strong>Not now</strong>: for a car, a home and children, you'll be asked again in 3 years.</li>
+      <li><strong>Never</strong>: for a car ("Never own one"), a home ("Rent for life") and children ("Never"), choosing this means you'll never be asked again.</li>
+    </ul>
+
+    <h2>Life events</h2>
+    <div class="table">
+      <table>
+        <thead><tr><th>Event</th><th>When it happens</th><th>High / Mid / Low</th></tr></thead>
+        <tbody>
+          <tr><td>Wedding</td><td>At the start</td><td>Lavish wedding ¥4.5M (cash gifts +¥2M) / Standard wedding ¥3M (+¥1.8M) / Photos only / small ¥800K (+¥300K)</td></tr>
+          <tr><td>Honeymoon</td><td>After the wedding</td><td>Europe ¥1M / Hawaii ¥500K / Trip in Japan ¥150K</td></tr>
+          <tr><td>Children</td><td>After the wedding, and again after each birth</td><td>Yes (35% chance of a baby each year, up to 3 children) / Not now / Never</td></tr>
+          <tr><td>Rethinking work</td><td>When a baby is born, and when your youngest starts elementary school and junior high</td><td>Dual income (full-time) / Dual income (part-time) / Single income</td></tr>
+          <tr><td>Car</td><td>In years 1 to 3 of marriage; once you own one, when it's time to replace it</td><td>Imported car ¥6M, upkeep ¥450K a year (sells for ¥1.5M after 10 years) / New Japanese car ¥3M, ¥350K a year (¥600K after 10 years) / Used car ¥1M, ¥300K a year (replaced after 7 years, breaks down often)</td></tr>
+          <tr><td>Childcare</td><td>When a child is born (ages 0 to 5)</td><td>Private daycare + lessons ¥800K a year / Licensed daycare ¥300K a year / Grandparents ¥100K a year</td></tr>
+          <tr><td>Elementary school, junior high, high school</td><td>When a child turns 6, 12 and 15</td><td>Private / Public + lessons (or cram school) / Public. Elementary school ¥1.6M, ¥500K or ¥350K a year; junior high ¥1.4M, ¥700K or ¥500K a year; high school ¥1M, ¥700K or ¥500K a year</td></tr>
+          <tr><td>University</td><td>When a child turns 18</td><td>Private STEM, away from home ¥2.5M a year (incl. living costs) / Private humanities ¥1.5M a year / National/public univ. ¥1M a year. Lasts 4 or 6 years. If the child chooses "Get a job" instead, they move out at 18</td></tr>
+          <tr><td>Our own home</td><td>Between ages 30 and 50</td><td>Custom-built house ¥60M / New condo ¥45M / Used + renovation ¥25M</td></tr>
+          <tr><td>Anniversary trip</td><td>Every 5 years of marriage</td><td>Trip abroad ¥800K / Trip in Japan ¥300K / Day trip nearby ¥50K</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>For a home, you pay 20% of the price as a down payment (or as much as your savings allow if they fall short), and repay the rest each year on a 35-year mortgage at 1.5% interest. Owning a home adds property tax and a repair reserve every year (plus management fees for a condo). Until you buy a home, rent for a family-size place costs ¥1.2M a year.</p>
+
+    <h2>How the money is calculated each year</h2>
+    <p><strong>Income</strong> is your annual income plus your partner's (multiplied by the share for their work style), multiplied by an age-based growth factor and by the take-home rate (78%). The growth factor compares the median income for your current age with the median for your age at marriage, and it drops from age 60 as you move to re-employment. On top of this come the child allowance (¥180K a year for ages 0 to 2, ¥120K a year for ages 3 to 17) and any money sent home by children who have moved out.</p>
+    <p class="example">Example: if you marry at 28 and both work full-time earning ¥3.5M each, your take-home income in year 1 is (¥3.5M + ¥3.5M) × 78% = ¥5.46M.</p>
+    <p><strong>Spending</strong> is the total of the following:</p>
+    <ul>
+      <li>The couple's basic living costs: starting at ¥2.2M a year and rising 1.25% every year</li>
+      <li>Kids' living costs: ¥400K a year for ages 0 to 5, ¥500K for elementary school, ¥700K for junior high, ¥900K for high school, and ¥900K a year while attending university from home</li>
+      <li>Education: the yearly cost of the childcare and schools you chose, through university</li>
+      <li>Housing: rent until you own a home (¥800K a year as newlyweds, ¥1.2M a year for a family-size rental), then the fixed costs and mortgage payments once you own one</li>
+      <li>Car: upkeep and repair bills for breakdowns. Without a car, taxis and the like cost ¥150K a year while you have children at home</li>
+      <li>Parent care, a child's student loan you've taken over, and card loan interest (if any)</li>
+    </ul>
+
+    <h2>Random events</h2>
+    <p>Each year there's a 30% chance that one of the following happens. This is why the same choices can lead to a different life every time you play.</p>
+    <ul>
+      <li><strong>Promotion</strong>: your or your partner's income rises 10%</li>
+      <li><strong>Job offer</strong>: if you choose "Switch jobs", your income changes by anywhere from −20% to +20%. If you "Decline", it stays the same</li>
+      <li><strong>Illness or injury</strong>: medical bills of ¥300K–¥1M</li>
+      <li><strong>Parent care</strong> (from age 40, up to twice): for 3 to 5 years, a "Care facility" costs ¥600K a year. "Care at home" costs only ¥200K a year, but your partner leaves work while caregiving</li>
+      <li><strong>Bonus cut</strong>: take-home pay is down 10% that year</li>
+      <li><strong>Windfall</strong>: ¥500K–¥5M from the lottery or an inheritance</li>
+    </ul>
+    <p>Separately, the car and home you own carry their own risks. A used car breaks down with a 30% chance each year (5% for a new or imported car), and repairs cost ¥200K–¥800K. Home repairs come up each year with a 35% chance for a used house (5% for a new condo, 3% for a custom-built house), and you choose how to fix it: "Full renovation", "Partial repair" or "Quick fix". The more expensive the fix, the longer it lasts until the next repair (15, 8 or 3 years). Repairs on a used house cost twice as much, and 15 years after you buy it, a major renovation costs ¥6M.</p>
+
+    <h2>Work style and kids moving out</h2>
+    <p>If your partner left work under single income and then goes back, their income is 4% lower for each year they were away (up to 40%).</p>
+    <p>When a child moves out, they may send money home. Your education points (0 to 10) count your choices from childcare through university: 2 points for "High", 1 for "Mid" and 0 for "Low". The higher the points, the higher the chance of getting money (20% plus 5% per point, and another +20% for a child who got a job after high school) and the larger the amount (¥120K–¥600K a year). In years when the household can't fully cover university tuition, the child may take out a student loan, and when they move out, you as parents may take it over and repay it over 10 years (this is less likely with more education points).</p>
+
+    <h2>If your savings go negative</h2>
+    <p>When your savings fall below 0, the shortfall is treated as a card loan and charged 10% interest every year. If your savings drop below −¥10M, you get the "Bankrupt Ending" and the game ends there.</p>
+
+    <h2>Retirement and results</h2>
+    <p>When you retire at 65, your rank is decided by your net worth (savings + the value of your home and car − the mortgage left).</p>
+    <div class="table">
+      <table>
+        <thead><tr><th>Rank</th><th>Net worth at retirement</th><th>Ending</th></tr></thead>
+        <tbody>
+          <tr><td>S</td><td>¥50M or more</td><td>Carefree Retirement</td></tr>
+          <tr><td>A</td><td>¥30M or more</td><td>Comfortable Retirement</td></tr>
+          <tr><td>B</td><td>¥20M or more</td><td>Secure Retirement</td></tr>
+          <tr><td>C</td><td>¥5M or more</td><td>A Bit Worrying</td></tr>
+          <tr><td>D</td><td>Less than ¥5M</td><td>Working Past 65</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The results screen shows a title based on how you tended to choose (9 kinds), the achievements you earned (12 in all), a breakdown of your lifetime spending, and a life timeline. It also shows the difference compared with picking "Mid" for everything under the same starting conditions. You can turn your result into an image to save or share, or "Post to X (Twitter)". The endings, titles and achievements you've seen can be checked anytime under "Endings" on the title screen.</p>
+
+    <h2>Saving your progress</h2>
+    <p>Your progress is saved automatically in your browser every time a year passes and every time you make a choice. Even if you close the page partway through, you can pick up where you left off with "Continue" on the title screen the next time you open it. You can also keep playing after switching languages. Saves are kept per browser, so they don't carry over to other devices or browsers. "Delete data" in Settings erases your save in progress, endings, achievements and settings.</p>
+
+    <h2>Tips for doing well</h2>
+    <ul>
+      <li>Choosing "Low" for everything isn't always best. When used-car breakdowns and used-house repairs pile up, cheap choices can end up costing more</li>
+      <li>Save the "High" choices for things that pay off over the long run. Simply keeping both partners working full-time makes a big difference to your income</li>
+      <li>The most expensive stretch is when your kids are at university. If your children are close in age, tuition bills overlap, so build up your savings before then</li>
+      <li>Watch the "→ Savings" amount on each button, and look for choices that keep your savings from going negative</li>
+    </ul>
+    <p class="note">The amounts in the game are simplified estimates for gameplay, based on public statistics and typical market prices. They don't include pensions, inflation or detailed tax calculations. For real household budgets, mortgages or education savings plans, please consult a professional such as a financial planner.</p>
+    </article>
+      <nav class="site-nav" aria-label="Site pages">
+        <ul data-consent-menu>
+          <li><a href="./">Play the game</a></li>
+          <li><a href="howto.html" aria-current="page">How to play</a></li>
+          <li><a href="https://nacn.app/en/about.html">About &amp; contact</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="https://nacn.app/en/">More games on nacn.app</a></li>
+        </ul>
+      </nav>
+      <nav class="lang-switch langs"><a href="../en/howto.html" hreflang="en" lang="en" data-code="en" aria-current="true">English</a><a href="../zh-tw/howto.html" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/howto.html" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/howto.html" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/howto.html" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
+  </main>
+<div class="suggest" id="langSuggest" hidden>
+    <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
+    <button type="button" class="suggest-close" id="langSuggestClose" aria-label="Close">×</button>
+  </div>
+  <script>
+  (() => {
+    // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/howto.html", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/howto.html", "lang": "en", "code": "en", "current": true}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/howto.html", "lang": "zh-Hant-TW", "code": "zh-tw", "current": false}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/howto.html", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/howto.html", "lang": "es-419", "code": "es", "current": false}];
+    // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
+    const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
+    // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
+    const remember = code => { try { localStorage.setItem('lang', code); } catch (e) { /* noop */ } };
+    // 切り替えリンクはこのあとに出てくるので、ページ全体でクリックを受け取る
+    document.addEventListener('click', e => {
+      const a = e.target.closest('.langs a[data-code], #langSuggestLink');
+      if (a && a.dataset.code) remember(a.dataset.code);
+    });
+    const KEY = 'lang-suggest-closed';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* 保存できない環境 */ }
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(l => l.toLowerCase());
+    // 一番希望している言語だけを見る。対応していない言語か、今のページの言語なら何も出さない
+    const first = langs[0] || '';
+    const alt = ALT.find(a => langMatches(first, a.match));
+    if (!alt || alt.current) return;
+    const box = document.getElementById('langSuggest');
+    document.getElementById('langSuggestText').textContent = alt.text;
+    const link = document.getElementById('langSuggestLink');
+    link.textContent = alt.link; link.href = alt.href; link.lang = alt.lang; link.dataset.code = alt.code;
+    box.lang = alt.lang;
+    box.hidden = false;
+    document.getElementById('langSuggestClose').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* noop */ }
+    });
+  })();
+  </script>
+
+<!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
+<div class="nacn-consent" id="nacnConsent" role="region" aria-label="Cookie consent" hidden>
+  <p>We use cookies for analytics. You can still play even if you decline. <a href="/en/privacy.html">Privacy policy</a></p>
+  <div class="nacn-consent-btns">
+    <button type="button" data-consent="granted">Accept</button>
+    <button type="button" data-consent="denied">Decline</button>
+  </div>
+</div>
+<style>
+.nacn-consent{ position:fixed; left:8px; right:8px; bottom:8px; z-index:1000; max-width:720px; margin:0 auto; padding:12px 14px;
+  display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; color:#f4f1ff; background:#1d1a33; border:3px solid #f4f1ff;
+  box-shadow:0 4px 0 rgba(0,0,0,.35); font-size:.9rem; line-height:1.6; }
+.nacn-consent[hidden]{ display:none; }
+.nacn-consent p{ flex:1 1 280px; margin:0; }
+.nacn-consent a{ color:#ffd66b; }
+.nacn-consent-btns{ display:flex; gap:8px; }
+/* 同意する・しないは同じ大きさ・同じ見た目にする（どちらかに誘導しない） */
+.nacn-consent button{ min-width:7em; padding:6px 12px; font:inherit; color:#1d1a33; background:#f4f1ff; border:2px solid #f4f1ff; cursor:pointer; }
+.nacn-consent button:focus-visible{ outline:3px solid #ffd66b; outline-offset:2px; }
+</style>
+<script>
+(() => {
+  const bar = document.getElementById('nacnConsent');
+  // ページの中で言語を切り替えるアプリ（1つの HTML で全言語）は、data-strings に言語ごとの文言を持たせ、表示する前に今の言語の文言にする。
+  // キーは <html lang> を小文字にしたもの（なければ「-」の前）。値は {text, policy, policyHref, accept, reject, settings, label}
+  const strings = bar.dataset.strings ? JSON.parse(bar.dataset.strings) : null;
+  const localize = () => {
+    if (!strings) return;
+    const lang = (document.documentElement.lang || '').toLowerCase();
+    const t = strings[lang] || strings[lang.split('-')[0]];
+    if (!t) return;
+    const link = bar.querySelector('p a');
+    bar.querySelector('p').firstChild.textContent = t.text + ' ';
+    link.textContent = t.policy; link.href = t.policyHref;
+    bar.querySelector('[data-consent="granted"]').textContent = t.accept;
+    bar.querySelector('[data-consent="denied"]').textContent = t.reject;
+    bar.setAttribute('aria-label', t.label);
+    document.querySelectorAll('[data-consent-open]').forEach(a => { a.textContent = t.settings; });
+  };
+  const pad = () => { document.body.style.paddingBottom = bar.hidden ? '' : (bar.offsetHeight + 16) + 'px'; };
+  const show = () => { localize(); bar.hidden = false; pad(); };
+  const choose = v => {
+    // nacn.app の全サブドメインで同じ選択を使う（ローカルでは Domain を付けない）
+    const domain = /(^|\.)nacn\.app$/.test(location.hostname) ? '; Domain=.nacn.app' : '';
+    const secure = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `nacn_consent=v1.${v}; Max-Age=34128000; Path=/; SameSite=Lax${secure}${domain}`;
+    gtag('consent', 'update', {ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v});
+    bar.hidden = true; pad();
+  };
+  bar.querySelectorAll('[data-consent]').forEach(b => b.addEventListener('click', () => choose(b.dataset.consent)));
+  // いつでも選び直せるように、ページ下のメニュー（data-consent-menu を付けた ul か .site-nav ul）に「Cookie の設定」を足す。
+  // ほかの場所に置くなら data-consent-open を付けた要素
+  const menu = document.querySelector('[data-consent-menu]') || document.querySelector('.site-nav ul');
+  if (menu) menu.insertAdjacentHTML('beforeend', '<li><a href="#" data-consent-open>Cookie settings</a></li>');
+  document.querySelectorAll('[data-consent-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(); }));
+  localize();
+  const c = window.nacnConsent || {};
+  if (c.need && !c.saved) show();
+})();
+</script>
+</body>
+</html>

@@ -305,10 +305,6 @@
     "bankrupt": "Our finances collapsed.",
     "retired": "We reached retirement."
   },
-  "footer": {
-    "privacy": "Privacy policy",
-    "moreGames": "More games on nacn.app"
-  },
   "site": {
     "htmlLang": "en",
     "hreflang": "en",
@@ -327,6 +323,24 @@
       "accept": "Accept",
       "reject": "Decline",
       "settings": "Cookie settings"
+    }
+  },
+  "nav": {
+    "label": "Site pages",
+    "play": "Play the game",
+    "howto": "How to play",
+    "about": "About & contact",
+    "privacy": "Privacy policy",
+    "portal": "More games on nacn.app"
+  },
+  "pages": {
+    "howto": {
+      "title": "How to play",
+      "description": "How to play Newlywed Diary: setup, how a year passes, life events and costs, random events, the yearly money math, retirement ranks and titles, saving and tips."
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "description": "What Newlywed Diary stores (only in your browser), how sharing results works, analytics with Google Analytics, cookie consent, and a notice for U.S. residents."
     }
   }
 }

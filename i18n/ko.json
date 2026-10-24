@@ -300,10 +300,6 @@
     "bankrupt": "가계가 파산했다.",
     "retired": "정년을 맞았다."
   },
-  "footer": {
-    "privacy": "개인정보 처리방침",
-    "moreGames": "nacn.app의 다른 게임"
-  },
   "site": {
     "htmlLang": "ko",
     "hreflang": "ko",
@@ -322,6 +318,24 @@
       "accept": "동의",
       "reject": "거부",
       "settings": "쿠키 설정"
+    }
+  },
+  "nav": {
+    "label": "사이트 내 페이지",
+    "play": "게임 플레이",
+    "howto": "플레이 방법",
+    "about": "운영자 정보·문의",
+    "privacy": "개인정보 처리방침",
+    "portal": "nacn.app의 다른 게임"
+  },
+  "pages": {
+    "howto": {
+      "title": "플레이 방법",
+      "description": "신혼일기 플레이 방법. 처음 설정, 1년의 진행 방식, 12가지 라이프 이벤트와 금액, 랜덤 사건, 매년의 돈 계산, 정년 랭크와 칭호, 기록 저장, 잘 진행하는 요령을 설명합니다."
+    },
+    "privacy": {
+      "title": "개인정보 처리방침",
+      "description": "신혼일기에서 저장하는 정보(사용 중인 브라우저 안에만 저장), 결과 공유, 접속 분석(Google 애널리틱스), 쿠키 동의와 쿠키 거부 방법을 설명합니다."
     }
   }
 }
