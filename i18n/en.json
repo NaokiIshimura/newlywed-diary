@@ -304,5 +304,9 @@
     "childBorn": "Child #{n} was born.",
     "bankrupt": "Our finances collapsed.",
     "retired": "We reached retirement."
+  },
+  "footer": {
+    "privacy": "Privacy policy",
+    "moreGames": "More games on nacn.app"
   }
 }

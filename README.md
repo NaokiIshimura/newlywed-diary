@@ -81,6 +81,7 @@ python3 -m http.server 8000
 | `data/profiles/jp/<言語>.json` | 日本プロファイルの文（イベントの選択肢・日記・ランク・称号・実績） |
 | `tools/simulate.mjs` | 方針（全部高い／普通／安い／ランダム／要所だけ高い）ごとの自動プレイ |
 | `tools/check-i18n.mjs` | 翻訳ファイルのキーと差し込みが日本語版とそろっているかの確認 |
+| `tools/consent.py`・`tools/consent/` | Cookie の同意のしくみ（nacn.app 共通の部品）を `index.html` に書き込む |
 | `test/engine.test.mjs` | ゲームロジックのテスト |
 
 ## テストと自動プレイ
@@ -95,4 +96,13 @@ npm run check:i18n        # 翻訳ファイルのキーと差し込みを確か�
 
 ## 公開
 
-ビルドは不要です。リポジトリのルートをそのまま Cloudflare Pages で配信します。
+https://newlywed-diary.nacn.app/ で公開しています。ビルドは不要です。リポジトリのルートをそのまま Cloudflare Pages で配信します。
+
+### アクセス解析と Cookie の同意
+
+- Google アナリティクス（測定ID `G-WFHQNP9CT8`）のタグを `index.html` の head に入れています。AdSense は入れていません
+- Cookie の同意のしくみ（Google Consent Mode v2 と同意のバナー）は nacn.app 共通のものです。部品は `tools/consent/`（`consent-head.html`・`consent.html`・言語ごとの文言の `strings.json`）にあり、`python3 tools/consent.py` で `index.html` に書き込みます（`<!-- consent:start -->`〜`<!-- consent:end -->` の間。何度実行しても二重になりません）。部品の元の版は claude-skills の `consent-mode` スキルにあるので、直すときはそちらを先に直して写します
+- 同意を求めるのは、端末のタイムゾーンがインドネシア・タイ・ベトナムの人です。EU・英国・スイスは Google の位置判定で最初から拒否にします。選択は `.nacn.app` の Cookie `nacn_consent` に保存され、nacn.app の全サイトで共通です
+- AdSense を入れていないので、バナーは「アクセスの集計のため」だけの文言にしています。AdSense を入れたら、`tools/consent/strings.json` の `text` を広告ありの文言に戻します
+- このゲームには自前の文章のページがないので、バナーとタイトル画面のメニューの「プライバシーポリシー」は nacn.app のポリシー（`https://nacn.app/<言語>/privacy.html`。サブドメインの全ゲームが対象）へのリンクにしています。タイトル画面のメニューには「Cookie の設定」も自動で足されます
+- `<html lang>` は head の先頭のスクリプトで先に決めます（同意の判定とバナーの文言に使うため）。言語の決め方を変えるときは、`js/i18n.js` の `detectLang()` と両方を直します

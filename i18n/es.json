@@ -302,5 +302,9 @@
     "childBorn": "Nació nuestro hijo n.º {n}.",
     "bankrupt": "Nuestras finanzas quebraron.",
     "retired": "Llegó la jubilación."
+  },
+  "footer": {
+    "privacy": "Aviso de privacidad",
+    "moreGames": "Más juegos en nacn.app"
   }
 }

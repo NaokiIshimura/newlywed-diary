@@ -1,0 +1,47 @@
+{
+  "ja": {
+    "label": "Cookie の同意",
+    "text": "このサイトは、アクセスの集計のために Cookie を使います。同意しなくても、そのまま遊べます。",
+    "policy": "プライバシーポリシー",
+    "policyHref": "https://nacn.app/ja/privacy.html",
+    "accept": "同意する",
+    "reject": "同意しない",
+    "settings": "Cookie の設定"
+  },
+  "en": {
+    "label": "Cookie consent",
+    "text": "We use cookies for analytics. You can still play even if you decline.",
+    "policy": "Privacy policy",
+    "policyHref": "https://nacn.app/en/privacy.html",
+    "accept": "Accept",
+    "reject": "Decline",
+    "settings": "Cookie settings"
+  },
+  "zh-tw": {
+    "label": "Cookie 同意",
+    "text": "本網站使用 Cookie 進行流量統計。即使不同意，也能照常遊玩。",
+    "policy": "隱私權政策",
+    "policyHref": "https://nacn.app/zh-tw/privacy.html",
+    "accept": "同意",
+    "reject": "不同意",
+    "settings": "Cookie 設定"
+  },
+  "ko": {
+    "label": "쿠키 동의",
+    "text": "이 사이트는 방문 통계를 위해 쿠키를 사용합니다. 동의하지 않아도 그대로 즐길 수 있습니다.",
+    "policy": "개인정보 처리방침",
+    "policyHref": "https://nacn.app/ko/privacy.html",
+    "accept": "동의",
+    "reject": "거부",
+    "settings": "쿠키 설정"
+  },
+  "es": {
+    "label": "Consentimiento de cookies",
+    "text": "Usamos cookies para estadísticas. Puedes seguir jugando aunque no aceptes.",
+    "policy": "Aviso de privacidad",
+    "policyHref": "https://nacn.app/es/privacy.html",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "settings": "Configuración de cookies"
+  }
+}
