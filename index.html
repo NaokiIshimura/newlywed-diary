@@ -11,13 +11,15 @@
   <main id="app">
     <!-- タイトル -->
     <section id="screen-title" class="screen">
+      <div class="title-illust" id="title-illust"></div>
       <h1 class="logo">新婚日記</h1>
       <p class="lead">結婚から定年まで、<br>選択だけで駆け抜ける人生シミュレーション</p>
       <div class="stack">
         <button id="btn-start" class="primary">はじめる</button>
         <button id="btn-continue" hidden>続きから</button>
+        <button id="btn-gallery">エンディング図鑑</button>
+        <button id="btn-settings" class="ghost">設定</button>
       </div>
-      <p class="note">プロトタイプ版（結婚式・子ども・車・家・定年）</p>
     </section>
 
     <!-- 開始設定 -->
@@ -67,6 +69,7 @@
     <section id="screen-main" class="screen" hidden>
       <header class="status" id="status"></header>
       <ol class="diary" id="diary"></ol>
+      <div class="year-summary" id="year-summary" hidden></div>
       <footer class="controls">
         <button data-speed="0">一時停止</button>
         <button data-speed="1">1x</button>
@@ -77,16 +80,54 @@
     <!-- リザルト -->
     <section id="screen-result" class="screen" hidden>
       <div id="result"></div>
+      <section class="share">
+        <h3>シェア</h3>
+        <img id="share-preview" class="share-preview" alt="結果の画像カード">
+        <div class="stack">
+          <button id="btn-share" class="primary">画像をシェア</button>
+          <a id="btn-download" class="button" download="newlywed-diary.png">画像を保存</a>
+          <a id="btn-post" class="button" target="_blank" rel="noopener">X（Twitter）に投稿</a>
+        </div>
+      </section>
       <div class="stack">
         <button id="btn-again" class="primary">もう一度</button>
         <button id="btn-result-title" class="ghost">タイトルへ</button>
       </div>
+    </section>
+
+    <!-- エンディング図鑑 -->
+    <section id="screen-gallery" class="screen" hidden>
+      <h2>エンディング図鑑</h2>
+      <div id="gallery"></div>
+      <div class="stack">
+        <button class="ghost" data-back>タイトルへ戻る</button>
+      </div>
+    </section>
+
+    <!-- 設定 -->
+    <section id="screen-settings" class="screen" hidden>
+      <h2>設定</h2>
+      <form id="settings-form" class="form">
+        <label class="check"><input type="checkbox" name="yearSummary"> 年末の収支を表示する</label>
+        <label>進行速度の初期値
+          <select name="speed">
+            <option value="1">1x</option>
+            <option value="2">2x</option>
+          </select>
+        </label>
+      </form>
+      <div class="stack">
+        <button id="btn-clear" class="danger">データを消去する</button>
+        <button class="ghost" data-back>タイトルへ戻る</button>
+      </div>
+      <p class="hint">途中保存・エンディング図鑑・実績・設定をすべて消します。</p>
     </section>
   </main>
 
   <!-- イベント -->
   <div id="modal" class="modal" hidden>
     <div class="modal-body" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div id="modal-illust"></div>
       <h3 id="modal-title"></h3>
       <p id="modal-text"></p>
       <div id="modal-options" class="stack"></div>

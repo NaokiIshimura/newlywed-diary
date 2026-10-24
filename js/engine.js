@@ -1,7 +1,7 @@
 // ゲームロジック。DOM に依存しないので、ブラウザとシミュレーション（tools/simulate.mjs）の両方から使う。
 // 金額の単位はすべて万円。
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 
 export const SCHOOL_STAGES = ["childcare", "elementary", "juniorHigh", "highSchool", "university"];
 const STAGE_START_AGE = { childcare: 0, elementary: 6, juniorHigh: 12, highSchool: 15, university: 18 };
@@ -113,7 +113,10 @@ export function createGame(data, settings, seed = newSeed()) {
       income: 0, extraIncome: 0, living: 0, child: 0, education: 0, housing: 0, house: 0, repair: 0,
       car: 0, wedding: 0, leisure: 0, care: 0, medical: 0, scholarship: 0, interest: 0,
     },
-    choices: { high: 0, mid: 0, low: 0 }, // 称号（フェーズ3）用に、高い／普通／安いを選んだ回数を数える
+    choices: { high: 0, mid: 0, low: 0 }, // 称号用に、高い／普通／安いを選んだ回数を数える
+    // 実績用の記録
+    flags: { minSavings: settings.savings, maxWindfall: 0, homeCare: false, jobUp: false, loanPaidOff: false },
+    settings: { ...settings, genders: { ...settings.genders }, income: { ...settings.income } },
     history: [],
     ended: null, // retire / bankrupt
   };
@@ -208,6 +211,7 @@ function rollRandomEvent(data, state) {
       const cost = pick(state, def.cost);
       state.savings -= cost;
       state.totals.medical += cost;
+      state.flags.minSavings = Math.min(state.flags.minSavings, state.savings);
       addHistory(state, `${rand(state) < 0.5 ? "主人公" : "パートナー"}が体調をくずして入院した。医療費は${cost}万円。`);
       return null;
     }
@@ -219,6 +223,7 @@ function rollRandomEvent(data, state) {
       const amount = Math.round(def.min + (def.max - def.min) * Math.pow(rand(state), 3));
       state.savings += amount;
       state.totals.extraIncome += amount;
+      state.flags.maxWindfall = Math.max(state.flags.maxWindfall, amount);
       addHistory(state, amount >= 200 ? `親戚から相続があった。${amount}万円が入った。` : `宝くじが当たった。${amount}万円！`);
       return null;
     }
@@ -295,6 +300,7 @@ export function choose(data, state, event, choice) {
   if (opt) state.choices[opt.tier] += 1;
   const cost = immediateCost(data, state, event, choice);
   state.savings -= cost;
+  state.flags.minSavings = Math.min(state.flags.minSavings, state.savings);
 
   switch (event.id) {
     case "wedding":
@@ -409,6 +415,7 @@ export function choose(data, state, event, choice) {
         const range = data.random.events.jobOffer.range;
         const change = (rand(state) * 2 - 1) * range;
         state.baseIncome.a *= 1 + change;
+        if (change > 0) state.flags.jobUp = true;
         addHistory(state, `転職した。年収は${change >= 0 ? "+" : "−"}${Math.abs(Math.round(change * 100))}%になった。`);
       } else addHistory(state, "転職の誘いは断った。");
       break;
@@ -418,6 +425,7 @@ export function choose(data, state, event, choice) {
       const def = data.random.events.care;
       state.careCount += 1;
       const home = choice.mode === "home";
+      if (home) state.flags.homeCare = true;
       state.care = { mode: choice.mode, annual: home ? def.homeAnnual : def.facilityAnnual, untilYear: state.year + event.years, prevWorkStyle: state.workStyle };
       if (home && state.workStyle !== "single") {
         state.workStyle = "single";
@@ -532,6 +540,7 @@ export function endYear(data, state) {
     items.loan = pay;
     if (state.loan.balance < 0.01) {
       state.loan.balance = 0;
+      state.flags.loanPaidOff = true;
       notes.push("住宅ローンを払い終えた。");
     }
   }
@@ -556,6 +565,7 @@ export function endYear(data, state) {
 
   const expense = Object.values(items).reduce((x, y) => x + y, 0);
   state.savings += income + allowance - expense;
+  state.flags.minSavings = Math.min(state.flags.minSavings, state.savings);
 
   const t = state.totals;
   t.income += income;
@@ -581,6 +591,7 @@ export function endYear(data, state) {
   const major = state.house && houseOption(data, state).majorRepair;
   if (major && state.year - state.house.boughtYear === major.afterYears) {
     state.savings -= major.cost;
+    state.flags.minSavings = Math.min(state.flags.minSavings, state.savings);
     state.totals.repair += major.cost;
     addHistory(state, major.diary);
   }
@@ -638,6 +649,64 @@ export function netWorth(state) {
 
 export function rankOf(data, total) {
   return data.ranks.find((r) => r.min === null || total >= r.min);
+}
+
+// ---- 称号と実績 ----
+
+const TIERS = ["high", "mid", "low"];
+
+// 子どもの学校（保育〜高校）がすべて指定の段階か
+function allSchools(state, tier) {
+  return state.children.length > 0 && state.children.every((c) => ["childcare", "elementary", "juniorHigh", "highSchool"].every((s) => c.choices[s] === tier));
+}
+
+function tierShare(state, tier) {
+  const total = TIERS.reduce((s, t) => s + state.choices[t], 0);
+  return total ? state.choices[tier] / total : 0;
+}
+
+// 称号の条件。data.titles の順に調べて、最初に当てはまったものにする
+const TITLE_RULES = {
+  education: (s) => allSchools(s, "high"),
+  showoff: (s) => tierShare(s, "high") >= 0.7,
+  frugal: (s) => tierShare(s, "low") >= 0.7,
+  steady: (s) => tierShare(s, "mid") >= 0.7,
+  bigFamily: (s) => s.children.length >= 3,
+  lifelongRenter: (s) => !s.house,
+  carFree: (s) => s.carNever,
+  twoOfUs: (s) => s.children.length === 0,
+  balanced: () => true,
+};
+
+export function titleOf(data, state) {
+  return data.titles.find((t) => TITLE_RULES[t.id]?.(state));
+}
+
+// 実績の条件。定年まで行った人生だけで判定するものは retire を見る
+const ACHIEVEMENT_RULES = {
+  rankS: (s, nw, data) => s.ended === "retire" && rankOf(data, nw.total).rank === "S",
+  bankrupt: (s) => s.ended === "bankrupt",
+  threePrivate: (s) => s.children.length === 3 && s.children.every((c) => ["elementary", "juniorHigh", "highSchool"].every((st) => c.choices[st] === "high")),
+  lifelongRenter: (s) => s.ended === "retire" && s.houseNever,
+  loanPaidOff: (s) => s.flags.loanPaidOff,
+  noCardLoan: (s) => s.ended === "retire" && s.flags.minSavings >= 0,
+  carFree: (s) => s.ended === "retire" && s.carNever,
+  threeKids: (s) => s.children.length === 3,
+  bigWindfall: (s) => s.flags.maxWindfall >= 300,
+  homeCare: (s) => s.flags.homeCare,
+  jobUp: (s) => s.flags.jobUp,
+  allowance: (s) => s.children.some((c) => c.allowance > 0),
+};
+
+export function achievementsOf(data, state) {
+  const nw = netWorth(state);
+  return data.achievements.filter((a) => ACHIEVEMENT_RULES[a.id]?.(state, nw, data)).map((a) => a.id);
+}
+
+// 同じ開始条件・同じシードで「全部普通」を選んだ場合の純資産（破綻なら null）
+export function compareWithMid(data, state) {
+  const mid = playToEnd(data, state.settings, state.seed, "mid");
+  return mid.ended === "bankrupt" ? null : netWorth(mid).total;
 }
 
 // ---- 自動プレイ（バランス確認用） ----
