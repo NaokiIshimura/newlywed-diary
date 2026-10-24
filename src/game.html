@@ -35,6 +35,7 @@
         <button id="btn-gallery" data-i18n="title.gallery"></button>
         <button id="btn-settings" class="ghost" data-i18n="title.settings"></button>
       </div>
+      <p class="series-link"><a href="https://solo-living-diary.nacn.app/{{code}}/" data-i18n="title.prequel"></a></p>
 {{langNav}}
 {{siteNav}}
     </section>
@@ -43,6 +44,11 @@
     <section id="screen-setup" class="screen" hidden>
       <h2 data-i18n="setup.heading"></h2>
       <form id="setup-form" class="form">
+        <div id="handoff-note" class="handoff" hidden>
+          <p data-i18n="setup.handoff"></p>
+          <p id="handoff-detail" class="hint"></p>
+          <button type="button" id="btn-no-handoff" class="ghost" data-i18n="setup.noHandoff"></button>
+        </div>
         <div class="row">
           <label><span data-i18n="setup.genderA"></span>
             <select name="genderA"><option value="female" data-i18n="setup.female"></option><option value="male" data-i18n="setup.male"></option></select>
@@ -54,7 +60,7 @@
         <label><span data-i18n="setup.age" data-i18n-params='{"min":22,"max":45}'></span>
           <span class="field"><input name="age" type="number" min="22" max="45" step="1" required><button type="button" data-random="age" data-i18n="setup.random"></button></span>
         </label>
-        <label><span data-i18n="setup.savings" data-i18n-params='{"min":0,"max":1000}'></span>
+        <label><span id="savings-label" data-i18n="setup.savings" data-i18n-params='{"min":0,"max":1000}'></span>
           <span class="field"><input name="savings" type="number" min="0" max="1000" step="10" required><button type="button" data-random="savings" data-i18n="setup.random"></button></span>
           <output class="hint" data-money-for="savings"></output>
         </label>

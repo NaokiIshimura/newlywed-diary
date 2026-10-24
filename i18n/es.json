@@ -15,7 +15,8 @@
     "start": "Empezar",
     "continue": "Continuar",
     "gallery": "Galería de finales",
-    "settings": "Ajustes"
+    "settings": "Ajustes",
+    "prequel": "Juega la precuela, Diario de vida independiente"
   },
   "setup": {
     "heading": "Configuración inicial",
@@ -32,7 +33,13 @@
     "random": "Aleatorio",
     "submit": "Empezar con esta configuración",
     "omakase": "Empezar con todo al azar",
-    "back": "Volver al inicio"
+    "back": "Volver al inicio",
+    "handoff": "Continúas desde Diario de vida independiente. Tu género, tu edad al casarte, tu ingreso y tu auto vienen del resultado de ese juego.",
+    "handoffSavings": "Ahorros que traes: {savings:money} (se suman a los de tu pareja)",
+    "handoffCar": "Auto: el que manejabas en Diario de vida independiente (vale {value:money})",
+    "handoffNoCar": "Auto: ninguno",
+    "partnerSavings": "Ahorros de tu pareja (en ¥10.000, {min}–{max})",
+    "noHandoff": "Empezar sin traer nada"
   },
   "main": {
     "age": "{n} años",
@@ -242,7 +249,8 @@
     "again": "Jugar otra vez",
     "toTitle": "Al inicio",
     "cardAlt": "Tarjeta con el resultado",
-    "new": "NUEVO"
+    "new": "NUEVO",
+    "fromSolo": "Continuación de Diario de vida independiente"
   },
   "gallery": {
     "heading": "Galería de finales",
@@ -302,7 +310,8 @@
     "firstChildBorn": "Nació nuestro bebé.",
     "childBorn": "Nació nuestro hijo n.º {n}.",
     "bankrupt": "Nuestras finanzas quebraron.",
-    "retired": "Llegó la jubilación."
+    "retired": "Llegó la jubilación.",
+    "fromSolo": "Empezamos nuestra vida juntos con los ahorros y el auto de mis años viviendo por mi cuenta."
   },
   "site": {
     "htmlLang": "es-419",

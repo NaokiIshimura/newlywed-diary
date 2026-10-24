@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import {
   STRATEGIES,
   achievementsOf,
+  carValue,
   choose,
   compareWithMid,
   createGame,
@@ -11,10 +12,13 @@ import {
   downPayment,
   educationCost,
   endYear,
+  handoffCarValue,
+  handoffSettings,
   loanPayment,
   medianIncome,
   netWorth,
   nextEvent,
+  parseHandoff,
   playToEnd,
   rankOf,
   titleOf,
@@ -273,4 +277,74 @@ test("家で介護するあいだ、パートナーは時短・パートにな�
   assert.equal(state.care, null);
   assert.equal(state.workStyle, "fulltime_both");
   assert.equal(state.baseIncome.b, before, "時短・パートはブランクにならない");
+});
+
+// ---- 一人暮らし日記からの引き継ぎ ----
+
+// 一人暮らし日記の handoffData と同じ形のデータを、URL のクエリにする
+function soloQuery(d) {
+  const b64 = Buffer.from(JSON.stringify(d)).toString("base64url");
+  return new URLSearchParams(`from=solo&d=${b64}`);
+}
+const soloData = {
+  v: 1, gender: "female", age: 30, savings: 280, income: 380,
+  car: { tier: "mid", price: 150, resale: 30, years: 8, annual: 30, breakdownChance: 0.1, boughtAge: 25 },
+  ending: "married_mid",
+};
+
+test("一人暮らし日記の引き継ぎデータを読める", () => {
+  const h = parseHandoff(data, soloQuery(soloData));
+  assert.deepEqual(h, { gender: "female", age: 30, savings: 280, income: 380, car: soloData.car, ending: "married_mid" });
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, car: null })).car, null);
+});
+
+test("知らない版・壊れたデータ・範囲の外の値は、引き継がない", () => {
+  assert.equal(parseHandoff(data, new URLSearchParams("")), null);
+  assert.equal(parseHandoff(data, new URLSearchParams("from=solo&d=not-json")), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, v: 2 })), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, age: 50 })), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, gender: "x" })), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, savings: "100" })), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, car: { ...soloData.car, boughtAge: 31 } })), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, ending: "<script>" })).ending, null);
+});
+
+test("引き継いだ貯金がマイナスでも、そのまま持ち込む", () => {
+  const h = parseHandoff(data, soloQuery({ ...soloData, savings: -120 }));
+  const s = handoffSettings(h, { gender: "male", savings: 50, income: 300, workStyle: "fulltime_both" });
+  assert.equal(s.savings, -70);
+  assert.equal(createGame(data, s, 1).savings, -70);
+});
+
+test("貯金は引き継いだ貯金＋パートナーの貯金で、上限はない", () => {
+  const h = parseHandoff(data, soloQuery({ ...soloData, savings: 1500 }));
+  const s = handoffSettings(h, { gender: "male", savings: 800, income: 300, workStyle: "parttime" });
+  assert.deepEqual(s.genders, { a: "female", b: "male" });
+  assert.deepEqual(s.income, { a: 380, b: 300 });
+  assert.equal(s.age, 30);
+  assert.equal(s.savings, 2300);
+});
+
+test("引き継いだ車は最初から持っていて、評価額と買い替えの時期は買った年齢から数える", () => {
+  const h = parseHandoff(data, soloQuery(soloData));
+  const state = createGame(data, handoffSettings(h, { gender: "male", savings: 0, income: 300, workStyle: "fulltime_both" }), 1);
+  assert.equal(state.car.tier, "low"); // 一人暮らし日記の中古車は、新婚日記の「中古車」として表示する
+  assert.equal(state.car.boughtYear, -5);
+  assert.equal(carValue(state.car, state.year), 150 - 15 * 5);
+  assert.equal(handoffCarValue(h), carValue(state.car, 0));
+  // 8年で買い替えなので、結婚して3年目に買い替えを聞かれる
+  state.year = 3;
+  state.weddingDone = true;
+  state.honeymoonDone = true;
+  state.childPlan = "never";
+  assert.deepEqual(nextEvent(data, state), { id: "car", replace: true });
+});
+
+test("引き継いだ人生でも、同じ設定で「全部普通」と比べられる", () => {
+  const h = parseHandoff(data, soloQuery(soloData));
+  const s = handoffSettings(h, { gender: "male", savings: 0, income: 300, workStyle: "fulltime_both" });
+  const state = playToEnd(data, s, 7, "low");
+  assert.ok(["retire", "bankrupt"].includes(state.ended));
+  assert.notEqual(compareWithMid(data, state), undefined);
+  assert.ok(state.history.some((x) => x.key === "h.fromSolo"));
 });

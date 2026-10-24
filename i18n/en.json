@@ -15,7 +15,8 @@
     "start": "Start",
     "continue": "Continue",
     "gallery": "Endings",
-    "settings": "Settings"
+    "settings": "Settings",
+    "prequel": "Play the prequel, Solo Living Diary"
   },
   "setup": {
     "heading": "Setup",
@@ -32,7 +33,13 @@
     "random": "Random",
     "submit": "Start with these settings",
     "omakase": "Randomize all and start",
-    "back": "Back to title"
+    "back": "Back to title",
+    "handoff": "Continuing from Solo Living Diary. Your gender, age at marriage, income and car carry over from that game's result.",
+    "handoffSavings": "Savings carried over: {savings:money} (added to your partner's savings)",
+    "handoffCar": "Car: the one you drove in Solo Living Diary (worth {value:money})",
+    "handoffNoCar": "Car: none",
+    "partnerSavings": "Partner's savings (in ¥10,000, {min}–{max})",
+    "noHandoff": "Start without carrying over"
   },
   "main": {
     "age": "Age {n}",
@@ -243,7 +250,8 @@
     "again": "Play again",
     "toTitle": "Title",
     "cardAlt": "Result image card",
-    "new": "NEW"
+    "new": "NEW",
+    "fromSolo": "Carried over from Solo Living Diary"
   },
   "gallery": {
     "heading": "Endings",
@@ -304,7 +312,8 @@
     "firstChildBorn": "Our baby was born.",
     "childBorn": "Child #{n} was born.",
     "bankrupt": "Our finances collapsed.",
-    "retired": "We reached retirement."
+    "retired": "We reached retirement.",
+    "fromSolo": "We started our life together with the savings and car from my years living solo."
   },
   "site": {
     "htmlLang": "en",

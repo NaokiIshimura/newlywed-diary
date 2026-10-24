@@ -15,7 +15,8 @@
     "start": "はじめる",
     "continue": "続きから",
     "gallery": "エンディング図鑑",
-    "settings": "設定"
+    "settings": "設定",
+    "prequel": "前日譚『一人暮らし日記』も遊ぶ"
   },
   "setup": {
     "heading": "開始設定",
@@ -32,7 +33,13 @@
     "random": "ランダム",
     "submit": "この設定ではじめる",
     "omakase": "全部おまかせではじめる",
-    "back": "タイトルへ戻る"
+    "back": "タイトルへ戻る",
+    "handoff": "一人暮らし日記から引き継いでいます。主人公の性別・結婚時の年齢・年収・車は、一人暮らし日記の結果のままです。",
+    "handoffSavings": "引き継いだ貯金 {savings:money}（パートナーの貯金と合わせて始めます）",
+    "handoffCar": "車：一人暮らし日記で乗っていた車（評価額 {value:money}）",
+    "handoffNoCar": "車：なし",
+    "partnerSavings": "パートナーの貯金（万円・{min}〜{max}）",
+    "noHandoff": "引き継がずに始める"
   },
   "main": {
     "age": "{n}歳",
@@ -239,7 +246,8 @@
     "again": "もう一度",
     "toTitle": "タイトルへ",
     "cardAlt": "結果の画像カード",
-    "new": "NEW"
+    "new": "NEW",
+    "fromSolo": "一人暮らし日記から引き継ぎ"
   },
   "gallery": {
     "heading": "エンディング図鑑",
@@ -299,7 +307,8 @@
     "firstChildBorn": "子どもが生まれた。",
     "childBorn": "{n}人目の子どもが生まれた。",
     "bankrupt": "家計が破綻した。",
-    "retired": "定年を迎えた。"
+    "retired": "定年を迎えた。",
+    "fromSolo": "一人暮らしの貯金と車を引き継いで、ふたりの暮らしが始まった。"
   },
   "site": {
     "htmlLang": "ja",

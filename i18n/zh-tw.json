@@ -15,7 +15,8 @@
     "start": "開始",
     "continue": "繼續",
     "gallery": "結局圖鑑",
-    "settings": "設定"
+    "settings": "設定",
+    "prequel": "也來玩前傳《獨居日記》"
   },
   "setup": {
     "heading": "開局設定",
@@ -32,7 +33,13 @@
     "random": "隨機",
     "submit": "用這個設定開始",
     "omakase": "全部交給系統，直接開始",
-    "back": "回到標題"
+    "back": "回到標題",
+    "handoff": "正在沿用《獨居日記》的結果。主角的性別、結婚時的年齡、年收入和車子，都和《獨居日記》的結果相同。",
+    "handoffSavings": "沿用的存款 {savings:money}（會和另一半的存款合計後開始）",
+    "handoffCar": "車子：在《獨居日記》開的車（估值 {value:money}）",
+    "handoffNoCar": "車子：無",
+    "partnerSavings": "另一半的存款（單位：萬日圓，{min}〜{max}）",
+    "noHandoff": "不沿用，重新開始"
   },
   "main": {
     "age": "{n}歲",
@@ -239,7 +246,8 @@
     "again": "再玩一次",
     "toTitle": "回到標題",
     "cardAlt": "結果圖卡",
-    "new": "NEW"
+    "new": "NEW",
+    "fromSolo": "沿用《獨居日記》的結果"
   },
   "gallery": {
     "heading": "結局圖鑑",
@@ -299,7 +307,8 @@
     "firstChildBorn": "孩子出生了。",
     "childBorn": "第{n}個孩子出生了。",
     "bankrupt": "家計破產了。",
-    "retired": "迎來了退休。"
+    "retired": "迎來了退休。",
+    "fromSolo": "帶著獨居時存下的錢和車子，兩個人的生活開始了。"
   },
   "site": {
     "htmlLang": "zh-Hant-TW",
