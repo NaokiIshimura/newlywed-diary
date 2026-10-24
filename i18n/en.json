@@ -199,7 +199,7 @@
       "facility": "Care facility",
       "facilitySub": "{annual:money}/yr",
       "home": "Care at home",
-      "homeSub": "{annual:money}/yr · partner leaves work while caregiving"
+      "homeSub": "{annual:money}/yr · partner works part-time while caregiving"
     }
   },
   "result": {
@@ -292,6 +292,7 @@
     "jobAccepted": "I switched jobs. Income changed {pct:signed}%.",
     "jobDeclined": "I turned down the job offer.",
     "careHomeLeaveWork": "Parent care began. My partner left work to care for them at home (about {years} years).",
+    "careHomeReduceWork": "Parent care began. My partner switched to part-time to care for them at home (about {years} years).",
     "careHome": "Parent care began. We chose to care for them at home (about {years} years).",
     "careFacility": "Parent care began. We moved them into a care facility (about {years} years).",
     "scholarshipTakeover": "We took over our child's {amount:money} student loan.",

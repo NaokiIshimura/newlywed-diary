@@ -258,3 +258,19 @@ test("子どもを望むと、その年のうちにかならず生まれる（Is
     assert.equal(state.childPlan, null, "生まれたら次を望むか聞き直す");
   }
 });
+
+test("家で介護するあいだ、パートナーは時短・パートになり、終わるとブランクなしで元に戻る", () => {
+  const state = married({ age: 45 });
+  state.carNever = true;
+  state.houseNever = true;
+  state.randomRolledYear = Infinity;
+  const ev = { id: "care", years: 3 };
+  state.queue.push(ev);
+  choose(data, state, ev, { mode: "home" });
+  assert.equal(state.workStyle, "parttime");
+  const before = state.baseIncome.b;
+  for (let i = 0; i < 3; i++) endYear(data, state);
+  assert.equal(state.care, null);
+  assert.equal(state.workStyle, "fulltime_both");
+  assert.equal(state.baseIncome.b, before, "時短・パートはブランクにならない");
+});

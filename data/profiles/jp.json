@@ -305,7 +305,7 @@
             "tax": 8,
             "reserve": 10
           },
-          "depreciation": 0.04,
+          "depreciation": 0.05,
           "repairChance": 0.35,
           "repairCostRate": 2.0,
           "majorRepair": {
@@ -400,7 +400,8 @@
           5
         ],
         "facilityAnnual": 60,
-        "homeAnnual": 20
+        "homeAnnual": 20,
+        "homeWorkStyle": "parttime"
       },
       "bonusCut": {
         "weight": 15,

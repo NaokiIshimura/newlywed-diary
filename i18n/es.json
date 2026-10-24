@@ -198,7 +198,7 @@
       "facility": "Llevarlo a una residencia",
       "facilitySub": "{annual:money}/año",
       "home": "Cuidarlo en casa",
-      "homeSub": "{annual:money}/año · tu pareja deja de trabajar mientras tanto"
+      "homeSub": "{annual:money}/año · tu pareja pasa a medio tiempo mientras tanto"
     }
   },
   "result": {
@@ -290,6 +290,7 @@
     "jobAccepted": "Cambié de trabajo. El sueldo cambió {pct:signed}%.",
     "jobDeclined": "Rechacé la oferta de trabajo.",
     "careHomeLeaveWork": "Empezamos a cuidar a un padre. Mi pareja dejó el trabajo para cuidarlo en casa (aprox. {years} años).",
+    "careHomeReduceWork": "Empezamos a cuidar a un padre. Mi pareja pasó a medio tiempo para cuidarlo en casa (aprox. {years} años).",
     "careHome": "Empezamos a cuidar a un padre en casa (aprox. {years} años).",
     "careFacility": "Empezamos a cuidar a un padre. Lo llevamos a una residencia (aprox. {years} años).",
     "scholarshipTakeover": "Nos hicimos cargo del préstamo estudiantil de nuestro hijo: {amount:money}.",
