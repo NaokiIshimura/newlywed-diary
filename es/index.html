@@ -19,7 +19,7 @@
   <meta property="og:title" content="Diario de recién casados | Del matrimonio a la jubilación, un simulador de vida a base de decisiones">
   <meta property="og:description" content="Un simulador de vida: del matrimonio a la jubilación, solo eligiendo «comprar o no» y «caro, normal o barato».">
   <meta property="og:url" content="https://newlywed-diary.nacn.app/es/">
-  <meta property="og:image" content="https://newlywed-diary.nacn.app/es/og.png?v=20261024b">
+  <meta property="og:image" content="https://newlywed-diary.nacn.app/es/og.png?v=20261024c">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -46,7 +46,7 @@
   }
 }
   </script>
-  <link rel="stylesheet" href="../css/style.css?v=20261024b">
+  <link rel="stylesheet" href="../css/style.css?v=20261024c">
   <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -96,6 +96,7 @@ function gtag(){dataLayer.push(arguments);}
         <button id="btn-gallery" data-i18n="title.gallery">Galería de finales</button>
         <button id="btn-settings" class="ghost" data-i18n="title.settings">Ajustes</button>
       </div>
+      <p class="series-link"><a href="https://solo-living-diary.nacn.app/es/" data-i18n="title.prequel">Juega la precuela, Diario de vida independiente</a></p>
       <nav class="lang-switch langs"><a href="../en/" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/" hreflang="es" lang="es-419" data-code="es" aria-current="true">Español</a><a href="../ja/" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
       <nav class="site-nav" aria-label="Páginas del sitio">
         <ul data-consent-menu>
@@ -111,6 +112,11 @@ function gtag(){dataLayer.push(arguments);}
     <section id="screen-setup" class="screen" hidden>
       <h2 data-i18n="setup.heading">Configuración inicial</h2>
       <form id="setup-form" class="form">
+        <div id="handoff-note" class="handoff" hidden>
+          <p data-i18n="setup.handoff">Continúas desde Diario de vida independiente. Tu género, tu edad al casarte, tu ingreso y tu auto vienen del resultado de ese juego.</p>
+          <p id="handoff-detail" class="hint"></p>
+          <button type="button" id="btn-no-handoff" class="ghost" data-i18n="setup.noHandoff">Empezar sin traer nada</button>
+        </div>
         <div class="row">
           <label><span data-i18n="setup.genderA">Tu género</span>
             <select name="genderA"><option value="female" data-i18n="setup.female">Mujer</option><option value="male" data-i18n="setup.male">Hombre</option></select>
@@ -122,7 +128,7 @@ function gtag(){dataLayer.push(arguments);}
         <label><span data-i18n="setup.age" data-i18n-params='{"min":22,"max":45}'>Edad al casarse (22–45 años)</span>
           <span class="field"><input name="age" type="number" min="22" max="45" step="1" required><button type="button" data-random="age" data-i18n="setup.random">Aleatorio</button></span>
         </label>
-        <label><span data-i18n="setup.savings" data-i18n-params='{"min":0,"max":1000}'>Ahorros (en ¥10.000, 0–1000)</span>
+        <label><span id="savings-label" data-i18n="setup.savings" data-i18n-params='{"min":0,"max":1000}'>Ahorros (en ¥10.000, 0–1000)</span>
           <span class="field"><input name="savings" type="number" min="0" max="1000" step="10" required><button type="button" data-random="savings" data-i18n="setup.random">Aleatorio</button></span>
           <output class="hint" data-money-for="savings"></output>
         </label>
@@ -225,7 +231,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
   </div>
 
-  <script type="module" src="../js/app.js?v=20261024b"></script>
+  <script type="module" src="../js/app.js?v=20261024c"></script>
 <div class="suggest" id="langSuggest" hidden>
     <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
     <button type="button" class="suggest-close" id="langSuggestClose" aria-label="Cerrar">×</button>

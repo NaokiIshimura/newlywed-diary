@@ -123,7 +123,84 @@ export function createGame(data, settings, seed = newSeed()) {
   const [y0, y1] = data.events.car.firstYear;
   state.carNextAt = randInt(state, y0, y1);
   addHistory(state, "h.married");
+  if (settings.from === "solo") {
+    // 一人暮らし日記から引き継いだ車は、最初から持っている。買い替えの時期は買った年齢から数える
+    if (settings.car) {
+      const c = settings.car;
+      state.car = { tier: SOLO_CAR_TIER[c.tier], price: c.price, resale: c.resale, years: c.years, annual: c.annual, breakdownChance: c.breakdownChance, boughtYear: c.boughtAge - settings.age };
+      state.carNextAt = 0;
+    }
+    addHistory(state, "h.fromSolo");
+  }
   return state;
+}
+
+// ---- 一人暮らし日記からの引き継ぎ ----
+
+// 一人暮らし日記の車の段階を、新婚日記の選択肢（表示する名前）に読み替える。値段や年数などの値はそのまま使う
+// 一人暮らし日記の「高い」は国産新車（新婚日記の普通）、「普通」「安い」は中古車（新婚日記の安い）
+const SOLO_CAR_TIER = { high: "mid", mid: "low", low: "low" };
+
+const ENDING_PATTERN = /^(married|single)_(high|mid|low)$/;
+
+function base64urlDecode(s) {
+  const b64 = s.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (s.length % 4)) % 4);
+  const bin = atob(b64);
+  return new TextDecoder().decode(Uint8Array.from(bin, (ch) => ch.charCodeAt(0)));
+}
+
+// URL のクエリ（?from=solo&d=<base64url の JSON>）から、一人暮らし日記の引き継ぎデータを読む。
+// 知らない版や壊れたデータ、範囲の外の値なら null を返す（ふつうの開始設定にする）。1人用のゲームなので、改ざんの対策はしない
+export function parseHandoff(data, params) {
+  if (params.get("from") !== "solo" || !params.get("d")) return null;
+  let d;
+  try {
+    d = JSON.parse(base64urlDecode(params.get("d")));
+  } catch {
+    return null;
+  }
+  const num = (v, min, max) => typeof v === "number" && Number.isFinite(v) && v >= min && v <= max;
+  if (!d || d.v !== 1) return null;
+  if (!["female", "male"].includes(d.gender)) return null;
+  if (!Number.isInteger(d.age) || !num(d.age, data.startAge.min, data.startAge.max)) return null;
+  if (!num(d.savings, data.bankruptLine, 100000) || !num(d.income, 0, 3000)) return null;
+  let car = null;
+  if (d.car) {
+    const c = d.car;
+    const ok =
+      ["high", "mid", "low"].includes(c.tier) && num(c.price, 1, 10000) && num(c.resale, 0, c.price) && Number.isInteger(c.years) && num(c.years, 1, 30) &&
+      num(c.annual, 0, 1000) && num(c.breakdownChance, 0, 1) && Number.isInteger(c.boughtAge) && num(c.boughtAge, 0, d.age);
+    if (!ok) return null;
+    car = { tier: c.tier, price: c.price, resale: c.resale, years: c.years, annual: c.annual, breakdownChance: c.breakdownChance, boughtAge: c.boughtAge };
+  }
+  return {
+    gender: d.gender,
+    age: d.age,
+    savings: Math.round(d.savings),
+    income: Math.round(d.income),
+    car,
+    ending: typeof d.ending === "string" && ENDING_PATTERN.test(d.ending) ? d.ending : null,
+  };
+}
+
+// 引き継いだ車の、結婚した年の評価額（開始設定に表示する）
+export function handoffCarValue(handoff) {
+  const c = handoff.car;
+  return c ? carValue({ ...c, boughtYear: c.boughtAge - handoff.age }, 0) : 0;
+}
+
+// 引き継ぎデータとパートナーの設定から、開始設定を作る。貯金は「引き継いだ貯金＋パートナーの貯金」で、上限はない
+export function handoffSettings(handoff, partner) {
+  return {
+    genders: { a: handoff.gender, b: partner.gender },
+    age: handoff.age,
+    savings: handoff.savings + partner.savings,
+    income: { a: handoff.income, b: partner.income },
+    workStyle: partner.workStyle,
+    from: "solo",
+    car: handoff.car,
+    soloEnding: handoff.ending,
+  };
 }
 
 // 日記の出来事。文そのものは持たず、翻訳のキーと差し込む値を持つ（画面側で言語に合わせて文にする）

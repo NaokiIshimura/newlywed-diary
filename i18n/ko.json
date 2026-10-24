@@ -15,7 +15,8 @@
     "start": "시작하기",
     "continue": "이어하기",
     "gallery": "엔딩 도감",
-    "settings": "설정"
+    "settings": "설정",
+    "prequel": "프리퀄 「자취일기」도 플레이하기"
   },
   "setup": {
     "heading": "시작 설정",
@@ -32,7 +33,13 @@
     "random": "랜덤",
     "submit": "이 설정으로 시작",
     "omakase": "모두 맡기고 시작",
-    "back": "타이틀로 돌아가기"
+    "back": "타이틀로 돌아가기",
+    "handoff": "「자취일기」의 결과를 이어받았습니다. 주인공의 성별, 결혼 시 나이, 연봉, 차는 「자취일기」의 결과 그대로입니다.",
+    "handoffSavings": "이어받은 저축 {savings:money} (배우자의 저축과 합쳐서 시작합니다)",
+    "handoffCar": "차: 「자취일기」에서 타던 차 (평가액 {value:money})",
+    "handoffNoCar": "차: 없음",
+    "partnerSavings": "배우자의 저축 (단위: 만 엔, {min}~{max})",
+    "noHandoff": "이어받지 않고 시작하기"
   },
   "main": {
     "age": "{n}세",
@@ -239,7 +246,8 @@
     "again": "한 번 더",
     "toTitle": "타이틀로",
     "cardAlt": "결과 이미지 카드",
-    "new": "NEW"
+    "new": "NEW",
+    "fromSolo": "「자취일기」에서 이어받음"
   },
   "gallery": {
     "heading": "엔딩 도감",
@@ -299,7 +307,8 @@
     "firstChildBorn": "아이가 태어났다.",
     "childBorn": "{n}째 아이가 태어났다.",
     "bankrupt": "가계가 파산했다.",
-    "retired": "정년을 맞았다."
+    "retired": "정년을 맞았다.",
+    "fromSolo": "자취하며 모은 저축과 차를 이어받아, 둘의 생활이 시작됐다."
   },
   "site": {
     "htmlLang": "ko",

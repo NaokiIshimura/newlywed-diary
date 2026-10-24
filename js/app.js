@@ -10,12 +10,15 @@ import {
   defaultSettings,
   downPayment,
   endYear,
+  handoffCarValue,
+  handoffSettings,
   immediateCost,
   loanPayment,
   medianIncome,
   netWorth,
   newSeed,
   nextEvent,
+  parseHandoff,
   randomSettings,
   rankOf,
   titleOf,
@@ -84,6 +87,7 @@ for (const b of document.querySelectorAll("[data-back]")) b.addEventListener("cl
 
 const form = $("#setup-form");
 let incomeEdited = { a: false, b: false };
+let handoff = null; // 一人暮らし日記から引き継いだデータ（URL の ?from=solo&d=）。なければ null
 
 function fillForm(s) {
   form.genderA.value = s.genders.a;
@@ -105,6 +109,15 @@ function updateMoneyHints() {
 
 function readForm() {
   const clamp = (v, min, max) => Math.min(max, Math.max(min, Math.round(Number(v) || 0)));
+  // 引き継ぐときは、主人公の性別・年齢・年収は一人暮らし日記のまま。貯金の欄はパートナーの貯金になる
+  if (handoff) {
+    return handoffSettings(handoff, {
+      gender: form.genderB.value,
+      savings: clamp(form.savings.value, data.startSavings.min, data.startSavings.max),
+      income: clamp(form.incomeB.value, 0, 3000),
+      workStyle: form.workStyle.value,
+    });
+  }
   return {
     genders: { a: form.genderA.value, b: form.genderB.value },
     age: clamp(form.age.value, data.startAge.min, data.startAge.max),
@@ -114,11 +127,38 @@ function readForm() {
   };
 }
 
-function showSetup() {
+function showSetup(from = null) {
+  handoff = from;
   incomeEdited = { a: false, b: false };
   fillForm(defaultSettings(data));
+  applyHandoff();
   show("screen-setup");
 }
+
+// 引き継ぐときは、主人公の欄を一人暮らし日記の値にして変えられないようにし、貯金の欄をパートナーの貯金にする
+function applyHandoff() {
+  const on = !!handoff;
+  $("#handoff-note").hidden = !on;
+  for (const name of ["genderA", "age", "incomeA"]) form[name].disabled = on;
+  for (const key of ["age", "incomeA"]) form.querySelector(`[data-random="${key}"]`).hidden = on;
+  $("#savings-label").innerHTML = t(on ? "setup.partnerSavings" : "setup.savings", { min: data.startSavings.min, max: data.startSavings.max });
+  if (on) {
+    form.genderA.value = handoff.gender;
+    form.age.value = handoff.age;
+    form.incomeA.value = handoff.income;
+    form.incomeB.value = Math.round(medianIncome(data, handoff.age) / 10) * 10;
+    form.savings.value = randomSettings(data, newSeed()).savings;
+    const car = handoff.car ? t("setup.handoffCar", { value: handoffCarValue(handoff) }) : t("setup.handoffNoCar");
+    $("#handoff-detail").innerHTML = `${t("setup.handoffSavings", { savings: handoff.savings })}<br>${car}`;
+  }
+  updateMoneyHints();
+}
+
+// 引き継がずに始める。URL のクエリも消して、再読み込みで戻らないようにする
+$("#btn-no-handoff").addEventListener("click", () => {
+  history.replaceState(null, "", location.pathname);
+  showSetup(null);
+});
 
 // 年齢を変えたら、手で変えていない年収をその年齢の中央値にそろえる
 form.age.addEventListener("input", () => {
@@ -153,11 +193,21 @@ form.addEventListener("submit", (e) => {
   startGame(readForm());
 });
 
-$("#btn-omakase").addEventListener("click", () => startGame(randomSettings(data, newSeed())));
+$("#btn-omakase").addEventListener("click", () => {
+  const r = randomSettings(data, newSeed());
+  if (!handoff) return startGame(r);
+  // 引き継ぐときは、パートナーのぶんだけおまかせにする
+  const income = Math.round((medianIncome(data, handoff.age) * (0.7 + Math.random() * 0.6)) / 10) * 10;
+  startGame(handoffSettings(handoff, { gender: r.genders.b, savings: r.savings, income, workStyle: r.workStyle }));
+});
 
 // ---- メイン ----
 
 function startGame(start) {
+  if (start.from === "solo") {
+    history.replaceState(null, "", location.pathname);
+    handoff = null;
+  }
   state = createGame(data, start);
   $("#diary").replaceChildren();
   shown = 0;
@@ -466,7 +516,9 @@ function lifeLines() {
   const home = state.house ? t(`events.house.${state.house.tier}.label`) : r("rent");
   const car = state.car ? t(`events.car.${state.car.tier}.label`) : r("noCar");
   const sep = t("main.status.listSep");
-  return [r(state.ended === "bankrupt" ? "lifeBankrupt" : "lifeRetire", { start: state.startAge, end: state.age }), [kids, home, car].join(sep)];
+  const lines = [r(state.ended === "bankrupt" ? "lifeBankrupt" : "lifeRetire", { start: state.startAge, end: state.age }), [kids, home, car].join(sep)];
+  if (state.settings.from === "solo") lines.push(r("fromSolo"));
+  return lines;
 }
 
 function showResult() {
@@ -628,12 +680,15 @@ $("#btn-clear").addEventListener("click", () => {
   showSettings();
 });
 
-$("#btn-start").addEventListener("click", showSetup);
+$("#btn-start").addEventListener("click", () => showSetup());
 $("#btn-continue").addEventListener("click", continueGame);
-$("#btn-again").addEventListener("click", showSetup);
+$("#btn-again").addEventListener("click", () => showSetup());
 $("#btn-gallery").addEventListener("click", showGallery);
 $("#btn-settings").addEventListener("click", showSettings);
 
 data = await (await fetch(new URL(`../data/profiles/${PROFILE}.json`, import.meta.url))).json();
 await setLang(pageLang());
-showTitle();
+// 一人暮らし日記の結果から来たときは、引き継いだ開始設定から始める
+const fromSolo = parseHandoff(data, new URLSearchParams(location.search));
+if (fromSolo) showSetup(fromSolo);
+else showTitle();

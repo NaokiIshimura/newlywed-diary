@@ -374,3 +374,10 @@ body:has(#langSuggest:not([hidden])) #app { padding-top: 64px; }
 .doc-body .example { padding: 8px 12px; border-radius: 10px; background: var(--bg); font-size: 0.9rem; }
 .doc-body .note, .doc-body .date { color: var(--muted); font-size: 0.85rem; }
 .doc .site-nav ul { font-size: 0.85rem; }
+
+/* 一人暮らし日記からの引き継ぎ（開始設定）と、姉妹作へのリンク（タイトル） */
+.handoff { padding: 12px 14px; border: 1px solid var(--accent); border-radius: 12px; background: var(--paper); }
+.handoff p { margin: 0 0 6px; font-size: 0.9rem; }
+.handoff button { padding: 4px 0; }
+.series-link { margin: 16px 0 0; text-align: center; font-size: 0.9rem; }
+.series-link a { color: var(--accent); }
