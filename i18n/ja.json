@@ -6,7 +6,10 @@
     "hashtag": "#新婚日記",
     "setInJapan": ""
   },
-  "who": { "a": "主人公", "b": "パートナー" },
+  "who": {
+    "a": "主人公",
+    "b": "パートナー"
+  },
   "title": {
     "lead": "結婚から定年まで、<br>選択だけで駆け抜ける人生シミュレーション",
     "start": "はじめる",
@@ -74,7 +77,11 @@
     }
   },
   "event": {
-    "tier": { "high": "高い", "mid": "普通", "low": "安い" },
+    "tier": {
+      "high": "高い",
+      "mid": "普通",
+      "low": "安い"
+    },
     "tierOption": "{tier}：{label}",
     "back": "戻る",
     "predicted": "→ 貯金 {money:money}",
@@ -82,8 +89,19 @@
     "later": "今は買わない（3年後にまた考える）",
     "child": "子ども",
     "childNth": "{n}人目の子ども",
-    "wedding": { "title": "結婚式", "text": "結婚式を挙げますか？", "yes": "やる", "no": "やらない", "detail": "{cost:money}（ご祝儀 +{gift:money}）" },
-    "honeymoon": { "title": "新婚旅行", "text": "新婚旅行に行きますか？", "yes": "行く", "no": "行かない" },
+    "wedding": {
+      "title": "結婚式",
+      "text": "結婚式を挙げますか？",
+      "yes": "やる",
+      "no": "やらない",
+      "detail": "{cost:money}（ご祝儀 +{gift:money}）"
+    },
+    "honeymoon": {
+      "title": "新婚旅行",
+      "text": "新婚旅行に行きますか？",
+      "yes": "行く",
+      "no": "行かない"
+    },
     "childPlan": {
       "title": "子ども",
       "textFirst": "子どもを望みますか？望む場合は、毎年一定の確率で生まれます。",
@@ -97,16 +115,32 @@
     "workStyle": {
       "title": "働き方の見直し",
       "text": "{why}パートナーの働き方をどうしますか？（今は{current}）",
-      "why": { "birth": "子どもが生まれた。", "elementary": "末っ子が小学校に入学する。", "juniorHigh": "末っ子が中学校に入学する。" },
+      "why": {
+        "birth": "子どもが生まれた。",
+        "elementary": "末っ子が小学校に入学する。",
+        "juniorHigh": "末っ子が中学校に入学する。"
+      },
       "current": "（今のまま）",
       "partnerIncome": "パートナーの年収 約{money:money}",
       "partnerIncomeZero": "パートナーの年収 0",
       "singleNote": "復帰するとき、離れていた年数ぶん年収が下がる"
     },
-    "childcare": { "title": "保育", "text": "{child}の0〜5歳の預け先を決めます。" },
-    "elementary": { "title": "小学校", "text": "{child}が小学校に入学します（6年間）。" },
-    "juniorHigh": { "title": "中学校", "text": "{child}が中学校に入学します（3年間）。" },
-    "highSchool": { "title": "高校", "text": "{child}が高校に進学します（3年間）。" },
+    "childcare": {
+      "title": "保育",
+      "text": "{child}の0〜5歳の預け先を決めます。"
+    },
+    "elementary": {
+      "title": "小学校",
+      "text": "{child}が小学校に入学します（6年間）。"
+    },
+    "juniorHigh": {
+      "title": "中学校",
+      "text": "{child}が中学校に入学します（3年間）。"
+    },
+    "highSchool": {
+      "title": "高校",
+      "text": "{child}が高校に進学します（3年間）。"
+    },
     "schoolDetail": "年{annual:money}",
     "boarding": "（下宿・生活費こみ）",
     "university": {
@@ -137,8 +171,17 @@
       "detail": "{cost:money}（頭金 {down:money}）・ローン 年{loan:money}・固定費 年{fixed:money}",
       "manyRepairs": "・修繕が多い"
     },
-    "repair": { "title": "家の修繕", "text": "家のあちこちが傷んできた。どう直しますか？", "detail": "{cost:money}・次に傷むまで{years}年" },
-    "familyTrip": { "title": "家族旅行・記念日", "text": "結婚{n}年目の記念日。旅行に行きますか？", "yes": "行く", "no": "行かない" },
+    "repair": {
+      "title": "家の修繕",
+      "text": "家のあちこちが傷んできた。どう直しますか？",
+      "detail": "{cost:money}・次に傷むまで{years}年"
+    },
+    "familyTrip": {
+      "title": "家族旅行・記念日",
+      "text": "結婚{n}年目の記念日。旅行に行きますか？",
+      "yes": "行く",
+      "no": "行かない"
+    },
     "jobOffer": {
       "title": "転職の誘い",
       "text": "主人公に転職の誘いがきた。年収は上がるかもしれないし、下がるかもしれない（±20%）。",
@@ -227,8 +270,16 @@
     "lottery": "宝くじが当たった。{amount:money}！",
     "returnToWork": "パートナーが{years}年ぶりに仕事に戻った。年収はブランクのぶん{pct}%下がった。",
     "childPlan": {
-      "first": { "want": "子どもを望むことにした。", "not_now": "子どもはもう少し先に考えることにした。", "never": "ふたりで生きていくと決めた。" },
-      "next": { "want": "もうひとり子どもを望むことにした。", "not_now": "次の子どもは、もう少し先に考えることにした。", "never": "子どもはこれで最後にすると決めた。" }
+      "first": {
+        "want": "子どもを望むことにした。",
+        "not_now": "子どもはもう少し先に考えることにした。",
+        "never": "ふたりで生きていくと決めた。"
+      },
+      "next": {
+        "want": "もうひとり子どもを望むことにした。",
+        "not_now": "次の子どもは、もう少し先に考えることにした。",
+        "never": "子どもはこれで最後にすると決めた。"
+      }
     },
     "workStyleSame": "働き方は今のままにした。",
     "carSold": "乗っていた車を{value:money}で手放した。",
@@ -248,5 +299,9 @@
     "childBorn": "{n}人目の子どもが生まれた。",
     "bankrupt": "家計が破綻した。",
     "retired": "定年を迎えた。"
+  },
+  "footer": {
+    "privacy": "プライバシーポリシー",
+    "moreGames": "nacn.app のほかのゲーム"
   }
 }

@@ -307,3 +307,16 @@ a.button {
 }
 .lang-switch a { color: var(--muted); }
 .lang-switch strong { color: var(--accent); }
+
+/* ページ下のメニュー（プライバシーポリシー・ほかのゲーム・Cookie の設定） */
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+}
+.site-nav a { color: var(--muted); }

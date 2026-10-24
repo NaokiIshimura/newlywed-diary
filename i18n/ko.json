@@ -6,7 +6,10 @@
     "hashtag": "#신혼일기",
     "setInJapan": "이 게임의 무대는 일본이며, 금액은 모두 일본 엔화입니다."
   },
-  "who": { "a": "주인공", "b": "배우자" },
+  "who": {
+    "a": "주인공",
+    "b": "배우자"
+  },
   "title": {
     "lead": "결혼부터 정년까지,<br>선택만으로 달려가는 인생 시뮬레이션",
     "start": "시작하기",
@@ -74,7 +77,11 @@
     }
   },
   "event": {
-    "tier": { "high": "비싸게", "mid": "보통", "low": "싸게" },
+    "tier": {
+      "high": "비싸게",
+      "mid": "보통",
+      "low": "싸게"
+    },
     "tierOption": "{tier}: {label}",
     "back": "뒤로",
     "predicted": "→ 저축 {money:money}",
@@ -82,8 +89,19 @@
     "later": "지금은 안 산다 (3년 뒤 다시 생각)",
     "child": "아이",
     "childNth": "{n}째 아이",
-    "wedding": { "title": "결혼식", "text": "결혼식을 올릴까요?", "yes": "올린다", "no": "안 올린다", "detail": "{cost:money} (축의금 +{gift:money})" },
-    "honeymoon": { "title": "신혼여행", "text": "신혼여행을 갈까요?", "yes": "간다", "no": "안 간다" },
+    "wedding": {
+      "title": "결혼식",
+      "text": "결혼식을 올릴까요?",
+      "yes": "올린다",
+      "no": "안 올린다",
+      "detail": "{cost:money} (축의금 +{gift:money})"
+    },
+    "honeymoon": {
+      "title": "신혼여행",
+      "text": "신혼여행을 갈까요?",
+      "yes": "간다",
+      "no": "안 간다"
+    },
     "childPlan": {
       "title": "아이",
       "textFirst": "아이를 원하나요? 원하면 매년 일정 확률로 태어납니다.",
@@ -97,16 +115,32 @@
     "workStyle": {
       "title": "근무 형태 재검토",
       "text": "{why}배우자의 근무 형태를 어떻게 할까요? (현재 {current})",
-      "why": { "birth": "아이가 태어났다. ", "elementary": "막내가 초등학교에 입학한다. ", "juniorHigh": "막내가 중학교에 입학한다. " },
+      "why": {
+        "birth": "아이가 태어났다. ",
+        "elementary": "막내가 초등학교에 입학한다. ",
+        "juniorHigh": "막내가 중학교에 입학한다. "
+      },
       "current": "(지금 그대로)",
       "partnerIncome": "배우자 연봉 약 {money:money}",
       "partnerIncomeZero": "배우자 연봉 0",
       "singleNote": "복귀할 때 쉰 햇수만큼 연봉이 줄어든다"
     },
-    "childcare": { "title": "보육", "text": "{child}의 0~5세 보육 방법을 정합니다." },
-    "elementary": { "title": "초등학교", "text": "{child}이(가) 초등학교에 입학합니다 (6년)." },
-    "juniorHigh": { "title": "중학교", "text": "{child}이(가) 중학교에 입학합니다 (3년)." },
-    "highSchool": { "title": "고등학교", "text": "{child}이(가) 고등학교에 진학합니다 (3년)." },
+    "childcare": {
+      "title": "보육",
+      "text": "{child}의 0~5세 보육 방법을 정합니다."
+    },
+    "elementary": {
+      "title": "초등학교",
+      "text": "{child}이(가) 초등학교에 입학합니다 (6년)."
+    },
+    "juniorHigh": {
+      "title": "중학교",
+      "text": "{child}이(가) 중학교에 입학합니다 (3년)."
+    },
+    "highSchool": {
+      "title": "고등학교",
+      "text": "{child}이(가) 고등학교에 진학합니다 (3년)."
+    },
     "schoolDetail": "연 {annual:money}",
     "boarding": "(자취·생활비 포함)",
     "university": {
@@ -137,8 +171,17 @@
       "detail": "{cost:money} (계약금 {down:money}) · 대출 연 {loan:money} · 고정비 연 {fixed:money}",
       "manyRepairs": " · 수리가 잦다"
     },
-    "repair": { "title": "집 수리", "text": "집 곳곳이 낡기 시작했다. 어떻게 고칠까요?", "detail": "{cost:money} · 다음 수리까지 {years}년" },
-    "familyTrip": { "title": "가족여행·기념일", "text": "결혼 {n}주년 기념일. 여행을 갈까요?", "yes": "간다", "no": "안 간다" },
+    "repair": {
+      "title": "집 수리",
+      "text": "집 곳곳이 낡기 시작했다. 어떻게 고칠까요?",
+      "detail": "{cost:money} · 다음 수리까지 {years}년"
+    },
+    "familyTrip": {
+      "title": "가족여행·기념일",
+      "text": "결혼 {n}주년 기념일. 여행을 갈까요?",
+      "yes": "간다",
+      "no": "안 간다"
+    },
     "jobOffer": {
       "title": "이직 제안",
       "text": "주인공에게 이직 제안이 들어왔다. 연봉이 오를 수도, 내릴 수도 있다(±20%).",
@@ -227,8 +270,16 @@
     "lottery": "복권에 당첨됐다. {amount:money}!",
     "returnToWork": "배우자가 {years}년 만에 일에 복귀했다. 공백만큼 연봉이 {pct}% 줄었다.",
     "childPlan": {
-      "first": { "want": "아이를 갖기로 했다.", "not_now": "아이는 조금 더 나중에 생각하기로 했다.", "never": "둘이서 살아가기로 했다." },
-      "next": { "want": "아이를 한 명 더 갖기로 했다.", "not_now": "다음 아이는 조금 더 나중에 생각하기로 했다.", "never": "아이는 여기까지로 하기로 했다." }
+      "first": {
+        "want": "아이를 갖기로 했다.",
+        "not_now": "아이는 조금 더 나중에 생각하기로 했다.",
+        "never": "둘이서 살아가기로 했다."
+      },
+      "next": {
+        "want": "아이를 한 명 더 갖기로 했다.",
+        "not_now": "다음 아이는 조금 더 나중에 생각하기로 했다.",
+        "never": "아이는 여기까지로 하기로 했다."
+      }
     },
     "workStyleSame": "근무 형태는 그대로 두었다.",
     "carSold": "타던 차를 {value:money}에 팔았다.",
@@ -248,5 +299,9 @@
     "childBorn": "{n}째 아이가 태어났다.",
     "bankrupt": "가계가 파산했다.",
     "retired": "정년을 맞았다."
+  },
+  "footer": {
+    "privacy": "개인정보 처리방침",
+    "moreGames": "nacn.app의 다른 게임"
   }
 }

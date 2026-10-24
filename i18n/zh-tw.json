@@ -6,7 +6,10 @@
     "hashtag": "#新婚日記",
     "setInJapan": "本遊戲以日本為背景，金額皆為日圓。"
   },
-  "who": { "a": "主角", "b": "另一半" },
+  "who": {
+    "a": "主角",
+    "b": "另一半"
+  },
   "title": {
     "lead": "從結婚到退休，<br>只靠選擇一路走完的人生模擬遊戲",
     "start": "開始",
@@ -74,7 +77,11 @@
     }
   },
   "event": {
-    "tier": { "high": "高", "mid": "普通", "low": "低" },
+    "tier": {
+      "high": "高",
+      "mid": "普通",
+      "low": "低"
+    },
     "tierOption": "{tier}：{label}",
     "back": "返回",
     "predicted": "→ 存款 {money:money}",
@@ -82,8 +89,19 @@
     "later": "現在先不買（3年後再考慮）",
     "child": "孩子",
     "childNth": "第{n}個孩子",
-    "wedding": { "title": "婚禮", "text": "要舉辦婚禮嗎？", "yes": "要辦", "no": "不辦", "detail": "{cost:money}（禮金 +{gift:money}）" },
-    "honeymoon": { "title": "蜜月旅行", "text": "要去蜜月旅行嗎？", "yes": "去", "no": "不去" },
+    "wedding": {
+      "title": "婚禮",
+      "text": "要舉辦婚禮嗎？",
+      "yes": "要辦",
+      "no": "不辦",
+      "detail": "{cost:money}（禮金 +{gift:money}）"
+    },
+    "honeymoon": {
+      "title": "蜜月旅行",
+      "text": "要去蜜月旅行嗎？",
+      "yes": "去",
+      "no": "不去"
+    },
     "childPlan": {
       "title": "孩子",
       "textFirst": "想要孩子嗎？想要的話，每年都有一定機率會出生。",
@@ -97,16 +115,32 @@
     "workStyle": {
       "title": "重新考慮工作方式",
       "text": "{why}另一半要怎麼工作？（目前是{current}）",
-      "why": { "birth": "孩子出生了。", "elementary": "老么要上國小了。", "juniorHigh": "老么要上國中了。" },
+      "why": {
+        "birth": "孩子出生了。",
+        "elementary": "老么要上國小了。",
+        "juniorHigh": "老么要上國中了。"
+      },
       "current": "（維持現狀）",
       "partnerIncome": "另一半年收入 約{money:money}",
       "partnerIncomeZero": "另一半年收入 0",
       "singleNote": "復職時，離開職場幾年，年收入就會降低多少"
     },
-    "childcare": { "title": "托育", "text": "決定{child}0〜5歲時的托育方式。" },
-    "elementary": { "title": "國小", "text": "{child}要上國小了（6年）。" },
-    "juniorHigh": { "title": "國中", "text": "{child}要上國中了（3年）。" },
-    "highSchool": { "title": "高中", "text": "{child}要升高中了（3年）。" },
+    "childcare": {
+      "title": "托育",
+      "text": "決定{child}0〜5歲時的托育方式。"
+    },
+    "elementary": {
+      "title": "國小",
+      "text": "{child}要上國小了（6年）。"
+    },
+    "juniorHigh": {
+      "title": "國中",
+      "text": "{child}要上國中了（3年）。"
+    },
+    "highSchool": {
+      "title": "高中",
+      "text": "{child}要升高中了（3年）。"
+    },
     "schoolDetail": "每年{annual:money}",
     "boarding": "（在外租屋，含生活費）",
     "university": {
@@ -137,8 +171,17 @@
       "detail": "{cost:money}（頭期款 {down:money}）・房貸 每年{loan:money}・固定支出 每年{fixed:money}",
       "manyRepairs": "・常需要修繕"
     },
-    "repair": { "title": "房屋修繕", "text": "家裡到處開始老舊損壞。要怎麼修？", "detail": "{cost:money}・{years}年後才會再壞" },
-    "familyTrip": { "title": "家庭旅遊・紀念日", "text": "結婚第{n}年的紀念日。要去旅行嗎？", "yes": "去", "no": "不去" },
+    "repair": {
+      "title": "房屋修繕",
+      "text": "家裡到處開始老舊損壞。要怎麼修？",
+      "detail": "{cost:money}・{years}年後才會再壞"
+    },
+    "familyTrip": {
+      "title": "家庭旅遊・紀念日",
+      "text": "結婚第{n}年的紀念日。要去旅行嗎？",
+      "yes": "去",
+      "no": "不去"
+    },
     "jobOffer": {
       "title": "跳槽邀約",
       "text": "主角收到跳槽邀約。年收入可能會變高，也可能變低（±20%）。",
@@ -227,8 +270,16 @@
     "lottery": "中樂透了。{amount:money}！",
     "returnToWork": "另一半睽違{years}年重返職場。因為空窗期，年收入少了{pct}%。",
     "childPlan": {
-      "first": { "want": "我們決定要生孩子。", "not_now": "孩子的事，決定再晚一點考慮。", "never": "我們決定兩個人一起過下去。" },
-      "next": { "want": "我們決定再生一個。", "not_now": "下一個孩子，決定再晚一點考慮。", "never": "決定孩子就生到這裡。" }
+      "first": {
+        "want": "我們決定要生孩子。",
+        "not_now": "孩子的事，決定再晚一點考慮。",
+        "never": "我們決定兩個人一起過下去。"
+      },
+      "next": {
+        "want": "我們決定再生一個。",
+        "not_now": "下一個孩子，決定再晚一點考慮。",
+        "never": "決定孩子就生到這裡。"
+      }
     },
     "workStyleSame": "工作方式維持不變。",
     "carSold": "把開了多年的車以{value:money}賣掉了。",
@@ -248,5 +299,9 @@
     "childBorn": "第{n}個孩子出生了。",
     "bankrupt": "家計破產了。",
     "retired": "迎來了退休。"
+  },
+  "footer": {
+    "privacy": "隱私權政策",
+    "moreGames": "nacn.app 的其他遊戲"
   }
 }

@@ -45,6 +45,26 @@ async function setLang(code) {
   document.querySelector('meta[name="description"]').content = t("meta.description");
   renderLangSwitch();
   updateMoneyHints();
+  $("#link-privacy").href = `https://nacn.app/${code}/privacy.html`;
+  $("#link-portal").href = `https://nacn.app/${code}/`;
+  localizeConsent();
+}
+
+// Cookie の同意のバナー（tools/consent.py が書き込む）は読み込んだときの言語で表示されるので、
+// ゲームの中で言語を切り替えたら、バナーと「Cookie の設定」の文字もその言語にする
+function localizeConsent() {
+  const bar = $("#nacnConsent");
+  if (!bar?.dataset.strings) return;
+  const c = JSON.parse(bar.dataset.strings)[document.documentElement.lang.toLowerCase()];
+  if (!c) return;
+  const link = bar.querySelector("p a");
+  bar.querySelector("p").firstChild.textContent = `${c.text} `;
+  link.textContent = c.policy;
+  link.href = c.policyHref;
+  bar.querySelector('[data-consent="granted"]').textContent = c.accept;
+  bar.querySelector('[data-consent="denied"]').textContent = c.reject;
+  bar.setAttribute("aria-label", c.label);
+  for (const a of document.querySelectorAll("[data-consent-open]")) a.textContent = c.settings;
 }
 
 function renderLangSwitch() {
