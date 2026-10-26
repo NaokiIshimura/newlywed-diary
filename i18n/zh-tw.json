@@ -3,8 +3,7 @@
     "title": "新婚日記",
     "description": "從結婚到退休，只靠「買·不買／高·普通·低」的選擇一路走完的人生模擬遊戲。",
     "gameName": "新婚日記",
-    "hashtag": "#新婚日記",
-    "setInJapan": "本遊戲以日本為背景，金額皆為日圓。"
+    "hashtag": "#新婚日記"
   },
   "who": {
     "a": "主角",
@@ -20,14 +19,15 @@
   },
   "setup": {
     "heading": "開局設定",
+    "country": "國家或地區",
     "genderA": "主角的性別",
     "genderB": "另一半的性別",
     "female": "女性",
     "male": "男性",
     "age": "結婚時的年齡（{min}〜{max}歲）",
-    "savings": "存款（單位：萬日圓，{min}〜{max}）",
-    "incomeA": "主角的年收入（單位：萬日圓）",
-    "incomeB": "另一半的年收入（單位：萬日圓，全職時）",
+    "savings": "存款（單位：{unit}，{min}〜{max}）",
+    "incomeA": "主角的年收入（單位：{unit}）",
+    "incomeB": "另一半的年收入（單位：{unit}，全職時）",
     "incomeHint": "年收入的初始值是該年齡的中位數。",
     "workStyle": "工作方式",
     "random": "隨機",
@@ -38,8 +38,12 @@
     "handoffSavings": "沿用的存款 {savings:money}（會和另一半的存款合計後開始）",
     "handoffCar": "車子：在《獨居日記》開的車（估值 {value:money}）",
     "handoffNoCar": "車子：無",
-    "partnerSavings": "另一半的存款（單位：萬日圓，{min}〜{max}）",
+    "partnerSavings": "另一半的存款（單位：{unit}，{min}〜{max}）",
     "noHandoff": "不沿用，重新開始"
+  },
+  "countries": {
+    "jp": "日本",
+    "us": "美國"
   },
   "main": {
     "age": "{n}歲",
@@ -101,7 +105,7 @@
       "text": "要舉辦婚禮嗎？",
       "yes": "要辦",
       "no": "不辦",
-      "detail": "{cost:money}（禮金 +{gift:money}）"
+      "detail": "{cost:money}（{giftName} +{gift:money}）"
     },
     "honeymoon": {
       "title": "蜜月旅行",
@@ -156,8 +160,7 @@
       "yes": "升學",
       "no": "就業",
       "noSub": "18歲獨立。拿到孝親費的機率提高",
-      "years": "{n}年",
-      "years6Note": "醫學系、藥學系、研究所（碩士）等"
+      "years": "{n}年"
     },
     "car": {
       "titleBuy": "買車",
@@ -171,7 +174,7 @@
     },
     "house": {
       "title": "買房",
-      "text": "要買房嗎？頭期款20%（存款不夠就用現有存款支付），其餘以35年房貸（利率1.5%）償還。不買的話，就住家庭型的寬敞租屋（每年{rent:money}）。",
+      "text": "要買房嗎？頭期款{down}%（存款不夠就用現有存款支付），其餘以{years}年房貸（利率{rate}%）償還。不買的話，就住家庭型的寬敞租屋（每年{rent:money}）。",
       "yes": "買",
       "never": "一輩子租屋",
       "rentSub": "房租 每年{rent:money}",
@@ -191,9 +194,9 @@
     },
     "jobOffer": {
       "title": "跳槽邀約",
-      "text": "主角收到跳槽邀約。年收入可能會變高，也可能變低（±20%）。",
+      "text": "主角收到跳槽邀約。年收入可能會變高，也可能變低（±{pct}%）。",
       "accept": "跳槽",
-      "acceptSub": "年收入會在 −20%〜+20% 之間變動",
+      "acceptSub": "年收入會在 −{pct}%〜+{pct}% 之間變動",
       "decline": "拒絕",
       "declineSub": "年收入維持不變"
     },
@@ -226,7 +229,7 @@
       "events": "活動（婚禮·旅行）",
       "other": "其他（照護·醫療·利息）"
     },
-    "incomeNote": "實領收入 {income:money}，兒童津貼·孝親費·臨時收入 {extra:money}。",
+    "incomeNote": "實領收入 {income:money}，{allowance}·孝親費·臨時收入 {extra:money}。",
     "achievements": "成就",
     "noAchievements": "這次沒有達成成就。",
     "timeline": "人生年表",
@@ -273,7 +276,7 @@
     "married": "我們結婚了。",
     "promotion": "{who:who}升職了。年收入提高了{pct}%。",
     "illness": "{who:who}身體不適住院了。醫療費{cost:money}。",
-    "bonusCut": "公司業績不好，獎金變少了。今年實領收入少了一成。",
+    "bonusCut": "公司業績不好，獎金變少了。今年實領收入少了{pct}%。",
     "inheritance": "從親戚那裡繼承了一筆遺產，共{amount:money}。",
     "lottery": "中樂透了。{amount:money}！",
     "returnToWork": "另一半睽違{years}年重返職場。因為空窗期，年收入少了{pct}%。",

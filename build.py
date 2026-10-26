@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """言語ごとのゲームのページを書き出す（nacn.app の多言語のしくみ。claude-skills の localize-static-app スキル）。
 
-src/game.html（ゲームのページの枠）に、i18n/<言語>.json と data/profiles/jp/<言語>.json の文を差し込み、
+src/game.html（ゲームのページの枠）に、i18n/<言語>.json と data/profiles/<その言語の最初の国>/<言語>.json の文を差し込み、
 /ja/・/en/・/zh-tw/・/ko/・/es/ に書き出す。各ページは最初からその言語で書き出すので、検索エンジンと SNS の OGP も言語ごとになる。
 文章のページ（遊び方・プライバシーポリシー）は、src/page.html（枠）に src/pages/<言語>/<ページ>.html（本文）を差し込んで
 /<言語>/<ページ>.html に書き出す。ルート（/）には言語を選ぶページ（src/root.html）、ほかに 404.html・sitemap.xml を書き出す。
@@ -16,9 +16,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / 'src'
 SITE = 'https://newlywed-diary.nacn.app/'
-PROFILE = 'jp'
+# 国の対応表（js/app.js も同じ data/countries.json を読む）。ページは、その言語の最初の国の文で書き出す
+COUNTRIES = json.loads((ROOT / 'data' / 'countries.json').read_text(encoding='utf-8'))
+
+
+def default_country(code):
+    """その言語で最初に選ばれる国（js/app.js の countriesFor の先頭と同じ）。プロファイルのそろった国がなければ日本"""
+    ready = [c for c in COUNTRIES['byLang'].get(code, []) if c in COUNTRIES['available']]
+    return ready[0] if ready else 'jp'
 # css・js・og.png を変えたら新しくする（古いキャッシュを使わせないため）
-ASSET_VER = '20261024c'
+ASSET_VER = '20261026a'
 # hreflang・sitemap.xml の順
 LANGS = ['ja', 'en', 'zh-tw', 'ko', 'es']
 # 言語を選ぶページと言語の切り替えリンクは、話者が多い順に並べる（英語・中国語・スペイン語・日本語・韓国語）
@@ -35,14 +42,15 @@ BROWSER_MATCH = {
 # 文章のページ。名前と説明は言語データの pages.<ページ>、本文は src/pages/<言語>/<ページ>.html
 TEXT_PAGES = ['howto', 'privacy']
 # 国プロファイルの文が入っているキーの先頭（js/i18n.js の PROFILE_ROOTS と同じ）
-PROFILE_ROOTS = {'events', 'workStyles', 'ranks', 'titles', 'achievements'}
+PROFILE_ROOTS = {'local', 'events', 'workStyles', 'ranks', 'titles', 'achievements'}
 
 
 def load_locales():
     locales = {}
     for code in LANGS:
         ui = json.loads((ROOT / 'i18n' / f'{code}.json').read_text(encoding='utf-8'))
-        texts = json.loads((ROOT / 'data' / 'profiles' / PROFILE / f'{code}.json').read_text(encoding='utf-8'))
+        country = default_country(code)
+        texts = json.loads((ROOT / 'data' / 'profiles' / country / f'{code}.json').read_text(encoding='utf-8'))
         locales[code] = {'ui': ui, 'texts': texts}
     return locales
 

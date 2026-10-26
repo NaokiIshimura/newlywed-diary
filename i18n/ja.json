@@ -3,8 +3,7 @@
     "title": "新婚日記",
     "description": "結婚から定年までを「買う・買わない／高い・普通・安い」の選択だけで駆け抜ける人生シミュレーション。",
     "gameName": "新婚日記",
-    "hashtag": "#新婚日記",
-    "setInJapan": ""
+    "hashtag": "#新婚日記"
   },
   "who": {
     "a": "主人公",
@@ -20,14 +19,15 @@
   },
   "setup": {
     "heading": "開始設定",
+    "country": "国・地域",
     "genderA": "主人公の性別",
     "genderB": "パートナーの性別",
     "female": "女性",
     "male": "男性",
     "age": "結婚時の年齢（{min}〜{max}歳）",
-    "savings": "貯金（万円・{min}〜{max}）",
-    "incomeA": "主人公の年収（万円）",
-    "incomeB": "パートナーの年収（万円・フルタイムの場合）",
+    "savings": "貯金（{unit}・{min}〜{max}）",
+    "incomeA": "主人公の年収（{unit}）",
+    "incomeB": "パートナーの年収（{unit}・フルタイムの場合）",
     "incomeHint": "年収の初期値は、その年齢の中央値です。",
     "workStyle": "働き方",
     "random": "ランダム",
@@ -38,8 +38,12 @@
     "handoffSavings": "引き継いだ貯金 {savings:money}（パートナーの貯金と合わせて始めます）",
     "handoffCar": "車：一人暮らし日記で乗っていた車（評価額 {value:money}）",
     "handoffNoCar": "車：なし",
-    "partnerSavings": "パートナーの貯金（万円・{min}〜{max}）",
+    "partnerSavings": "パートナーの貯金（{unit}・{min}〜{max}）",
     "noHandoff": "引き継がずに始める"
+  },
+  "countries": {
+    "jp": "日本",
+    "us": "米国"
   },
   "main": {
     "age": "{n}歳",
@@ -68,7 +72,7 @@
   },
   "summary": {
     "head": "{age}歳の家計",
-    "unit": "{delta:signed}万円",
+    "unit": "{delta:signedMoney}",
     "income": "収入",
     "items": {
       "living": "生活費",
@@ -101,7 +105,7 @@
       "text": "結婚式を挙げますか？",
       "yes": "やる",
       "no": "やらない",
-      "detail": "{cost:money}（ご祝儀 +{gift:money}）"
+      "detail": "{cost:money}（{giftName} +{gift:money}）"
     },
     "honeymoon": {
       "title": "新婚旅行",
@@ -156,8 +160,7 @@
       "yes": "進学する",
       "no": "就職する",
       "noSub": "18歳で独立。仕送りをもらえる確率が上がる",
-      "years": "{n}年",
-      "years6Note": "医学部・薬学部・大学院（修士）など"
+      "years": "{n}年"
     },
     "car": {
       "titleBuy": "車の購入",
@@ -171,7 +174,7 @@
     },
     "house": {
       "title": "マイホーム",
-      "text": "家を買いますか？頭金は20%（貯金が足りなければ貯金の範囲）、残りは35年ローン（金利1.5%）で返します。買わない場合は家族向けの広い賃貸（年{rent:money}）に住みます。",
+      "text": "家を買いますか？頭金は{down}%（貯金が足りなければ貯金の範囲）、残りは{years}年ローン（金利{rate}%）で返します。買わない場合は家族向けの広い賃貸（年{rent:money}）に住みます。",
       "yes": "買う",
       "never": "生涯賃貸",
       "rentSub": "家賃 年{rent:money}",
@@ -191,9 +194,9 @@
     },
     "jobOffer": {
       "title": "転職の誘い",
-      "text": "主人公に転職の誘いがきた。年収は上がるかもしれないし、下がるかもしれない（±20%）。",
+      "text": "主人公に転職の誘いがきた。年収は上がるかもしれないし、下がるかもしれない（±{pct}%）。",
       "accept": "転職する",
-      "acceptSub": "年収が −20%〜+20% のどこかに変わる",
+      "acceptSub": "年収が −{pct}%〜+{pct}% のどこかに変わる",
       "decline": "断る",
       "declineSub": "年収はそのまま"
     },
@@ -226,7 +229,7 @@
       "events": "イベント（結婚式・旅行）",
       "other": "その他（介護・医療・利息）"
     },
-    "incomeNote": "収入は手取り {income:money}、児童手当・仕送り・臨時収入 {extra:money}。",
+    "incomeNote": "収入は手取り {income:money}、{allowance}・仕送り・臨時収入 {extra:money}。",
     "achievements": "実績",
     "noAchievements": "今回は実績なし。",
     "timeline": "人生年表",
@@ -273,7 +276,7 @@
     "married": "結婚した。",
     "promotion": "{who:who}が昇進した。年収が{pct}%上がった。",
     "illness": "{who:who}が体調をくずして入院した。医療費は{cost:money}。",
-    "bonusCut": "会社の業績が悪く、ボーナスが減った。今年の手取りは1割減る。",
+    "bonusCut": "会社の業績が悪く、ボーナスが減った。今年の手取りは{pct}%減る。",
     "inheritance": "親戚から相続があった。{amount:money}が入った。",
     "lottery": "宝くじが当たった。{amount:money}！",
     "returnToWork": "パートナーが{years}年ぶりに仕事に戻った。年収はブランクのぶん{pct}%下がった。",

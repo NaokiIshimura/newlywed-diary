@@ -1,4 +1,11 @@
 {
+  "local": {
+    "setIn": "이 게임의 무대는 일본이며, 금액은 모두 일본 엔화입니다.",
+    "inputUnit": "만 엔",
+    "weddingGift": "축의금",
+    "allowance": "아동수당",
+    "years6Note": "의대·약대·대학원(석사) 등"
+  },
   "events": {
     "wedding": {
       "high": {

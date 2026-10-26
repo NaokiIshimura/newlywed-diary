@@ -1,0 +1,14 @@
+{
+  "available": ["jp", "us"],
+  "byLang": {
+    "ja": ["jp"],
+    "en": ["us", "sg", "ph", "ca", "au"],
+    "zh-tw": ["tw"],
+    "es": ["mx"],
+    "ko": ["kr"]
+  },
+  "texts": {
+    "jp": ["ja", "en", "zh-tw", "es", "ko"],
+    "us": ["en", "ja", "zh-tw", "es", "ko"]
+  }
+}

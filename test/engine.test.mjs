@@ -13,6 +13,7 @@ import {
   educationCost,
   endYear,
   handoffCarValue,
+  handoffCountry,
   handoffSettings,
   loanPayment,
   medianIncome,
@@ -23,6 +24,7 @@ import {
   rankOf,
   titleOf,
 } from "../js/engine.js";
+const countries = JSON.parse(readFileSync(new URL("../data/countries.json", import.meta.url), "utf8"));
 
 const data = JSON.parse(readFileSync(new URL("../data/profiles/jp.json", import.meta.url), "utf8"));
 const settings = defaultSettings(data);
@@ -298,10 +300,19 @@ test("一人暮らし日記の引き継ぎデータを読める", () => {
   assert.equal(parseHandoff(data, soloQuery({ ...soloData, car: null })).car, null);
 });
 
+test("版2は国つきで、版1は日本として読む。読み込んだ国と違う国のデータは引き継がない", () => {
+  assert.equal(handoffCountry(soloQuery(soloData)), "jp");
+  assert.equal(handoffCountry(soloQuery({ ...soloData, v: 2, country: "us" })), "us");
+  assert.equal(handoffCountry(new URLSearchParams("")), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, v: 2, country: "jp" })).income, 380);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, v: 2, country: "us" })), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, v: 2 })), null);
+});
+
 test("知らない版・壊れたデータ・範囲の外の値は、引き継がない", () => {
   assert.equal(parseHandoff(data, new URLSearchParams("")), null);
   assert.equal(parseHandoff(data, new URLSearchParams("from=solo&d=not-json")), null);
-  assert.equal(parseHandoff(data, soloQuery({ ...soloData, v: 2 })), null);
+  assert.equal(parseHandoff(data, soloQuery({ ...soloData, v: 3 })), null);
   assert.equal(parseHandoff(data, soloQuery({ ...soloData, age: 50 })), null);
   assert.equal(parseHandoff(data, soloQuery({ ...soloData, gender: "x" })), null);
   assert.equal(parseHandoff(data, soloQuery({ ...soloData, savings: "100" })), null);
@@ -348,3 +359,31 @@ test("引き継いだ人生でも、同じ設定で「全部普通」と比べ�
   assert.notEqual(compareWithMid(data, state), undefined);
   assert.ok(state.history.some((x) => x.key === "h.fromSolo"));
 });
+
+// ---- 国 ----
+
+test("国の対応表：言語ごとの国はコードがそろい、そろった国にはすべての言語の名前がある", () => {
+  for (const [lang, list] of Object.entries(countries.byLang)) assert.ok(list.length > 0, lang);
+  for (const c of countries.available) {
+    assert.ok(countries.texts[c]?.length > 0, c);
+    for (const lang of ["ja", "en", "zh-tw", "es", "ko"]) {
+      const ui = JSON.parse(readFileSync(new URL(`../i18n/${lang}.json`, import.meta.url), "utf8"));
+      assert.equal(typeof ui.countries[c], "string", `${lang} countries.${c}`);
+    }
+  }
+});
+
+for (const c of countries.available) {
+  test(`国プロファイル ${c}：設定と文がそろっている`, () => {
+    const d = JSON.parse(readFileSync(new URL(`../data/profiles/${c}.json`, import.meta.url), "utf8"));
+    assert.equal(d.country, c);
+    for (const k of ["defaultAge", "moneyStep", "inputScale", "maxIncome", "currency", "moneyUnit"]) assert.ok(d[k] !== undefined, k);
+    assert.ok(d.startSavings.default >= d.startSavings.min && d.startSavings.default <= d.startSavings.max);
+    // 開始設定の刻みは、入力欄の単位で整数になる
+    assert.ok(Number.isInteger(d.moneyStep / d.inputScale));
+    for (const lang of countries.texts[c]) {
+      const texts = JSON.parse(readFileSync(new URL(`../data/profiles/${c}/${lang}.json`, import.meta.url), "utf8"));
+      for (const k of ["setIn", "inputUnit", "weddingGift", "allowance", "years6Note"]) assert.equal(typeof texts.local[k], "string", `${lang} local.${k}`);
+    }
+  });
+}

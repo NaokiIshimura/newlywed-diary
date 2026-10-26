@@ -19,7 +19,7 @@
   <meta property="og:title" content="Diario de recién casados | Del matrimonio a la jubilación, un simulador de vida a base de decisiones">
   <meta property="og:description" content="Un simulador de vida: del matrimonio a la jubilación, solo eligiendo «comprar o no» y «caro, normal o barato».">
   <meta property="og:url" content="https://newlywed-diary.nacn.app/es/">
-  <meta property="og:image" content="https://newlywed-diary.nacn.app/es/og.png?v=20261024c">
+  <meta property="og:image" content="https://newlywed-diary.nacn.app/es/og.png?v=20261026a">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -46,7 +46,7 @@
   }
 }
   </script>
-  <link rel="stylesheet" href="../css/style.css?v=20261024c">
+  <link rel="stylesheet" href="../css/style.css?v=20261026a">
   <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -89,7 +89,7 @@ function gtag(){dataLayer.push(arguments);}
       <div class="title-illust" id="title-illust"></div>
       <h1 class="logo" data-i18n="meta.gameName">Diario de recién casados</h1>
       <p class="lead" data-i18n="title.lead">Del matrimonio a la jubilación,<br>un simulador de vida a base de decisiones</p>
-      <p class="note" data-i18n="meta.setInJapan">El juego transcurre en Japón; los montos están en yenes japoneses (¥).</p>
+      <p class="note" data-i18n="local.setIn">El juego transcurre en Japón; los montos están en yenes japoneses (¥).</p>
       <div class="stack">
         <button id="btn-start" class="primary" data-i18n="title.start">Empezar</button>
         <button id="btn-continue" data-i18n="title.continue" hidden>Continuar</button>
@@ -117,6 +117,10 @@ function gtag(){dataLayer.push(arguments);}
           <p id="handoff-detail" class="hint"></p>
           <button type="button" id="btn-no-handoff" class="ghost" data-i18n="setup.noHandoff">Empezar sin traer nada</button>
         </div>
+        <label id="country-field" hidden><span data-i18n="setup.country">País o región</span>
+          <select name="country" id="setup-country"></select>
+          <span class="hint" data-i18n="local.setIn">El juego transcurre en Japón; los montos están en yenes japoneses (¥).</span>
+        </label>
         <div class="row">
           <label><span data-i18n="setup.genderA">Tu género</span>
             <select name="genderA"><option value="female" data-i18n="setup.female">Mujer</option><option value="male" data-i18n="setup.male">Hombre</option></select>
@@ -125,18 +129,18 @@ function gtag(){dataLayer.push(arguments);}
             <select name="genderB"><option value="female" data-i18n="setup.female">Mujer</option><option value="male" data-i18n="setup.male">Hombre</option></select>
           </label>
         </div>
-        <label><span data-i18n="setup.age" data-i18n-params='{"min":22,"max":45}'>Edad al casarse (22–45 años)</span>
+        <label><span id="age-label"></span>
           <span class="field"><input name="age" type="number" min="22" max="45" step="1" required><button type="button" data-random="age" data-i18n="setup.random">Aleatorio</button></span>
         </label>
-        <label><span id="savings-label" data-i18n="setup.savings" data-i18n-params='{"min":0,"max":1000}'>Ahorros (en ¥10.000, 0–1000)</span>
+        <label><span id="savings-label"></span>
           <span class="field"><input name="savings" type="number" min="0" max="1000" step="10" required><button type="button" data-random="savings" data-i18n="setup.random">Aleatorio</button></span>
           <output class="hint" data-money-for="savings"></output>
         </label>
-        <label><span data-i18n="setup.incomeA">Tu ingreso anual (en ¥10.000)</span>
+        <label><span id="incomeA-label"></span>
           <span class="field"><input name="incomeA" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeA" data-i18n="setup.random">Aleatorio</button></span>
           <output class="hint" data-money-for="incomeA"></output>
         </label>
-        <label><span data-i18n="setup.incomeB">Ingreso anual de tu pareja (en ¥10.000, a tiempo completo)</span>
+        <label><span id="incomeB-label"></span>
           <span class="field"><input name="incomeB" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeB" data-i18n="setup.random">Aleatorio</button></span>
           <output class="hint" data-money-for="incomeB"></output>
         </label>
@@ -231,7 +235,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
   </div>
 
-  <script type="module" src="../js/app.js?v=20261024c"></script>
+  <script type="module" src="../js/app.js?v=20261026a"></script>
 <div class="suggest" id="langSuggest" hidden>
     <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
     <button type="button" class="suggest-close" id="langSuggestClose" aria-label="Cerrar">×</button>

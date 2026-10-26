@@ -10,8 +10,8 @@ export const LANGS = [
   { code: "ko", name: "한국어", locale: "ko-KR" },
 ];
 
-// 国プロファイルの文が入っているキーの先頭
-const PROFILE_ROOTS = ["events", "workStyles", "ranks", "titles", "achievements"];
+// 国プロファイルの文が入っているキーの先頭（local は入力の単位・ご祝儀などの、その国だけの言い方）
+const PROFILE_ROOTS = ["local", "events", "workStyles", "ranks", "titles", "achievements"];
 
 let ui = {};
 let profileTexts = {};
@@ -29,10 +29,11 @@ export function pageLang() {
 // 文のファイルは、このスクリプト（js/）から見た場所で読む（ページは /ja/ などのフォルダにある）
 const fromRoot = (path) => new URL(`../${path}`, import.meta.url);
 
-export async function loadLang(code, profileData, profileId) {
+// 国の文は profileLang の版を読む（その国の文がこの言語にないとき、国の言語の文を使うため）
+export async function loadLang(code, profileData, profileId, profileLang = code) {
   const [u, p] = await Promise.all([
     fetch(fromRoot(`i18n/${code}.json`)).then((r) => r.json()),
-    fetch(fromRoot(`data/profiles/${profileId}/${code}.json`)).then((r) => r.json()),
+    fetch(fromRoot(`data/profiles/${profileId}/${profileLang}.json`)).then((r) => r.json()),
   ]);
   ui = u;
   profileTexts = p;

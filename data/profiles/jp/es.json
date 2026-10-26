@@ -1,4 +1,11 @@
 {
+  "local": {
+    "setIn": "El juego transcurre en Japón; los montos están en yenes japoneses (¥).",
+    "inputUnit": "¥10.000",
+    "weddingGift": "regalos en efectivo",
+    "allowance": "subsidios por hijos",
+    "years6Note": "Medicina, Farmacia, maestría, etc."
+  },
   "events": {
     "wedding": {
       "high": {
