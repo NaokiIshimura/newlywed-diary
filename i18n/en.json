@@ -43,7 +43,8 @@
   },
   "countries": {
     "jp": "Japan",
-    "us": "United States"
+    "us": "United States",
+    "sg": "Singapore"
   },
   "main": {
     "age": "Age {n}",
