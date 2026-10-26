@@ -46,7 +46,8 @@
     "us": "Estados Unidos",
     "sg": "Singapur",
     "ph": "Filipinas",
-    "ca": "Canadá"
+    "ca": "Canadá",
+    "au": "Australia"
   },
   "main": {
     "age": "{n} años",
