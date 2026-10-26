@@ -1,0 +1,484 @@
+{
+  "country": "tw",
+  "retireAge": 65,
+  "startAge": {
+    "min": 22,
+    "max": 45
+  },
+  "defaultAge": 28,
+  "startSavings": {
+    "min": 0,
+    "max": 2000,
+    "default": 300
+  },
+  "moneyStep": 10,
+  "inputScale": 10,
+  "maxIncome": 5000,
+  "handoffLimits": {
+    "savings": 200000,
+    "carPrice": 10000,
+    "carAnnual": 1000
+  },
+  "takeHomeRate": 0.94,
+  "medianIncomeByAge": {
+    "22": 420,
+    "25": 480,
+    "30": 540,
+    "35": 590,
+    "40": 620,
+    "45": 625,
+    "50": 610,
+    "55": 590,
+    "60": 520,
+    "64": 500
+  },
+  "workStyles": {
+    "fulltime_both": {
+      "partnerRate": 1.0
+    },
+    "parttime": {
+      "partnerRate": 0.5
+    },
+    "single": {
+      "partnerRate": 0
+    }
+  },
+  "blankPenaltyPerYear": 0.04,
+  "maxBlankPenalty": 0.4,
+  "baseLiving": 400,
+  "livingGrowthPerYear": 0.0125,
+  "starterRent": 168,
+  "familyRent": 240,
+  "noCarCostWithChildren": 15,
+  "childLiving": [
+    {
+      "maxAge": 5,
+      "annual": 70
+    },
+    {
+      "maxAge": 11,
+      "annual": 80
+    },
+    {
+      "maxAge": 14,
+      "annual": 95
+    },
+    {
+      "maxAge": 17,
+      "annual": 110
+    }
+  ],
+  "universityLiving": 60,
+  "childAllowance": [
+    {
+      "maxAge": 0,
+      "annual": 160
+    },
+    {
+      "maxAge": 5,
+      "annual": 60
+    }
+  ],
+  "maxChildren": 3,
+  "reproposeAfter": 3,
+  "cardLoanRate": 0.15,
+  "bankruptLine": -1500,
+  "events": {
+    "wedding": {
+      "options": [
+        {
+          "tier": "high",
+          "oneTime": 1000,
+          "gift": 650
+        },
+        {
+          "tier": "mid",
+          "oneTime": 600,
+          "gift": 450
+        },
+        {
+          "tier": "low",
+          "oneTime": 60,
+          "gift": 20
+        }
+      ]
+    },
+    "honeymoon": {
+      "options": [
+        {
+          "tier": "high",
+          "oneTime": 250
+        },
+        {
+          "tier": "mid",
+          "oneTime": 100
+        },
+        {
+          "tier": "low",
+          "oneTime": 25
+        }
+      ]
+    },
+    "workStyle": {
+      "options": [
+        {
+          "tier": "high",
+          "workStyle": "fulltime_both"
+        },
+        {
+          "tier": "mid",
+          "workStyle": "parttime"
+        },
+        {
+          "tier": "low",
+          "workStyle": "single"
+        }
+      ]
+    },
+    "car": {
+      "firstYear": [
+        1,
+        3
+      ],
+      "options": [
+        {
+          "tier": "high",
+          "oneTime": 2600,
+          "annual": 75,
+          "years": 10,
+          "resale": 700,
+          "breakdownChance": 0.05
+        },
+        {
+          "tier": "mid",
+          "oneTime": 900,
+          "annual": 55,
+          "years": 10,
+          "resale": 250,
+          "breakdownChance": 0.05
+        },
+        {
+          "tier": "low",
+          "oneTime": 450,
+          "annual": 45,
+          "years": 6,
+          "resale": 0,
+          "breakdownChance": 0.35
+        }
+      ],
+      "breakdownCost": [
+        10,
+        40
+      ]
+    },
+    "childcare": {
+      "stage": {
+        "fromAge": 0,
+        "toAge": 5
+      },
+      "options": [
+        {
+          "tier": "high",
+          "annual": 220
+        },
+        {
+          "tier": "mid",
+          "annual": 90
+        },
+        {
+          "tier": "low",
+          "annual": 30
+        }
+      ]
+    },
+    "elementary": {
+      "stage": {
+        "fromAge": 6,
+        "toAge": 11
+      },
+      "options": [
+        {
+          "tier": "high",
+          "annual": 250
+        },
+        {
+          "tier": "mid",
+          "annual": 70
+        },
+        {
+          "tier": "low",
+          "annual": 15
+        }
+      ]
+    },
+    "juniorHigh": {
+      "stage": {
+        "fromAge": 12,
+        "toAge": 14
+      },
+      "options": [
+        {
+          "tier": "high",
+          "annual": 180
+        },
+        {
+          "tier": "mid",
+          "annual": 85
+        },
+        {
+          "tier": "low",
+          "annual": 15
+        }
+      ]
+    },
+    "highSchool": {
+      "stage": {
+        "fromAge": 15,
+        "toAge": 17
+      },
+      "options": [
+        {
+          "tier": "high",
+          "annual": 170
+        },
+        {
+          "tier": "mid",
+          "annual": 95
+        },
+        {
+          "tier": "low",
+          "annual": 15
+        }
+      ]
+    },
+    "university": {
+      "stage": {
+        "fromAge": 18
+      },
+      "durations": [
+        4,
+        6
+      ],
+      "options": [
+        {
+          "tier": "high",
+          "annual": 280,
+          "boarding": true
+        },
+        {
+          "tier": "mid",
+          "annual": 100
+        },
+        {
+          "tier": "low",
+          "annual": 55
+        }
+      ]
+    },
+    "house": {
+      "ageRange": [
+        30,
+        50
+      ],
+      "downPaymentRate": 0.2,
+      "loanYears": 40,
+      "loanRate": 0.0205,
+      "options": [
+        {
+          "tier": "high",
+          "oneTime": 18000,
+          "annual": {
+            "tax": 15,
+            "reserve": 30
+          },
+          "depreciation": 0.0,
+          "repairChance": 0.03,
+          "repairCostRate": 1.0
+        },
+        {
+          "tier": "mid",
+          "oneTime": 12000,
+          "annual": {
+            "tax": 8,
+            "management": 30,
+            "reserve": 10
+          },
+          "depreciation": 0.005,
+          "repairChance": 0.05,
+          "repairCostRate": 0.6
+        },
+        {
+          "tier": "low",
+          "oneTime": 8500,
+          "annual": {
+            "tax": 5,
+            "reserve": 20
+          },
+          "depreciation": 0.02,
+          "repairChance": 0.4,
+          "repairCostRate": 2.0,
+          "majorRepair": {
+            "afterYears": 12,
+            "cost": 500
+          }
+        }
+      ]
+    },
+    "repair": {
+      "options": [
+        {
+          "tier": "high",
+          "oneTime": 150,
+          "freeYears": 15
+        },
+        {
+          "tier": "mid",
+          "oneTime": 60,
+          "freeYears": 8
+        },
+        {
+          "tier": "low",
+          "oneTime": 20,
+          "freeYears": 3
+        }
+      ]
+    },
+    "familyTrip": {
+      "every": 5,
+      "options": [
+        {
+          "tier": "high",
+          "oneTime": 200
+        },
+        {
+          "tier": "mid",
+          "oneTime": 50
+        },
+        {
+          "tier": "low",
+          "oneTime": 5
+        }
+      ]
+    }
+  },
+  "independence": {
+    "points": {
+      "high": 2,
+      "mid": 1,
+      "low": 0,
+      "none": 0
+    },
+    "allowance": {
+      "baseChance": 0.35,
+      "chancePerPoint": 0.05,
+      "noUniversityBonus": 0.2,
+      "baseAmount": 36,
+      "amountPerPoint": 6
+    },
+    "scholarship": {
+      "maxShare": 0.5,
+      "years": 10,
+      "baseChance": 0.6,
+      "chancePerPoint": -0.05
+    }
+  },
+  "random": {
+    "chancePerYear": 0.3,
+    "events": {
+      "promotion": {
+        "weight": 20,
+        "rate": 0.1
+      },
+      "jobOffer": {
+        "weight": 10,
+        "range": 0.2
+      },
+      "illness": {
+        "weight": 20,
+        "cost": [
+          10,
+          60
+        ]
+      },
+      "care": {
+        "weight": 10,
+        "minAge": 40,
+        "max": 2,
+        "years": [
+          3,
+          5
+        ],
+        "facilityAnnual": 120,
+        "homeAnnual": 50,
+        "homeWorkStyle": "parttime"
+      },
+      "bonusCut": {
+        "weight": 15,
+        "rate": 0.1
+      },
+      "windfall": {
+        "weight": 15,
+        "min": 60,
+        "max": 800,
+        "inheritanceMin": 300,
+        "bigAmount": 500
+      }
+    }
+  },
+  "ranks": [
+    {
+      "rank": "S",
+      "min": 8500
+    },
+    {
+      "rank": "A",
+      "min": 5200
+    },
+    {
+      "rank": "B",
+      "min": 3500
+    },
+    {
+      "rank": "C",
+      "min": 1000
+    },
+    {
+      "rank": "D",
+      "min": null
+    }
+  ],
+  "titles": [
+    "education",
+    "showoff",
+    "frugal",
+    "steady",
+    "bigFamily",
+    "lifelongRenter",
+    "carFree",
+    "twoOfUs",
+    "balanced"
+  ],
+  "achievements": [
+    "rankS",
+    "bankrupt",
+    "threePrivate",
+    "lifelongRenter",
+    "loanPaidOff",
+    "noCardLoan",
+    "carFree",
+    "threeKids",
+    "bigWindfall",
+    "homeCare",
+    "jobUp",
+    "allowance"
+  ],
+  "currency": "TWD",
+  "moneyUnit": 1000,
+  "currencySymbol": {
+    "en": "NT$",
+    "ja": "NT$",
+    "zh-tw": "NT$",
+    "es": "NT$",
+    "ko": "NT$"
+  }
+}

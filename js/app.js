@@ -407,7 +407,7 @@ function showYearSummary(r) {
 
 // ---- イベント ----
 
-const pct = (rate) => Math.round(rate * 1000) / 10; // 0.015 → 1.5
+const pct = (rate) => Math.round(rate * 10000) / 100; // 0.015 → 1.5、0.0649 → 6.49
 // 家の頭金の割合。選択肢で違うときは「5–25」のように幅で書く
 function downPctText() {
   const rates = [...new Set(data.events.house.options.map((o) => pct(downPaymentRate(data, o))))].sort((x, y) => x - y);
