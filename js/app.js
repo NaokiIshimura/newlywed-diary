@@ -94,14 +94,8 @@ function show(id) {
   window.scrollTo(0, 0);
 }
 
-// 引き継ぎや途中保存で、この言語の国ではない国を遊んだあとは、この言語の既定の国に戻す
-async function backToLangCountry() {
-  if (!countriesFor(pageLang()).includes(country)) await setCountry(countriesFor(pageLang())[0]);
-}
-
-async function showTitle() {
+function showTitle() {
   stop();
-  await backToLangCountry();
   $("#btn-continue").hidden = !load();
   $("#title-illust").innerHTML = illustFor("wedding");
   show("screen-title");
@@ -136,9 +130,7 @@ function fillForm(s) {
 function updateCountryField() {
   const list = countriesFor(pageLang());
   $("#country-field").hidden = list.length < 2 || !!handoff;
-  // 欄を隠しているときも、選択肢はいまの国にそろえておく（引き継いだ国がこの言語の国でないとき）
-  const options = list.includes(country) ? list : [country, ...list];
-  $("#setup-country").innerHTML = options.map((c) => `<option value="${c}"${c === country ? " selected" : ""}>${t(`countries.${c}`)}</option>`).join("");
+  $("#setup-country").innerHTML = list.map((c) => `<option value="${c}"${c === country ? " selected" : ""}>${t(`countries.${c}`)}</option>`).join("");
 }
 
 // 入力欄の範囲・刻みと、ラベルの単位を国に合わせる
@@ -762,16 +754,9 @@ $("#btn-clear").addEventListener("click", () => {
   showSettings();
 });
 
-// 新しく始めるときは、この言語の国で始める
-$("#btn-start").addEventListener("click", async () => {
-  await backToLangCountry();
-  showSetup();
-});
+$("#btn-start").addEventListener("click", () => showSetup());
 $("#btn-continue").addEventListener("click", continueGame);
-$("#btn-again").addEventListener("click", async () => {
-  await backToLangCountry();
-  showSetup();
-});
+$("#btn-again").addEventListener("click", () => showSetup());
 $("#btn-gallery").addEventListener("click", showGallery);
 $("#btn-settings").addEventListener("click", showSettings);
 
