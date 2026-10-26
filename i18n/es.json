@@ -44,7 +44,8 @@
   "countries": {
     "jp": "Japón",
     "us": "Estados Unidos",
-    "sg": "Singapur"
+    "sg": "Singapur",
+    "ph": "Filipinas"
   },
   "main": {
     "age": "{n} años",
