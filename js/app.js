@@ -9,6 +9,7 @@ import {
   createGame,
   defaultSettings,
   downPayment,
+  downPaymentRate,
   endYear,
   handoffCarValue,
   handoffCountry,
@@ -407,6 +408,11 @@ function showYearSummary(r) {
 // ---- イベント ----
 
 const pct = (rate) => Math.round(rate * 1000) / 10; // 0.015 → 1.5
+// 家の頭金の割合。選択肢で違うときは「5–25」のように幅で書く
+function downPctText() {
+  const rates = [...new Set(data.events.house.options.map((o) => pct(downPaymentRate(data, o))))].sort((x, y) => x - y);
+  return rates.length > 1 ? `${rates[0]}–${rates[rates.length - 1]}` : String(rates[0]);
+}
 
 function childName(i) {
   return state.children.length > 1 ? t("event.childNth", { n: i + 1 }) : t("event.child");
@@ -438,7 +444,7 @@ function describe(ev) {
     case "house":
       return {
         title: e("title"),
-        text: e("text", { rent: data.familyRent, down: pct(data.events.house.downPaymentRate), years: data.events.house.loanYears, rate: pct(data.events.house.loanRate) }),
+        text: e("text", { rent: data.familyRent, down: downPctText(), years: data.events.house.loanYears, rate: pct(data.events.house.loanRate) }),
         yes: e("yes"),
         no: t("event.later"),
         never: e("never"),
@@ -460,7 +466,7 @@ function optionDetail(ev, opt) {
       return t("event.car.detail", { cost: opt.oneTime, annual: opt.annual, years: opt.years, resale: opt.resale }) + (opt.breakdownChance >= 0.2 ? t("event.car.fragile") : "");
     case "house": {
       const h = data.events.house;
-      const down = downPayment(data, state, opt.oneTime);
+      const down = downPayment(data, state, opt);
       const loan = loanPayment(opt.oneTime - down, h.loanRate, h.loanYears);
       const fixed = Object.values(opt.annual).reduce((x, y) => x + y, 0);
       return t("event.house.detail", { cost: opt.oneTime, down, loan, fixed }) + (opt.majorRepair ? t("event.house.manyRepairs") : "");

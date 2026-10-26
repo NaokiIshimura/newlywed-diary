@@ -54,6 +54,12 @@ export function has(key) {
 export function money(v) {
   const n = Math.round(v) || 0;
   if (lang.code === "ja" && profile.currency === "JPY") return `${n.toLocaleString("ja-JP")}万円`;
+  // 国の数値に、その言語での通貨の記号があればそれを使う（英語のシンガポールドルは「SGD 54K」ではなく「S$54K」）
+  const symbol = profile.currencySymbol?.[lang.code];
+  if (symbol) {
+    const abs = new Intl.NumberFormat(lang.locale, { notation: "compact", maximumFractionDigits: 1 }).format(Math.abs(n) * profile.moneyUnit);
+    return `${n < 0 ? "-" : ""}${symbol}${abs}`;
+  }
   return new Intl.NumberFormat(lang.locale, {
     style: "currency",
     currency: profile.currency,
