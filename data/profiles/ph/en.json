@@ -142,8 +142,8 @@
         "diary": "We bought a house in a gated village. We talked over the floor plan again and again."
       },
       "mid": {
-        "label": "Condo in the city",
-        "diary": "We bought a condo in the city. No more long commutes."
+        "label": "House and lot in the suburbs",
+        "diary": "We bought a house and lot in a subdivision outside the city. The commute is long, but it's ours."
       },
       "low": {
         "label": "Pre-owned house + renovation",
@@ -296,7 +296,7 @@
     },
     "bigWindfall": {
       "name": "Unexpected Fortune",
-      "desc": "Got a windfall of ¥3M or more"
+      "desc": "Got a windfall of ₱300K or more"
     },
     "homeCare": {
       "name": "Caring at Home",
