@@ -1,0 +1,314 @@
+{
+  "local": {
+    "setIn": "Set in Singapore. All amounts are in Singapore dollars.",
+    "inputUnit": "S$1,000s",
+    "weddingGift": "ang bao",
+    "allowance": "Baby Bonus",
+    "years6Note": "Bachelor's + master's, etc."
+  },
+  "events": {
+    "wedding": {
+      "high": {
+        "label": "Hotel banquet",
+        "diary": "We held a banquet at a grand hotel. The yam seng went on and on."
+      },
+      "mid": {
+        "label": "Restaurant banquet",
+        "diary": "We held a restaurant banquet with family and friends."
+      },
+      "low": {
+        "label": "ROM + small dinner",
+        "diary": "We registered at the ROM and had a small dinner with family."
+      },
+      "skip": "We skipped the ceremony and shared a quiet toast, just the two of us."
+    },
+    "honeymoon": {
+      "high": {
+        "label": "Europe",
+        "diary": "Honeymoon in Europe. We walked cobblestone streets hand in hand."
+      },
+      "mid": {
+        "label": "Japan",
+        "diary": "Honeymoon in Japan. We ate our way through Hokkaido."
+      },
+      "low": {
+        "label": "Bali",
+        "diary": "A short honeymoon in Bali. So relaxing."
+      },
+      "skip": "We skipped the honeymoon. \"Someday,\" we promised."
+    },
+    "workStyle": {
+      "high": {
+        "diary": "We decided we'd both work full-time."
+      },
+      "mid": {
+        "diary": "My partner switched to shorter hours / part-time."
+      },
+      "low": {
+        "diary": "My partner left work to focus on home."
+      }
+    },
+    "car": {
+      "high": {
+        "label": "Luxury car",
+        "diary": "We bought a luxury car. Driving it makes us sit up straight."
+      },
+      "mid": {
+        "label": "New car",
+        "diary": "We bought a new car. Weekend drives became our joy."
+      },
+      "low": {
+        "label": "Used car",
+        "diary": "We bought a used car. A few years left on the COE, and it runs fine."
+      },
+      "skip": "We didn't buy a car. The MRT and buses will do.",
+      "never": "We decided to live without a car."
+    },
+    "childcare": {
+      "high": {
+        "label": "Premium preschool",
+        "diary": "We chose a premium preschool with lots of enrichment classes."
+      },
+      "mid": {
+        "label": "Subsidised preschool",
+        "diary": "We got a place at a subsidised preschool."
+      },
+      "low": {
+        "label": "Grandparents",
+        "diary": "The grandparents will look after them. They're thrilled."
+      }
+    },
+    "elementary": {
+      "high": {
+        "label": "International school",
+        "diary": "Started at an international school. The uniform looks great."
+      },
+      "mid": {
+        "label": "MOE school + tuition",
+        "diary": "Started primary school, with tuition classes too."
+      },
+      "low": {
+        "label": "MOE school",
+        "diary": "Started primary school. The school bag looks huge."
+      }
+    },
+    "juniorHigh": {
+      "high": {
+        "label": "International school",
+        "diary": "Moved up to the international school's secondary section."
+      },
+      "mid": {
+        "label": "MOE school + tuition",
+        "diary": "Started secondary school, with tuition after class."
+      },
+      "low": {
+        "label": "MOE school",
+        "diary": "Started secondary school. Totally into CCAs."
+      }
+    },
+    "highSchool": {
+      "high": {
+        "label": "International school",
+        "diary": "Carried on at the international school, on the IB programme."
+      },
+      "mid": {
+        "label": "MOE school + tuition",
+        "diary": "Started upper secondary, with tuition for the O-Levels too."
+      },
+      "low": {
+        "label": "MOE school",
+        "diary": "Started upper secondary. The O-Levels are coming."
+      }
+    },
+    "university": {
+      "high": {
+        "label": "Overseas university",
+        "diary": "Went to university overseas and moved into a hall. ({years} yrs)"
+      },
+      "mid": {
+        "label": "Local university",
+        "diary": "Got into a local university. ({years} yrs)"
+      },
+      "low": {
+        "label": "Poly, then university",
+        "diary": "Did a poly diploma first, then went on to university. ({years} yrs)"
+      },
+      "skip": "Started work after school. A working adult now.",
+      "skipLabel": "Job"
+    },
+    "house": {
+      "high": {
+        "label": "Condo",
+        "diary": "We bought a condo. The pool downstairs is our favourite spot."
+      },
+      "mid": {
+        "label": "BTO flat",
+        "diary": "We got the keys to our BTO flat. It felt unreal."
+      },
+      "low": {
+        "label": "Resale flat + renovation",
+        "diary": "We bought an older resale flat and renovated it. Old, but full of charm."
+      },
+      "skip": "We didn't buy; we rented a bigger flat.",
+      "never": "We decided to rent for life. Travelling light is best.",
+      "majorRepair": "The old flat's pipes and windows gave out. Major renovation cost {cost:money}."
+    },
+    "repair": {
+      "high": {
+        "label": "Full renovation",
+        "diary": "We renovated the whole house. That'll hold for a while."
+      },
+      "mid": {
+        "label": "Partial repair",
+        "diary": "We fixed what was broken."
+      },
+      "low": {
+        "label": "Quick fix",
+        "diary": "We patched it up for now."
+      }
+    },
+    "familyTrip": {
+      "high": {
+        "label": "Long-haul trip",
+        "diary": "We took a long-haul family trip to Europe."
+      },
+      "mid": {
+        "label": "Trip in the region",
+        "diary": "We took a family trip around the region."
+      },
+      "low": {
+        "label": "Staycation",
+        "diary": "We had a staycation at a hotel in town. Still fun."
+      },
+      "skip": "We spent this year's anniversary relaxing at home."
+    }
+  },
+  "workStyles": {
+    "fulltime_both": {
+      "label": "Dual income",
+      "fullLabel": "Dual income (full-time)"
+    },
+    "parttime": {
+      "label": "Part-time",
+      "fullLabel": "Dual income (part-time)"
+    },
+    "single": {
+      "label": "Single income",
+      "fullLabel": "Single income"
+    }
+  },
+  "ranks": {
+    "S": {
+      "ending": "Carefree Retirement",
+      "comment": "No more money worries. Let's go wherever we always wanted, whenever we like."
+    },
+    "A": {
+      "ending": "Comfortable Retirement",
+      "comment": "Hobbies and travel to enjoy. We can laugh and say, \"We did well.\""
+    },
+    "B": {
+      "ending": "Secure Retirement",
+      "comment": "No luxuries, but no troubles either. Calm days go on."
+    },
+    "C": {
+      "ending": "A Bit Worrying",
+      "comment": "CPF payouts alone feel thin. We'll get by together, saving where we can."
+    },
+    "D": {
+      "ending": "Working Past 65",
+      "comment": "We'll keep working a while. While we're able, that's not so bad."
+    },
+    "bankrupt": {
+      "ending": "Bankrupt Ending",
+      "comment": "Debts piled up and our finances collapsed. Look back at where we overreached, and try again."
+    }
+  },
+  "titles": {
+    "education": {
+      "name": "All for Education",
+      "desc": "Chose \"High\" for every stage from childcare to high school"
+    },
+    "showoff": {
+      "name": "Show-off",
+      "desc": "Chose \"High\" in 70%+ of choices"
+    },
+    "frugal": {
+      "name": "Master of Thrift",
+      "desc": "Chose \"Low\" in 70%+ of choices"
+    },
+    "steady": {
+      "name": "Steady Family",
+      "desc": "Chose \"Mid\" in 70%+ of choices"
+    },
+    "bigFamily": {
+      "name": "Big Lively Family",
+      "desc": "Had 3 children"
+    },
+    "lifelongRenter": {
+      "name": "Lifelong Renter",
+      "desc": "Never owned a home"
+    },
+    "carFree": {
+      "name": "Car-Free Life",
+      "desc": "Chose never to own a car"
+    },
+    "twoOfUs": {
+      "name": "Just the Two of Us",
+      "desc": "Had no children"
+    },
+    "balanced": {
+      "name": "Well-Balanced",
+      "desc": "Mixed High, Mid and Low"
+    }
+  },
+  "achievements": {
+    "rankS": {
+      "name": "Carefree",
+      "desc": "Retired with rank S"
+    },
+    "bankrupt": {
+      "name": "Rock Bottom",
+      "desc": "Saw the bankrupt ending"
+    },
+    "threePrivate": {
+      "name": "Three in Private School",
+      "desc": "All 3 kids in private school, elementary to high"
+    },
+    "lifelongRenter": {
+      "name": "Renters for Life",
+      "desc": "Retired after choosing to rent for life"
+    },
+    "loanPaidOff": {
+      "name": "Mortgage-Free",
+      "desc": "Paid off the mortgage"
+    },
+    "noCardLoan": {
+      "name": "Debt-Free",
+      "desc": "Retired without savings ever going negative"
+    },
+    "carFree": {
+      "name": "By MRT and Bus",
+      "desc": "Retired without owning a car"
+    },
+    "threeKids": {
+      "name": "Three Siblings",
+      "desc": "Had 3 children"
+    },
+    "bigWindfall": {
+      "name": "Unexpected Fortune",
+      "desc": "Got a windfall of ¥3M or more"
+    },
+    "homeCare": {
+      "name": "Caring at Home",
+      "desc": "Cared for a parent at home"
+    },
+    "jobUp": {
+      "name": "Good Move",
+      "desc": "Switched jobs and earned more"
+    },
+    "allowance": {
+      "name": "Grateful Child",
+      "desc": "Got money from a child who'd moved out"
+    }
+  }
+}
