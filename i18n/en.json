@@ -48,7 +48,8 @@
     "ph": "Philippines",
     "ca": "Canada",
     "au": "Australia",
-    "mx": "Mexico"
+    "mx": "Mexico",
+    "tw": "Taiwan"
   },
   "main": {
     "age": "Age {n}",
