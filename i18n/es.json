@@ -3,8 +3,7 @@
     "title": "Diario de recién casados",
     "description": "Un simulador de vida: del matrimonio a la jubilación, solo eligiendo «comprar o no» y «caro, normal o barato».",
     "gameName": "Diario de recién casados",
-    "hashtag": "#DiarioDeRecienCasados",
-    "setInJapan": "El juego transcurre en Japón; los montos están en yenes japoneses (¥)."
+    "hashtag": "#DiarioDeRecienCasados"
   },
   "who": {
     "a": "mí",
@@ -20,14 +19,15 @@
   },
   "setup": {
     "heading": "Configuración inicial",
+    "country": "País o región",
     "genderA": "Tu género",
     "genderB": "Género de tu pareja",
     "female": "Mujer",
     "male": "Hombre",
     "age": "Edad al casarse ({min}–{max} años)",
-    "savings": "Ahorros (en ¥10.000, {min}–{max})",
-    "incomeA": "Tu ingreso anual (en ¥10.000)",
-    "incomeB": "Ingreso anual de tu pareja (en ¥10.000, a tiempo completo)",
+    "savings": "Ahorros (en {unit}, {min}–{max})",
+    "incomeA": "Tu ingreso anual (en {unit})",
+    "incomeB": "Ingreso anual de tu pareja (en {unit}, a tiempo completo)",
     "incomeHint": "El ingreso inicial es la mediana para esa edad.",
     "workStyle": "Modo de trabajo",
     "random": "Aleatorio",
@@ -38,8 +38,12 @@
     "handoffSavings": "Ahorros que traes: {savings:money} (se suman a los de tu pareja)",
     "handoffCar": "Auto: el que manejabas en Diario de vida independiente (vale {value:money})",
     "handoffNoCar": "Auto: ninguno",
-    "partnerSavings": "Ahorros de tu pareja (en ¥10.000, {min}–{max})",
+    "partnerSavings": "Ahorros de tu pareja (en {unit}, {min}–{max})",
     "noHandoff": "Empezar sin traer nada"
+  },
+  "countries": {
+    "jp": "Japón",
+    "us": "Estados Unidos"
   },
   "main": {
     "age": "{n} años",
@@ -102,7 +106,7 @@
       "text": "¿Quieren hacer una boda?",
       "yes": "Sí",
       "no": "No",
-      "detail": "{cost:money} (regalos en efectivo +{gift:money})"
+      "detail": "{cost:money} ({giftName} +{gift:money})"
     },
     "honeymoon": {
       "title": "Luna de miel",
@@ -158,8 +162,7 @@
       "yes": "Ir a la universidad",
       "no": "Ponerse a trabajar",
       "noSub": "Independiente a los 18. Más probable que nos ayude con dinero",
-      "years": "{n} años",
-      "years6Note": "Medicina, Farmacia, maestría, etc."
+      "years": "{n} años"
     },
     "car": {
       "titleBuy": "Comprar un auto",
@@ -173,7 +176,7 @@
     },
     "house": {
       "title": "Casa propia",
-      "text": "¿Compran una casa? El enganche es 20% (o lo que alcancen los ahorros) y el resto, hipoteca a 35 años (1,5% de interés). Si no, vivirán en un alquiler amplio para familias ({rent:money}/año).",
+      "text": "¿Compran una casa? El enganche es {down}% (o lo que alcancen los ahorros) y el resto, hipoteca a {years} años ({rate}% de interés). Si no, vivirán en un alquiler amplio para familias ({rent:money}/año).",
       "yes": "Comprar",
       "never": "Alquilar siempre",
       "rentSub": "Alquiler {rent:money}/año",
@@ -193,9 +196,9 @@
     },
     "jobOffer": {
       "title": "Oferta de trabajo",
-      "text": "Te ofrecieron otro empleo. El sueldo podría subir o bajar (±20%).",
+      "text": "Te ofrecieron otro empleo. El sueldo podría subir o bajar (±{pct}%).",
       "accept": "Cambiar de trabajo",
-      "acceptSub": "El sueldo cambia entre −20% y +20%",
+      "acceptSub": "El sueldo cambia entre −{pct}% y +{pct}%",
       "decline": "Rechazar",
       "declineSub": "El sueldo sigue igual"
     },
@@ -228,7 +231,7 @@
       "events": "Eventos (boda, viajes)",
       "other": "Otros (cuidados, salud, intereses)"
     },
-    "incomeNote": "Ingresos netos {income:money}; subsidios por hijos, ayuda de los hijos y extras {extra:money}.",
+    "incomeNote": "Ingresos netos {income:money}; {allowance}, ayuda de los hijos y extras {extra:money}.",
     "achievements": "Logros",
     "noAchievements": "Esta vez no hubo logros.",
     "timeline": "Línea de vida",
@@ -276,7 +279,7 @@
     "married": "Nos casamos.",
     "promotion": "¡Ascenso para {who:who}! El sueldo subió {pct}%.",
     "illness": "Un problema de salud mandó al hospital a {who:who}. Gastos médicos: {cost:money}.",
-    "bonusCut": "A la empresa le fue mal y recortaron el bono. Este año entra 10% menos.",
+    "bonusCut": "A la empresa le fue mal y recortaron el bono. Este año entra {pct}% menos.",
     "inheritance": "Recibimos una herencia de un pariente: {amount:money}.",
     "lottery": "¡Ganamos la lotería! {amount:money}.",
     "returnToWork": "Mi pareja volvió a trabajar tras {years} años. Por la pausa, el sueldo bajó {pct}%.",

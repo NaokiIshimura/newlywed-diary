@@ -1,4 +1,11 @@
 {
+  "local": {
+    "setIn": "Set in Japan. All amounts are in Japanese yen.",
+    "inputUnit": "¥10,000",
+    "weddingGift": "cash gifts",
+    "allowance": "child allowance",
+    "years6Note": "Medicine, pharmacy, master's, etc."
+  },
   "events": {
     "wedding": {
       "high": {

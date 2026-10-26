@@ -2,9 +2,11 @@
 //   node tools/check-i18n.mjs
 // 書式（:money など）は言語ごとに変えてよいので、差し込む名前だけを比べる。
 import { readFileSync, existsSync } from "node:fs";
+import { COUNTRIES } from "../js/countries.js";
 
 const LANGS = ["ja", "en", "zh-tw", "es", "ko"];
-const FILES = [(l) => `i18n/${l}.json`, (l) => `data/profiles/jp/${l}.json`];
+// UI の文と、国ごとの文（国の文はどれも、日本の日本語版と同じキーにそろえる）
+const FILES = [(l) => `i18n/${l}.json`, ...COUNTRIES.map((c) => (l) => `data/profiles/${c}/${l}.json`)];
 const FORMATS = new Set(["money", "num", "signed", "signedMoney", "who"]);
 
 function flatten(obj, prefix = "", out = {}) {
@@ -26,8 +28,8 @@ const fail = (msg) => {
 };
 
 for (const file of FILES) {
-  const base = flatten(JSON.parse(readFileSync(file("ja"), "utf8")));
-  for (const lang of LANGS.slice(1)) {
+  const base = flatten(JSON.parse(readFileSync(file("ja").replace(/profiles\/\w+\//, "profiles/jp/"), "utf8")));
+  for (const lang of LANGS) {
     const path = file(lang);
     if (!existsSync(path)) {
       fail(`${path}: ファイルがない`);

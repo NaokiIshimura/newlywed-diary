@@ -1,4 +1,11 @@
 {
+  "local": {
+    "setIn": "本遊戲以日本為背景，金額皆為日圓。",
+    "inputUnit": "萬日圓",
+    "weddingGift": "禮金",
+    "allowance": "兒童津貼",
+    "years6Note": "醫學系、藥學系、研究所（碩士）等"
+  },
   "events": {
     "wedding": {
       "high": {

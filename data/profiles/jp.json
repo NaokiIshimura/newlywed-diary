@@ -5,9 +5,19 @@
     "min": 22,
     "max": 45
   },
+  "defaultAge": 28,
   "startSavings": {
     "min": 0,
-    "max": 1000
+    "max": 1000,
+    "default": 200
+  },
+  "moneyStep": 10,
+  "inputScale": 1,
+  "maxIncome": 3000,
+  "handoffLimits": {
+    "savings": 100000,
+    "carPrice": 10000,
+    "carAnnual": 1000
   },
   "takeHomeRate": 0.78,
   "medianIncomeByAge": {
@@ -410,7 +420,9 @@
       "windfall": {
         "weight": 15,
         "min": 50,
-        "max": 500
+        "max": 500,
+        "inheritanceMin": 200,
+        "bigAmount": 300
       }
     }
   },

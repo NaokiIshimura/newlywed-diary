@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """言語ごとのゲームのページを書き出す（nacn.app の多言語のしくみ。claude-skills の localize-static-app スキル）。
 
-src/game.html（ゲームのページの枠）に、i18n/<言語>.json と data/profiles/jp/<言語>.json の文を差し込み、
+src/game.html（ゲームのページの枠）に、i18n/<言語>.json と data/profiles/<その言語の最初の国>/<言語>.json の文を差し込み、
 /ja/・/en/・/zh-tw/・/ko/・/es/ に書き出す。各ページは最初からその言語で書き出すので、検索エンジンと SNS の OGP も言語ごとになる。
 文章のページ（遊び方・プライバシーポリシー）は、src/page.html（枠）に src/pages/<言語>/<ページ>.html（本文）を差し込んで
 /<言語>/<ページ>.html に書き出す。ルート（/）には言語を選ぶページ（src/root.html）、ほかに 404.html・sitemap.xml を書き出す。
@@ -16,9 +16,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / 'src'
 SITE = 'https://newlywed-diary.nacn.app/'
-PROFILE = 'jp'
+# 言語ごとの最初の国（js/countries.js の DEFAULT_COUNTRY と同じ）。国プロファイルがまだない国は日本にする
+DEFAULT_COUNTRY = {'ja': 'jp', 'en': 'us', 'zh-tw': 'tw', 'ko': 'kr', 'es': 'mx'}
 # css・js・og.png を変えたら新しくする（古いキャッシュを使わせないため）
-ASSET_VER = '20261024c'
+ASSET_VER = '20261026a'
 # hreflang・sitemap.xml の順
 LANGS = ['ja', 'en', 'zh-tw', 'ko', 'es']
 # 言語を選ぶページと言語の切り替えリンクは、話者が多い順に並べる（英語・中国語・スペイン語・日本語・韓国語）
@@ -35,14 +36,17 @@ BROWSER_MATCH = {
 # 文章のページ。名前と説明は言語データの pages.<ページ>、本文は src/pages/<言語>/<ページ>.html
 TEXT_PAGES = ['howto', 'privacy']
 # 国プロファイルの文が入っているキーの先頭（js/i18n.js の PROFILE_ROOTS と同じ）
-PROFILE_ROOTS = {'events', 'workStyles', 'ranks', 'titles', 'achievements'}
+PROFILE_ROOTS = {'local', 'events', 'workStyles', 'ranks', 'titles', 'achievements'}
 
 
 def load_locales():
     locales = {}
     for code in LANGS:
         ui = json.loads((ROOT / 'i18n' / f'{code}.json').read_text(encoding='utf-8'))
-        texts = json.loads((ROOT / 'data' / 'profiles' / PROFILE / f'{code}.json').read_text(encoding='utf-8'))
+        country = DEFAULT_COUNTRY[code]
+        if not (ROOT / 'data' / 'profiles' / f'{country}.json').exists():
+            country = 'jp'
+        texts = json.loads((ROOT / 'data' / 'profiles' / country / f'{code}.json').read_text(encoding='utf-8'))
         locales[code] = {'ui': ui, 'texts': texts}
     return locales
 

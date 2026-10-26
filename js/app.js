@@ -11,6 +11,7 @@ import {
   downPayment,
   endYear,
   handoffCarValue,
+  handoffCountry,
   handoffSettings,
   immediateCost,
   loanPayment,
@@ -21,31 +22,38 @@ import {
   parseHandoff,
   randomSettings,
   rankOf,
+  roundMoney,
   titleOf,
 } from "./engine.js";
+import { COUNTRIES, initialCountry, isCountry, saveCountry } from "./countries.js";
 import { LANGS, applyStatic, currentLang, loadLang, money, pageLang, t } from "./i18n.js";
 import { illustFor } from "./illust.js";
 import { canvasToBlob, drawShareCard } from "./share.js";
 import { clearAll, loadRecords, loadSave, loadSettings, recordResult, writeSave, writeSettings } from "./storage.js";
 
-const PROFILE = "jp"; // v1 は日本プロファイルだけ
 const SPEED_MS = { 1: 900, 2: 400 };
 
 const $ = (sel) => document.querySelector(sel);
 
 let data;
+let country; // ゲームの中の国（国プロファイル）。表示の言語とは別
 let state = null;
 let speed = 1;
 let timer = null;
 let settings = loadSettings();
 
-// ---- 言語 ----
+// ---- 言語と国 ----
 
-async function setLang(code) {
-  await loadLang(code, data, PROFILE);
+// 国のプロファイル（数値と、このページの言語の文）を読んで、画面の文を入れ直す
+async function setCountry(c) {
+  const lang = pageLang();
+  data = await (await fetch(new URL(`../data/profiles/${c}.json`, import.meta.url))).json();
+  country = c;
+  await loadLang(lang, data, c);
   applyStatic();
-  $("#settings-lang").innerHTML = LANGS.map((l) => `<option value="${l.code}"${l.code === code ? " selected" : ""}>${l.name}</option>`).join("");
-  updateMoneyHints();
+  $("#settings-lang").innerHTML = LANGS.map((l) => `<option value="${l.code}"${l.code === lang ? " selected" : ""}>${l.name}</option>`).join("");
+  $("#setup-country").innerHTML = COUNTRIES.map((k) => `<option value="${k}"${k === c ? " selected" : ""}>${t(`countries.${k}`)}</option>`).join("");
+  updateSetupLabels();
 }
 
 // 言語を変えるときは、その言語のページ（/en/ など）へ移る。選んだ言語は nacn.app の全サイトで同じキー（lang）に覚える
@@ -89,40 +97,58 @@ const form = $("#setup-form");
 let incomeEdited = { a: false, b: false };
 let handoff = null; // 一人暮らし日記から引き継いだデータ（URL の ?from=solo&d=）。なければ null
 
+// 金額の入力欄の 1 は、国プロファイルの金額の inputScale 単位（日本は万円のまま、米国は $1,000 で入れる）
+const toInput = (v) => v / data.inputScale;
+const fromInput = (v) => (Number(v) || 0) * data.inputScale;
+// 年収の初期値・ランダムの値（国の刻みにそろえて、入力欄の単位にする）
+const incomeInput = (v) => toInput(roundMoney(data, v));
+
 function fillForm(s) {
   form.genderA.value = s.genders.a;
   form.genderB.value = s.genders.b;
   form.age.value = s.age;
-  form.savings.value = s.savings;
-  form.incomeA.value = s.income.a;
-  form.incomeB.value = s.income.b;
+  form.savings.value = toInput(s.savings);
+  form.incomeA.value = toInput(s.income.a);
+  form.incomeB.value = toInput(s.income.b);
   form.workStyle.value = s.workStyle;
   updateMoneyHints();
 }
 
-// 金額の入力欄の下に、表示用の金額（日本語以外では円の額）を出す
+// 入力欄の範囲・刻みと、ラベルの単位を国に合わせる
+function updateSetupLabels() {
+  const unit = t("local.inputUnit");
+  const step = toInput(data.moneyStep);
+  const sv = data.startSavings;
+  Object.assign(form.age, { min: data.startAge.min, max: data.startAge.max });
+  Object.assign(form.savings, { min: toInput(sv.min), max: toInput(sv.max), step });
+  for (const name of ["incomeA", "incomeB"]) Object.assign(form[name], { min: 0, max: toInput(data.maxIncome), step });
+  $("#age-label").innerHTML = t("setup.age", { min: data.startAge.min, max: data.startAge.max });
+  $("#savings-label").innerHTML = t(handoff ? "setup.partnerSavings" : "setup.savings", { unit, min: toInput(sv.min), max: toInput(sv.max) });
+  $("#incomeA-label").innerHTML = t("setup.incomeA", { unit });
+  $("#incomeB-label").innerHTML = t("setup.incomeB", { unit });
+  updateMoneyHints();
+}
+
+// 金額の入力欄の下に、表示用の金額を出す（日本語で日本円なら入力欄と同じ「万円」なので出さない）
 function updateMoneyHints() {
   for (const out of document.querySelectorAll("[data-money-for]")) {
-    out.textContent = currentLang().code === "ja" ? "" : `= ${money(Number(form[out.dataset.moneyFor].value) || 0)}`;
+    out.textContent = currentLang().code === "ja" && data.currency === "JPY" ? "" : `= ${money(fromInput(form[out.dataset.moneyFor].value))}`;
   }
 }
 
 function readForm() {
   const clamp = (v, min, max) => Math.min(max, Math.max(min, Math.round(Number(v) || 0)));
+  const savings = clamp(fromInput(form.savings.value), data.startSavings.min, data.startSavings.max);
+  const income = (name) => clamp(fromInput(form[name].value), 0, data.maxIncome);
   // 引き継ぐときは、主人公の性別・年齢・年収は一人暮らし日記のまま。貯金の欄はパートナーの貯金になる
   if (handoff) {
-    return handoffSettings(handoff, {
-      gender: form.genderB.value,
-      savings: clamp(form.savings.value, data.startSavings.min, data.startSavings.max),
-      income: clamp(form.incomeB.value, 0, 3000),
-      workStyle: form.workStyle.value,
-    });
+    return handoffSettings(handoff, { gender: form.genderB.value, savings, income: income("incomeB"), workStyle: form.workStyle.value });
   }
   return {
     genders: { a: form.genderA.value, b: form.genderB.value },
     age: clamp(form.age.value, data.startAge.min, data.startAge.max),
-    savings: clamp(form.savings.value, data.startSavings.min, data.startSavings.max),
-    income: { a: clamp(form.incomeA.value, 0, 3000), b: clamp(form.incomeB.value, 0, 3000) },
+    savings,
+    income: { a: income("incomeA"), b: income("incomeB") },
     workStyle: form.workStyle.value,
   };
 }
@@ -135,19 +161,20 @@ function showSetup(from = null) {
   show("screen-setup");
 }
 
-// 引き継ぐときは、主人公の欄を一人暮らし日記の値にして変えられないようにし、貯金の欄をパートナーの貯金にする
+// 引き継ぐときは、主人公の欄を一人暮らし日記の値にして変えられないようにし、貯金の欄をパートナーの貯金にする。
+// 金額は一人暮らし日記の国の単位なので、国も変えられない
 function applyHandoff() {
   const on = !!handoff;
   $("#handoff-note").hidden = !on;
-  for (const name of ["genderA", "age", "incomeA"]) form[name].disabled = on;
+  for (const name of ["genderA", "age", "incomeA", "country"]) form[name].disabled = on;
   for (const key of ["age", "incomeA"]) form.querySelector(`[data-random="${key}"]`).hidden = on;
-  $("#savings-label").innerHTML = t(on ? "setup.partnerSavings" : "setup.savings", { min: data.startSavings.min, max: data.startSavings.max });
+  updateSetupLabels();
   if (on) {
     form.genderA.value = handoff.gender;
     form.age.value = handoff.age;
-    form.incomeA.value = handoff.income;
-    form.incomeB.value = Math.round(medianIncome(data, handoff.age) / 10) * 10;
-    form.savings.value = randomSettings(data, newSeed()).savings;
+    form.incomeA.value = toInput(handoff.income);
+    form.incomeB.value = incomeInput(medianIncome(data, handoff.age));
+    form.savings.value = toInput(randomSettings(data, newSeed()).savings);
     const car = handoff.car ? t("setup.handoffCar", { value: handoffCarValue(handoff) }) : t("setup.handoffNoCar");
     $("#handoff-detail").innerHTML = `${t("setup.handoffSavings", { savings: handoff.savings })}<br>${car}`;
   }
@@ -160,9 +187,19 @@ $("#btn-no-handoff").addEventListener("click", () => {
   showSetup(null);
 });
 
+// 国を変えたら、その国の初期値で入れ直す。選んだ国は覚えて、次に開いたときもその国にする
+form.country.addEventListener("change", async () => {
+  const c = form.country.value;
+  if (!isCountry(c)) return;
+  saveCountry(c);
+  if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  await setCountry(c);
+  showSetup(null);
+});
+
 // 年齢を変えたら、手で変えていない年収をその年齢の中央値にそろえる
 form.age.addEventListener("input", () => {
-  const median = Math.round(medianIncome(data, readForm().age) / 10) * 10;
+  const median = incomeInput(medianIncome(data, readForm().age));
   if (!incomeEdited.a) form.incomeA.value = median;
   if (!incomeEdited.b) form.incomeB.value = median;
   updateMoneyHints();
@@ -179,10 +216,10 @@ form.addEventListener("click", (e) => {
   if (key === "age") {
     form.age.value = r.age;
     form.age.dispatchEvent(new Event("input"));
-  } else if (key === "savings") form.savings.value = r.savings;
+  } else if (key === "savings") form.savings.value = toInput(r.savings);
   else if (key === "incomeA" || key === "incomeB") {
     const median = medianIncome(data, current.age);
-    form[key].value = Math.round((median * (0.7 + Math.random() * 0.6)) / 10) * 10;
+    form[key].value = incomeInput(median * (0.7 + Math.random() * 0.6));
     incomeEdited[key === "incomeA" ? "a" : "b"] = true;
   } else if (key === "workStyle") form.workStyle.value = r.workStyle;
   updateMoneyHints();
@@ -197,7 +234,7 @@ $("#btn-omakase").addEventListener("click", () => {
   const r = randomSettings(data, newSeed());
   if (!handoff) return startGame(r);
   // 引き継ぐときは、パートナーのぶんだけおまかせにする
-  const income = Math.round((medianIncome(data, handoff.age) * (0.7 + Math.random() * 0.6)) / 10) * 10;
+  const income = roundMoney(data, medianIncome(data, handoff.age) * (0.7 + Math.random() * 0.6));
   startGame(handoffSettings(handoff, { gender: r.genders.b, savings: r.savings, income, workStyle: r.workStyle }));
 });
 
@@ -219,9 +256,14 @@ function startGame(start) {
   enterMain();
 }
 
-function continueGame() {
-  state = load();
-  if (!state) return showTitle();
+async function continueGame() {
+  const saved = load();
+  if (!saved) return showTitle();
+  // 途中の記録は、その国のプロファイルで続ける（国を分ける前の記録は日本）
+  const c = saved.country ?? "jp";
+  if (!isCountry(c)) return showTitle();
+  if (c !== country) await setCountry(c);
+  state = { ...saved, country: c };
   $("#diary").replaceChildren();
   shown = 0;
   flushDiary();
@@ -243,8 +285,8 @@ function addDiary(age, html, moneyHtml) {
   list.scrollTop = list.scrollHeight;
 }
 
-// 日記の出来事（キーと値）を、今の言語の文にする
-const historyText = (h) => t(h.key, h.params);
+// 日記の出来事（キーと値）を、今の言語の文にする。ボーナスカットの率を持たない古い途中保存は、そのころの率（10%）で書く
+const historyText = (h) => t(h.key, h.key === "h.bonusCut" && !h.params ? { pct: 10 } : h.params);
 
 // まだ日記に書いていない出来事を書く
 let shown = 0;
@@ -335,6 +377,8 @@ function showYearSummary(r) {
 
 // ---- イベント ----
 
+const pct = (rate) => Math.round(rate * 1000) / 10; // 0.015 → 1.5
+
 function childName(i) {
   return state.children.length > 1 ? t("event.childNth", { n: i + 1 }) : t("event.child");
 }
@@ -363,7 +407,15 @@ function describe(ev) {
         ? { title: e("titleReplace"), text: e("textReplace", { years: state.year - state.car.boughtYear, value: carValue(state.car, state.year) }), ...buy, never: e("never") }
         : { title: e("titleBuy"), text: e("textBuy"), ...buy, never: e("never") };
     case "house":
-      return { title: e("title"), text: e("text", { rent: data.familyRent }), yes: e("yes"), no: t("event.later"), never: e("never") };
+      return {
+        title: e("title"),
+        text: e("text", { rent: data.familyRent, down: pct(data.events.house.downPaymentRate), years: data.events.house.loanYears, rate: pct(data.events.house.loanRate) }),
+        yes: e("yes"),
+        no: t("event.later"),
+        never: e("never"),
+      };
+    case "jobOffer":
+      return { title: e("title"), text: e("text", { pct: pct(data.random.events.jobOffer.range) }) };
     case "care":
       return { title: e("title"), text: e("text", { years: ev.years }) };
     default:
@@ -374,7 +426,7 @@ function describe(ev) {
 function optionDetail(ev, opt) {
   switch (ev.id) {
     case "wedding":
-      return t("event.wedding.detail", { cost: opt.oneTime, gift: opt.gift });
+      return t("event.wedding.detail", { cost: opt.oneTime, gift: opt.gift, giftName: t("local.weddingGift") });
     case "car":
       return t("event.car.detail", { cost: opt.oneTime, annual: opt.annual, years: opt.years, resale: opt.resale }) + (opt.breakdownChance >= 0.2 ? t("event.car.fragile") : "");
     case "house": {
@@ -439,7 +491,7 @@ function openEvent(ev) {
   const durations = (tier) => {
     box.replaceChildren(
       ...data.events.university.durations.map((y) =>
-        button(t("event.university.years", { n: y }), y === 6 ? t("event.university.years6Note") : "", () => decide({ tier, years: y })),
+        button(t("event.university.years", { n: y }), y === 6 ? t("local.years6Note") : "", () => decide({ tier, years: y })),
       ),
       button(t("event.back"), "", tiers),
     );
@@ -476,7 +528,7 @@ function openEvent(ev) {
         );
       case "jobOffer":
         return box.replaceChildren(
-          button(e("accept"), e("acceptSub"), () => decide({ accept: true })),
+          button(e("accept"), e("acceptSub", { pct: pct(data.random.events.jobOffer.range) }), () => decide({ accept: true })),
           button(e("decline"), e("declineSub"), () => decide({ accept: false })),
         );
       case "care": {
@@ -527,7 +579,7 @@ function showResult() {
   const title = titleOf(data, state);
   const achieved = achievementsOf(data, state);
   if (!state.recorded) {
-    state.fresh = recordResult({ ending: ending.key, title, achievements: achieved, netWorth: state.ended === "retire" ? nw.total : null });
+    state.fresh = recordResult({ country, ending: ending.key, title, achievements: achieved, netWorth: state.ended === "retire" ? nw.total : null });
     state.recorded = true;
   }
   const fresh = state.fresh;
@@ -572,7 +624,7 @@ function showResult() {
       <div class="bars">${spending
         .map(([k, v]) => `<div class="bar"><span class="bar-label">${r(`spendingItems.${k}`)}</span><span class="bar-track"><span class="bar-fill" style="width:${(v / maxSpend) * 100}%"></span></span><span class="num">${money(v)}</span></div>`)
         .join("")}</div>
-      <p class="hint">${r("incomeNote", { income: tt.income, extra: tt.extraIncome })}</p>
+      <p class="hint">${r("incomeNote", { income: tt.income, extra: tt.extraIncome, allowance: t("local.allowance") })}</p>
     </section>
     <section>
       <h3>${r("achievements")}</h3>
@@ -629,12 +681,13 @@ async function renderShare(nw, ending, title) {
 
 function showGallery() {
   const rec = loadRecords();
+  const best = rec.bestByCountry[country] ?? null; // 最高の純資産は、いまの国の記録だけを出す
   const g = (k, p) => t(`gallery.${k}`, p);
   const endings = [...data.ranks.map((x) => x.rank), "bankrupt"];
   const count = (ids, seen) => `${ids.filter((x) => seen[x]).length} / ${ids.length}`;
   const locked = g("locked");
   $("#gallery").innerHTML = `
-    <p class="note">${g("plays", { n: rec.plays })}${rec.best !== null ? g("best", { money: rec.best }) : ""}</p>
+    <p class="note">${g("plays", { n: rec.plays })}${best !== null ? g("best", { money: best }) : ""}</p>
     <section>
       <h3>${g("endings")} <span class="count">${count(endings, rec.endings)}</span></h3>
       <ul class="cards">${endings
@@ -686,9 +739,11 @@ $("#btn-again").addEventListener("click", () => showSetup());
 $("#btn-gallery").addEventListener("click", showGallery);
 $("#btn-settings").addEventListener("click", showSettings);
 
-data = await (await fetch(new URL(`../data/profiles/${PROFILE}.json`, import.meta.url))).json();
-await setLang(pageLang());
-// 一人暮らし日記の結果から来たときは、引き継いだ開始設定から始める
-const fromSolo = parseHandoff(data, new URLSearchParams(location.search));
+// 一人暮らし日記の結果から来たときは、その国で引き継いだ開始設定から始める。まだない国のデータなら引き継がない
+const params = new URLSearchParams(location.search);
+const soloCountry = handoffCountry(params);
+const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || "";
+await setCountry(isCountry(soloCountry) ? soloCountry : initialCountry(pageLang(), { hash: location.hash, browserLang }));
+const fromSolo = parseHandoff(data, params);
 if (fromSolo) showSetup(fromSolo);
 else showTitle();

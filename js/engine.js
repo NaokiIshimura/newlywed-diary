@@ -1,5 +1,5 @@
 // ゲームロジック。DOM に依存しないので、ブラウザとシミュレーション（tools/simulate.mjs）の両方から使う。
-// 金額の単位はすべて万円。
+// 金額の単位は国プロファイルの moneyUnit（日本は万円）。
 
 export const SAVE_VERSION = 4;
 
@@ -41,15 +41,16 @@ export function medianIncome(data, age) {
   return points[points.length - 1][1];
 }
 
-const round10 = (v) => Math.round(v / 10) * 10;
+// 開始設定の金額は、国プロファイルの moneyStep（日本は10万円）の刻みにそろえる
+export const roundMoney = (data, v) => Math.round(v / data.moneyStep) * data.moneyStep;
 
 export function defaultSettings(data) {
-  const age = 28;
-  const income = round10(medianIncome(data, age));
+  const age = data.defaultAge;
+  const income = roundMoney(data, medianIncome(data, age));
   return {
     genders: { a: "female", b: "male" },
     age,
-    savings: 200,
+    savings: data.startSavings.default,
     income: { a: income, b: income },
     workStyle: "fulltime_both",
   };
@@ -64,10 +65,10 @@ export function randomSettings(data, seed) {
   return {
     genders: { a: genders[randInt(s, 0, 1)], b: genders[randInt(s, 0, 1)] },
     age,
-    savings: randInt(s, data.startSavings.min / 10, data.startSavings.max / 10) * 10,
+    savings: randInt(s, data.startSavings.min / data.moneyStep, data.startSavings.max / data.moneyStep) * data.moneyStep,
     income: {
-      a: round10(median * (0.7 + rand(s) * 0.6)),
-      b: round10(median * (0.7 + rand(s) * 0.6)),
+      a: roundMoney(data, median * (0.7 + rand(s) * 0.6)),
+      b: roundMoney(data, median * (0.7 + rand(s) * 0.6)),
     },
     workStyle: styles[randInt(s, 0, styles.length - 1)],
   };
@@ -76,6 +77,7 @@ export function randomSettings(data, seed) {
 export function createGame(data, settings, seed = newSeed()) {
   const state = {
     version: SAVE_VERSION,
+    country: data.country, // 国プロファイル。途中から続けるときは、この国のプロファイルを読む
     seed,
     rng: seed >>> 0,
     year: 0, // 結婚してからの年数。結婚した年が 0
@@ -149,27 +151,40 @@ function base64urlDecode(s) {
   return new TextDecoder().decode(Uint8Array.from(bin, (ch) => ch.charCodeAt(0)));
 }
 
-// URL のクエリ（?from=solo&d=<base64url の JSON>）から、一人暮らし日記の引き継ぎデータを読む。
-// 知らない版や壊れたデータ、範囲の外の値なら null を返す（ふつうの開始設定にする）。1人用のゲームなので、改ざんの対策はしない
-export function parseHandoff(data, params) {
+function readHandoff(params) {
   if (params.get("from") !== "solo" || !params.get("d")) return null;
-  let d;
   try {
-    d = JSON.parse(base64urlDecode(params.get("d")));
+    return JSON.parse(base64urlDecode(params.get("d")));
   } catch {
     return null;
   }
+}
+
+// 引き継ぎデータの国。版1（国を持たない、国を分ける前の版）は日本。引き継ぎでなければ null
+// 金額はその国のプロファイルの単位なので、画面側はこの国のプロファイルを読んでから parseHandoff する
+const soloCountry = (d) => (d.v === 1 ? "jp" : d.country);
+
+export function handoffCountry(params) {
+  const d = readHandoff(params);
+  return d && typeof soloCountry(d) === "string" ? soloCountry(d) : null;
+}
+
+// URL のクエリ（?from=solo&d=<base64url の JSON>）から、一人暮らし日記の引き継ぎデータを読む。
+// 知らない版や壊れたデータ、範囲の外の値、ほかの国のデータなら null を返す（ふつうの開始設定にする）。1人用のゲームなので、改ざんの対策はしない
+export function parseHandoff(data, params) {
+  const d = readHandoff(params);
   const num = (v, min, max) => typeof v === "number" && Number.isFinite(v) && v >= min && v <= max;
-  if (!d || d.v !== 1) return null;
+  if (!d || ![1, 2].includes(d.v) || soloCountry(d) !== data.country) return null;
+  const lim = data.handoffLimits;
   if (!["female", "male"].includes(d.gender)) return null;
   if (!Number.isInteger(d.age) || !num(d.age, data.startAge.min, data.startAge.max)) return null;
-  if (!num(d.savings, data.bankruptLine, 100000) || !num(d.income, 0, 3000)) return null;
+  if (!num(d.savings, data.bankruptLine, lim.savings) || !num(d.income, 0, data.maxIncome)) return null;
   let car = null;
   if (d.car) {
     const c = d.car;
     const ok =
-      ["high", "mid", "low"].includes(c.tier) && num(c.price, 1, 10000) && num(c.resale, 0, c.price) && Number.isInteger(c.years) && num(c.years, 1, 30) &&
-      num(c.annual, 0, 1000) && num(c.breakdownChance, 0, 1) && Number.isInteger(c.boughtAge) && num(c.boughtAge, 0, d.age);
+      ["high", "mid", "low"].includes(c.tier) && num(c.price, 1, lim.carPrice) && num(c.resale, 0, c.price) && Number.isInteger(c.years) && num(c.years, 1, 30) &&
+      num(c.annual, 0, lim.carAnnual) && num(c.breakdownChance, 0, 1) && Number.isInteger(c.boughtAge) && num(c.boughtAge, 0, d.age);
     if (!ok) return null;
     car = { tier: c.tier, price: c.price, resale: c.resale, years: c.years, annual: c.annual, breakdownChance: c.breakdownChance, boughtAge: c.boughtAge };
   }
@@ -296,14 +311,14 @@ function rollRandomEvent(data, state) {
     }
     case "bonusCut":
       state.bonusCutYear = state.year;
-      addHistory(state, "h.bonusCut");
+      addHistory(state, "h.bonusCut", { pct: Math.round(def.rate * 100) });
       return null;
     case "windfall": {
       const amount = Math.round(def.min + (def.max - def.min) * Math.pow(rand(state), 3));
       state.savings += amount;
       state.totals.extraIncome += amount;
       state.flags.maxWindfall = Math.max(state.flags.maxWindfall, amount);
-      addHistory(state, amount >= 200 ? "h.inheritance" : "h.lottery", { amount });
+      addHistory(state, amount >= def.inheritanceMin ? "h.inheritance" : "h.lottery", { amount });
       return null;
     }
     case "jobOffer":
@@ -769,7 +784,7 @@ const ACHIEVEMENT_RULES = {
   noCardLoan: (s) => s.ended === "retire" && s.flags.minSavings >= 0,
   carFree: (s) => s.ended === "retire" && s.carNever,
   threeKids: (s) => s.children.length === 3,
-  bigWindfall: (s) => s.flags.maxWindfall >= 300,
+  bigWindfall: (s, nw, data) => s.flags.maxWindfall >= data.random.events.windfall.bigAmount,
   homeCare: (s) => s.flags.homeCare,
   jobUp: (s) => s.flags.jobUp,
   allowance: (s) => s.children.some((c) => c.allowance > 0),

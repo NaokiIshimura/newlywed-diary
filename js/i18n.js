@@ -10,8 +10,8 @@ export const LANGS = [
   { code: "ko", name: "한국어", locale: "ko-KR" },
 ];
 
-// 国プロファイルの文が入っているキーの先頭
-const PROFILE_ROOTS = ["events", "workStyles", "ranks", "titles", "achievements"];
+// 国プロファイルの文が入っているキーの先頭（local は入力の単位・ご祝儀などの、その国だけの言い方）
+const PROFILE_ROOTS = ["local", "events", "workStyles", "ranks", "titles", "achievements"];
 
 let ui = {};
 let profileTexts = {};

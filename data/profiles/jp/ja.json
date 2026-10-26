@@ -1,4 +1,11 @@
 {
+  "local": {
+    "setIn": "舞台は日本、金額は日本円です。",
+    "inputUnit": "万円",
+    "weddingGift": "ご祝儀",
+    "allowance": "児童手当",
+    "years6Note": "医学部・薬学部・大学院（修士）など"
+  },
   "events": {
     "wedding": {
       "high": {

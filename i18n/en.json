@@ -3,8 +3,7 @@
     "title": "Newlywed Diary",
     "description": "A life sim from marriage to retirement, driven only by choices: buy or skip, high, mid or low.",
     "gameName": "Newlywed Diary",
-    "hashtag": "#NewlywedDiary",
-    "setInJapan": "Set in Japan. All amounts are in Japanese yen."
+    "hashtag": "#NewlywedDiary"
   },
   "who": {
     "a": "I",
@@ -20,14 +19,15 @@
   },
   "setup": {
     "heading": "Setup",
+    "country": "Country or region",
     "genderA": "Your gender",
     "genderB": "Partner's gender",
     "female": "Female",
     "male": "Male",
     "age": "Age at marriage ({min}–{max})",
-    "savings": "Savings (in ¥10,000, {min}–{max})",
-    "incomeA": "Your annual income (in ¥10,000)",
-    "incomeB": "Partner's annual income (in ¥10,000, if full-time)",
+    "savings": "Savings (in {unit}, {min}–{max})",
+    "incomeA": "Your annual income (in {unit})",
+    "incomeB": "Partner's annual income (in {unit}, if full-time)",
     "incomeHint": "Default incomes are the median for that age.",
     "workStyle": "Work style",
     "random": "Random",
@@ -38,8 +38,12 @@
     "handoffSavings": "Savings carried over: {savings:money} (added to your partner's savings)",
     "handoffCar": "Car: the one you drove in Solo Living Diary (worth {value:money})",
     "handoffNoCar": "Car: none",
-    "partnerSavings": "Partner's savings (in ¥10,000, {min}–{max})",
+    "partnerSavings": "Partner's savings (in {unit}, {min}–{max})",
     "noHandoff": "Start without carrying over"
+  },
+  "countries": {
+    "jp": "Japan",
+    "us": "United States"
   },
   "main": {
     "age": "Age {n}",
@@ -101,7 +105,7 @@
       "text": "Have a wedding ceremony?",
       "yes": "Yes",
       "no": "No",
-      "detail": "{cost:money} (cash gifts +{gift:money})"
+      "detail": "{cost:money} ({giftName} +{gift:money})"
     },
     "honeymoon": {
       "title": "Honeymoon",
@@ -158,7 +162,6 @@
       "no": "Get a job",
       "noSub": "Moves out at 18. More likely to send money home",
       "years": "{n} years",
-      "years6Note": "Medicine, pharmacy, master's, etc.",
       "years_one": "1 year"
     },
     "car": {
@@ -173,7 +176,7 @@
     },
     "house": {
       "title": "Our own home",
-      "text": "Buy a home? 20% down (or whatever savings allow), the rest on a 35-year mortgage at 1.5%. If not, you'll rent a larger family place ({rent:money}/yr).",
+      "text": "Buy a home? {down}% down (or whatever savings allow), the rest on a {years}-year mortgage at {rate}%. If not, you'll rent a larger family place ({rent:money}/yr).",
       "yes": "Buy",
       "never": "Rent for life",
       "rentSub": "Rent {rent:money}/yr",
@@ -194,9 +197,9 @@
     },
     "jobOffer": {
       "title": "Job offer",
-      "text": "You got a job offer. Your income may go up or down (±20%).",
+      "text": "You got a job offer. Your income may go up or down (±{pct}%).",
       "accept": "Switch jobs",
-      "acceptSub": "Income changes by −20% to +20%",
+      "acceptSub": "Income changes by −{pct}% to +{pct}%",
       "decline": "Decline",
       "declineSub": "Income stays the same"
     },
@@ -229,7 +232,7 @@
       "events": "Events (wedding, trips)",
       "other": "Other (care, medical, interest)"
     },
-    "incomeNote": "Take-home income {income:money}; child allowance, money from kids and windfalls {extra:money}.",
+    "incomeNote": "Take-home income {income:money}; {allowance}, money from kids and windfalls {extra:money}.",
     "achievements": "Achievements",
     "noAchievements": "No achievements this time.",
     "timeline": "Life timeline",
@@ -278,7 +281,7 @@
     "married": "We got married.",
     "promotion": "{who:who} got a promotion. Income rose {pct}%.",
     "illness": "{who:who} fell ill and was hospitalized. Medical bills: {cost:money}.",
-    "bonusCut": "The company had a bad year and bonuses were cut. Take-home pay is down 10% this year.",
+    "bonusCut": "The company had a bad year and bonuses were cut. Take-home pay is down {pct}% this year.",
     "inheritance": "We inherited {amount:money} from a relative.",
     "lottery": "We won the lottery. {amount:money}!",
     "returnToWork": "My partner went back to work after {years} years. Income was {pct}% lower for the gap.",
