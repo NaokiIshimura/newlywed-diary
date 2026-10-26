@@ -343,9 +343,12 @@ export function loanPayment(principal, rate, years) {
   return (principal * rate) / (1 - Math.pow(1 + rate, -years));
 }
 
-// 家の頭金。価格の20%を払うが、貯金が足りなければ貯金の範囲で払い、残りはローンにする
-export function downPayment(data, state, price) {
-  return Math.min(price * data.events.house.downPaymentRate, Math.max(0, state.savings));
+// 家の頭金の割合。選択肢に downPaymentRate があればそちら（シンガポールは HDB とマンションで違う）
+export const downPaymentRate = (data, opt) => opt.downPaymentRate ?? data.events.house.downPaymentRate;
+
+// 家の頭金。価格の決まった割合（日本は20%）を払うが、貯金が足りなければ貯金の範囲で払い、残りはローンにする
+export function downPayment(data, state, opt) {
+  return Math.min(opt.oneTime * downPaymentRate(data, opt), Math.max(0, state.savings));
 }
 
 // 選んだ場合にその場で貯金がいくら減るか（ボタンの予測値の表示用）。毎年かかる費用は含まない
@@ -360,7 +363,7 @@ export function immediateCost(data, state, event, choice) {
     case "car":
       return opt.oneTime - resale;
     case "house":
-      return downPayment(data, state, opt.oneTime);
+      return downPayment(data, state, opt);
     case "repair":
       return opt.oneTime * houseOption(data, state).repairCostRate;
     default:
@@ -835,8 +838,8 @@ export function autoChoice(data, state, event, strategy) {
     case "car":
     case "house":
       if (event.id === "house") {
-        const price = data.events.house.options.find((o) => o.tier === tier).oneTime;
-        return state.savings >= price * data.events.house.downPaymentRate ? { tier } : { skip: true };
+        const opt = data.events.house.options.find((o) => o.tier === tier);
+        return state.savings >= opt.oneTime * downPaymentRate(data, opt) ? { tier } : { skip: true };
       }
       return state.savings - immediateCost(data, state, event, { tier }) < 0 ? { skip: true } : { tier };
     default:

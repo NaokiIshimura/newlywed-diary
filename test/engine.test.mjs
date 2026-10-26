@@ -100,9 +100,9 @@ test("買わないと3年後に再提案される", () => {
 
 test("頭金は20%。貯金が足りなければ貯金の範囲で払い、残りはローンになる", () => {
   const state = married({ age: 30, savings: 1000 });
-  assert.equal(downPayment(data, state, 4500), 900);
+  assert.equal(downPayment(data, state, { oneTime: 4500 }), 900);
   state.savings = 300;
-  assert.equal(downPayment(data, state, 4500), 300);
+  assert.equal(downPayment(data, state, { oneTime: 4500 }), 300);
   choose(data, state, { id: "house" }, { tier: "mid" });
   assert.equal(state.savings, 0);
   assert.equal(state.loan.balance, 4200);
