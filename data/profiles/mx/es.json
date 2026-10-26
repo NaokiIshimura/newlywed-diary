@@ -1,0 +1,314 @@
+{
+  "local": {
+    "setIn": "El juego transcurre en México; los montos están en pesos mexicanos.",
+    "inputUnit": "miles de pesos",
+    "weddingGift": "lluvia de sobres",
+    "allowance": "becas del gobierno",
+    "years6Note": "Licenciatura + maestría, etc."
+  },
+  "events": {
+    "wedding": {
+      "high": {
+        "label": "Boda en hacienda",
+        "diary": "Nos casamos en una hacienda, con mariachi y todo. Nunca olvidaremos las sonrisas de los invitados."
+      },
+      "mid": {
+        "label": "Boda con salón de fiestas",
+        "diary": "Nos casamos por la iglesia y festejamos en un salón con la familia. Los padrinos nos ayudaron mucho."
+      },
+      "low": {
+        "label": "Boda civil + comida",
+        "diary": "Nos casamos por el civil e hicimos una comida en casa con la familia."
+      },
+      "skip": "No hicimos boda. En su lugar, brindamos los dos en silencio."
+    },
+    "honeymoon": {
+      "high": {
+        "label": "Europa",
+        "diary": "Luna de miel en Europa. Caminamos de la mano por calles empedradas."
+      },
+      "mid": {
+        "label": "Riviera Maya",
+        "diary": "Luna de miel en la Riviera Maya. El mar turquesa era increíble."
+      },
+      "low": {
+        "label": "Pueblo mágico",
+        "diary": "Luna de miel en un pueblo mágico. Descansamos mucho."
+      },
+      "skip": "No fuimos de luna de miel. «Algún día iremos», nos dijimos."
+    },
+    "workStyle": {
+      "high": {
+        "diary": "Decidimos que los dos trabajaríamos a tiempo completo."
+      },
+      "mid": {
+        "diary": "Mi pareja decidió trabajar medio tiempo."
+      },
+      "low": {
+        "diary": "Mi pareja dejó el trabajo para dedicarse al hogar."
+      }
+    },
+    "car": {
+      "high": {
+        "label": "Auto de lujo",
+        "diary": "Compramos un auto de lujo. Cada vez que lo manejamos, nos sentimos orgullosos."
+      },
+      "mid": {
+        "label": "Auto nuevo",
+        "diary": "Compramos un auto nuevo. Pasear en auto se volvió el plan de los fines de semana."
+      },
+      "low": {
+        "label": "Auto usado",
+        "diary": "Compramos un auto usado. Es algo viejo, pero anda bien."
+      },
+      "skip": "No compramos auto. Con el metro, el camión y las apps de viajes nos arreglamos.",
+      "never": "Decidimos vivir sin auto."
+    },
+    "childcare": {
+      "high": {
+        "label": "Niñera + kínder privado",
+        "diary": "Contratamos una niñera y lo inscribimos en un kínder privado."
+      },
+      "mid": {
+        "label": "Guardería del IMSS",
+        "diary": "Consiguió lugar en una guardería del IMSS."
+      },
+      "low": {
+        "label": "Con los abuelos",
+        "diary": "Lo cuidarán los abuelos. Están felices de ver a su nieto."
+      }
+    },
+    "elementary": {
+      "high": {
+        "label": "Colegio bilingüe",
+        "diary": "Entró a un colegio bilingüe. El uniforme le queda muy bien."
+      },
+      "mid": {
+        "label": "Colegio particular",
+        "diary": "Entró a una primaria particular cerca de casa."
+      },
+      "low": {
+        "label": "Pública",
+        "diary": "Entró a una primaria pública. La mochila se ve enorme."
+      }
+    },
+    "juniorHigh": {
+      "high": {
+        "label": "Colegio bilingüe",
+        "diary": "Pasó a la secundaria del colegio bilingüe."
+      },
+      "mid": {
+        "label": "Colegio particular",
+        "diary": "Entró a una secundaria particular."
+      },
+      "low": {
+        "label": "Pública",
+        "diary": "Entró a una secundaria pública. Vive para el fútbol."
+      }
+    },
+    "highSchool": {
+      "high": {
+        "label": "Colegio bilingüe",
+        "diary": "Entró a la prepa del colegio bilingüe."
+      },
+      "mid": {
+        "label": "Prepa particular",
+        "diary": "Entró a una prepa particular."
+      },
+      "low": {
+        "label": "Pública",
+        "diary": "Entró a una prepa pública."
+      }
+    },
+    "university": {
+      "high": {
+        "label": "Universidad privada de prestigio",
+        "diary": "Entró a una universidad privada de prestigio en otra ciudad y se fue a vivir solo. ({years} años)"
+      },
+      "mid": {
+        "label": "Universidad privada",
+        "diary": "Entró a una universidad privada en la ciudad. ({years} años)"
+      },
+      "low": {
+        "label": "Universidad pública",
+        "diary": "Pasó el examen de admisión de la universidad pública. ({years} años)"
+      },
+      "skip": "Al terminar la prepa se puso a trabajar. Ya es un adulto trabajador.",
+      "skipLabel": "Trabajar"
+    },
+    "house": {
+      "high": {
+        "label": "Casa en fraccionamiento residencial",
+        "diary": "Compramos una casa en un fraccionamiento residencial. Platicamos mil veces la distribución."
+      },
+      "mid": {
+        "label": "Casa nueva con crédito INFONAVIT",
+        "diary": "Compramos una casa nueva con el crédito del INFONAVIT. Por fin, algo nuestro."
+      },
+      "low": {
+        "label": "Casa usada + remodelación",
+        "diary": "Compramos una casa usada y la remodelamos. Es vieja, pero tiene encanto."
+      },
+      "skip": "No compramos casa; nos mudamos a un alquiler amplio para familias.",
+      "never": "Decidimos alquilar siempre. Ligeros de equipaje, mejor.",
+      "majorRepair": "La plomería y la impermeabilización de la casa usada llegaron a su límite. La gran remodelación costó {cost:money}."
+    },
+    "repair": {
+      "high": {
+        "label": "Renovación total",
+        "diary": "Renovamos toda la casa. Por un buen tiempo, tranquilos."
+      },
+      "mid": {
+        "label": "Reparación parcial",
+        "diary": "Reparamos lo que estaba roto."
+      },
+      "low": {
+        "label": "Arreglo provisional",
+        "diary": "Por ahora, lo arreglamos de forma provisional."
+      }
+    },
+    "familyTrip": {
+      "high": {
+        "label": "Viaje al extranjero",
+        "diary": "Viajamos en familia al extranjero."
+      },
+      "mid": {
+        "label": "Viaje a la playa",
+        "diary": "Fuimos en familia a la playa, a Puerto Vallarta."
+      },
+      "low": {
+        "label": "Paseo de un día",
+        "diary": "Salimos de paseo cerca, solo por el día. Aun así, la pasamos bien."
+      },
+      "skip": "Este aniversario lo pasamos tranquilos en casa."
+    }
+  },
+  "workStyles": {
+    "fulltime_both": {
+      "label": "Ambos trabajan",
+      "fullLabel": "Ambos a tiempo completo"
+    },
+    "parttime": {
+      "label": "Medio tiempo",
+      "fullLabel": "Ambos trabajan (pareja a medio tiempo)"
+    },
+    "single": {
+      "label": "Un solo ingreso",
+      "fullLabel": "Un solo ingreso"
+    }
+  },
+  "ranks": {
+    "S": {
+      "ending": "Retiro sin preocupaciones",
+      "comment": "Ya no hay que preocuparse por el dinero. Vamos a donde siempre quisimos, el día que se nos antoje."
+    },
+    "A": {
+      "ending": "Retiro holgado",
+      "comment": "Un retiro con pasatiempos y viajes. Nos reímos y nos decimos: «Lo hicimos bien»."
+    },
+    "B": {
+      "ending": "Retiro tranquilo",
+      "comment": "Sin lujos, pero sin apuros. Los días siguen en calma."
+    },
+    "C": {
+      "ending": "Retiro algo justo",
+      "comment": "La pensión sola no alcanza del todo. Ahorrando y con ingenio, salimos adelante los dos."
+    },
+    "D": {
+      "ending": "Trabajar tras jubilarse",
+      "comment": "Decidimos trabajar un poco más. Mientras el cuerpo aguante, no está nada mal."
+    },
+    "bankrupt": {
+      "ending": "Final: quiebra",
+      "comment": "Las deudas crecieron y las finanzas ya no dieron más. ¿Dónde nos excedimos? Repásalo e inténtalo otra vez."
+    }
+  },
+  "titles": {
+    "education": {
+      "name": "Todo por la educación",
+      "desc": "Elegiste «Caro» en todo, de la guardería a la preparatoria"
+    },
+    "showoff": {
+      "name": "Aparentador",
+      "desc": "Elegiste «Caro» en más del 70% de las decisiones"
+    },
+    "frugal": {
+      "name": "Maestro del ahorro",
+      "desc": "Elegiste «Barato» en más del 70% de las decisiones"
+    },
+    "steady": {
+      "name": "Familia sensata",
+      "desc": "Elegiste «Normal» en más del 70% de las decisiones"
+    },
+    "bigFamily": {
+      "name": "Familia numerosa",
+      "desc": "Tuvieron 3 hijos"
+    },
+    "lifelongRenter": {
+      "name": "Inquilinos de por vida",
+      "desc": "Nunca tuvieron casa propia"
+    },
+    "carFree": {
+      "name": "Vida sin auto",
+      "desc": "Decidieron no tener auto"
+    },
+    "twoOfUs": {
+      "name": "Solo nosotros dos",
+      "desc": "No tuvieron hijos"
+    },
+    "balanced": {
+      "name": "Equilibrado",
+      "desc": "Combinaste «Caro», «Normal» y «Barato»"
+    }
+  },
+  "achievements": {
+    "rankS": {
+      "name": "Vida resuelta",
+      "desc": "Te jubilaste con rango S"
+    },
+    "bankrupt": {
+      "name": "Tocar fondo",
+      "desc": "Viste el final de quiebra"
+    },
+    "threePrivate": {
+      "name": "Tres hijos en privada",
+      "desc": "Los 3 fueron a escuela privada de primaria a preparatoria"
+    },
+    "lifelongRenter": {
+      "name": "Siempre de alquiler",
+      "desc": "Te jubilaste habiendo elegido alquilar siempre"
+    },
+    "loanPaidOff": {
+      "name": "Hipoteca liquidada",
+      "desc": "Terminaste de pagar la hipoteca"
+    },
+    "noCardLoan": {
+      "name": "Cero deudas",
+      "desc": "Te jubilaste sin que los ahorros bajaran nunca de cero"
+    },
+    "carFree": {
+      "name": "En metro y camión",
+      "desc": "Te jubilaste sin tener auto"
+    },
+    "threeKids": {
+      "name": "Tres hermanos",
+      "desc": "Nacieron 3 hijos"
+    },
+    "bigWindfall": {
+      "name": "Dinero inesperado",
+      "desc": "Recibiste un ingreso extra de ¥3 millones o más"
+    },
+    "homeCare": {
+      "name": "Cuidar en casa",
+      "desc": "Cuidaste a un padre en casa"
+    },
+    "jobUp": {
+      "name": "Buen cambio",
+      "desc": "Cambiaste de trabajo y te subió el sueldo"
+    },
+    "allowance": {
+      "name": "Hijos agradecidos",
+      "desc": "Un hijo independizado te ayudó con dinero"
+    }
+  }
+}
