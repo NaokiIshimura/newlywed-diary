@@ -3,7 +3,7 @@
     "setIn": "Set in Australia. All amounts are in Australian dollars.",
     "inputUnit": "A$1,000s",
     "weddingGift": "wishing well",
-    "allowance": "Family Tax Benefit",
+    "allowance": "Parental Leave Pay",
     "years6Note": "Bachelor's + master's, etc."
   },
   "events": {
@@ -296,7 +296,7 @@
     },
     "bigWindfall": {
       "name": "Unexpected Fortune",
-      "desc": "Got a windfall of ¥3M or more"
+      "desc": "Got a windfall of A$60K or more"
     },
     "homeCare": {
       "name": "Caring at Home",
