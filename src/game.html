@@ -49,6 +49,9 @@
           <p id="handoff-detail" class="hint"></p>
           <button type="button" id="btn-no-handoff" class="ghost" data-i18n="setup.noHandoff"></button>
         </div>
+        <label id="country-field" hidden><span data-i18n="setup.country"></span>
+          <select name="country" id="setup-country"></select>
+        </label>
         <div class="row">
           <label><span data-i18n="setup.genderA"></span>
             <select name="genderA"><option value="female" data-i18n="setup.female"></option><option value="male" data-i18n="setup.male"></option></select>
@@ -64,11 +67,11 @@
           <span class="field"><input name="savings" type="number" min="0" max="1000" step="10" required><button type="button" data-random="savings" data-i18n="setup.random"></button></span>
           <output class="hint" data-money-for="savings"></output>
         </label>
-        <label><span data-i18n="setup.incomeA"></span>
+        <label><span id="incomeA-label" data-i18n="setup.incomeA"></span>
           <span class="field"><input name="incomeA" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeA" data-i18n="setup.random"></button></span>
           <output class="hint" data-money-for="incomeA"></output>
         </label>
-        <label><span data-i18n="setup.incomeB"></span>
+        <label><span id="incomeB-label" data-i18n="setup.incomeB"></span>
           <span class="field"><input name="incomeB" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeB" data-i18n="setup.random"></button></span>
           <output class="hint" data-money-for="incomeB"></output>
         </label>

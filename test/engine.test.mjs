@@ -17,6 +17,7 @@ import {
   loanPayment,
   medianIncome,
   netWorth,
+  handoffCountry,
   nextEvent,
   parseHandoff,
   playToEnd,
@@ -347,4 +348,20 @@ test("引き継いだ人生でも、同じ設定で「全部普通」と比べ�
   assert.ok(["retire", "bankrupt"].includes(state.ended));
   assert.notEqual(compareWithMid(data, state), undefined);
   assert.ok(state.history.some((x) => x.key === "h.fromSolo"));
+});
+
+test("引き継ぎデータの版2は国を持ち、版1は日本として読む", () => {
+  const v2 = { ...soloData, v: 2, country: "jp" };
+  assert.equal(handoffCountry(soloQuery(soloData)), "jp");
+  assert.equal(handoffCountry(soloQuery(v2)), "jp");
+  assert.equal(parseHandoff(data, soloQuery(v2)).age, 30);
+  // 国が違えば、この国のプロファイルでは読まない（画面はその国のプロファイルを読んでから parseHandoff する）
+  assert.equal(handoffCountry(soloQuery({ ...v2, country: "us" })), "us");
+  assert.equal(parseHandoff(data, soloQuery({ ...v2, country: "us" })), null);
+  assert.equal(handoffCountry(soloQuery({ ...v2, country: "USA!" })), null);
+  assert.equal(handoffCountry(soloQuery({ ...v2, v: 3 })), null);
+});
+
+test("遊んでいる国を状態に持つ", () => {
+  assert.equal(createGame(data, settings, 1).country, "jp");
 });

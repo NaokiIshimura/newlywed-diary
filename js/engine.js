@@ -78,6 +78,7 @@ export function createGame(data, settings, seed = newSeed()) {
     version: SAVE_VERSION,
     seed,
     rng: seed >>> 0,
+    country: data.country, // 遊んでいる国（途中保存から続けるときに使う）
     year: 0, // 結婚してからの年数。結婚した年が 0
     startAge: settings.age,
     age: settings.age,
@@ -149,27 +150,42 @@ function base64urlDecode(s) {
   return new TextDecoder().decode(Uint8Array.from(bin, (ch) => ch.charCodeAt(0)));
 }
 
-// URL のクエリ（?from=solo&d=<base64url の JSON>）から、一人暮らし日記の引き継ぎデータを読む。
-// 知らない版や壊れたデータ、範囲の外の値なら null を返す（ふつうの開始設定にする）。1人用のゲームなので、改ざんの対策はしない
-export function parseHandoff(data, params) {
+function decodeHandoff(params) {
   if (params.get("from") !== "solo" || !params.get("d")) return null;
-  let d;
   try {
-    d = JSON.parse(base64urlDecode(params.get("d")));
+    const d = JSON.parse(base64urlDecode(params.get("d")));
+    return d && typeof d === "object" ? d : null;
   } catch {
     return null;
   }
+}
+
+// 引き継ぎデータの国。版1は国を持たない（日本だけだったころ）ので日本、版2は country。読めなければ null
+// 新婚日記は引き継いだ国で始めるので、画面はこの国のプロファイルを読んでから parseHandoff する
+export function handoffCountry(params) {
+  const d = decodeHandoff(params);
+  if (!d) return null;
+  if (d.v === 1) return "jp";
+  return d.v === 2 && typeof d.country === "string" && /^[a-z]{2}$/.test(d.country) ? d.country : null;
+}
+
+// URL のクエリ（?from=solo&d=<base64url の JSON>）から、一人暮らし日記の引き継ぎデータを読む。data はその国のプロファイル。
+// 知らない版や壊れたデータ、国が違う・範囲の外の値なら null を返す（ふつうの開始設定にする）。1人用のゲームなので、改ざんの対策はしない
+export function parseHandoff(data, params) {
+  const d = decodeHandoff(params);
   const num = (v, min, max) => typeof v === "number" && Number.isFinite(v) && v >= min && v <= max;
-  if (!d || d.v !== 1) return null;
+  if (!d || handoffCountry(params) !== data.country) return null;
   if (!["female", "male"].includes(d.gender)) return null;
   if (!Number.isInteger(d.age) || !num(d.age, data.startAge.min, data.startAge.max)) return null;
-  if (!num(d.savings, data.bankruptLine, 100000) || !num(d.income, 0, 3000)) return null;
+  // 上限は国の単位に合わせて、開始設定の範囲から決める（日本なら貯金 10万×100、年収 3,000、車 10,000、維持費 1,000）
+  const big = data.startSavings.max;
+  if (!num(d.savings, data.bankruptLine, big * 100) || !num(d.income, 0, data.incomeMax)) return null;
   let car = null;
   if (d.car) {
     const c = d.car;
     const ok =
-      ["high", "mid", "low"].includes(c.tier) && num(c.price, 1, 10000) && num(c.resale, 0, c.price) && Number.isInteger(c.years) && num(c.years, 1, 30) &&
-      num(c.annual, 0, 1000) && num(c.breakdownChance, 0, 1) && Number.isInteger(c.boughtAge) && num(c.boughtAge, 0, d.age);
+      ["high", "mid", "low"].includes(c.tier) && num(c.price, 1, big * 10) && num(c.resale, 0, c.price) && Number.isInteger(c.years) && num(c.years, 1, 30) &&
+      num(c.annual, 0, big) && num(c.breakdownChance, 0, 1) && Number.isInteger(c.boughtAge) && num(c.boughtAge, 0, d.age);
     if (!ok) return null;
     car = { tier: c.tier, price: c.price, resale: c.resale, years: c.years, annual: c.annual, breakdownChance: c.breakdownChance, boughtAge: c.boughtAge };
   }

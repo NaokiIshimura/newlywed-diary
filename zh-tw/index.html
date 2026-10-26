@@ -19,7 +19,7 @@
   <meta property="og:title" content="新婚日記｜從結婚到退休，只靠選擇一路走完的人生模擬遊戲">
   <meta property="og:description" content="從結婚到退休，只靠「買·不買／高·普通·低」的選擇一路走完的人生模擬遊戲。">
   <meta property="og:url" content="https://newlywed-diary.nacn.app/zh-tw/">
-  <meta property="og:image" content="https://newlywed-diary.nacn.app/zh-tw/og.png?v=20261024c">
+  <meta property="og:image" content="https://newlywed-diary.nacn.app/zh-tw/og.png?v=20261026a">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -46,7 +46,7 @@
   }
 }
   </script>
-  <link rel="stylesheet" href="../css/style.css?v=20261024c">
+  <link rel="stylesheet" href="../css/style.css?v=20261026a">
   <!-- Cookie の同意の初期値（nacn.app 共通。GA・AdSense のタグより前に置く。元の版は claude-skills の consent-mode スキル） -->
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -117,6 +117,9 @@ function gtag(){dataLayer.push(arguments);}
           <p id="handoff-detail" class="hint"></p>
           <button type="button" id="btn-no-handoff" class="ghost" data-i18n="setup.noHandoff">不沿用，重新開始</button>
         </div>
+        <label id="country-field" hidden><span data-i18n="setup.country">國家／地區</span>
+          <select name="country" id="setup-country"></select>
+        </label>
         <div class="row">
           <label><span data-i18n="setup.genderA">主角的性別</span>
             <select name="genderA"><option value="female" data-i18n="setup.female">女性</option><option value="male" data-i18n="setup.male">男性</option></select>
@@ -132,11 +135,11 @@ function gtag(){dataLayer.push(arguments);}
           <span class="field"><input name="savings" type="number" min="0" max="1000" step="10" required><button type="button" data-random="savings" data-i18n="setup.random">隨機</button></span>
           <output class="hint" data-money-for="savings"></output>
         </label>
-        <label><span data-i18n="setup.incomeA">主角的年收入（單位：萬日圓）</span>
+        <label><span id="incomeA-label" data-i18n="setup.incomeA">主角的年收入（單位：萬日圓）</span>
           <span class="field"><input name="incomeA" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeA" data-i18n="setup.random">隨機</button></span>
           <output class="hint" data-money-for="incomeA"></output>
         </label>
-        <label><span data-i18n="setup.incomeB">另一半的年收入（單位：萬日圓，全職時）</span>
+        <label><span id="incomeB-label" data-i18n="setup.incomeB">另一半的年收入（單位：萬日圓，全職時）</span>
           <span class="field"><input name="incomeB" type="number" min="0" max="3000" step="10" required><button type="button" data-random="incomeB" data-i18n="setup.random">隨機</button></span>
           <output class="hint" data-money-for="incomeB"></output>
         </label>
@@ -231,7 +234,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
   </div>
 
-  <script type="module" src="../js/app.js?v=20261024c"></script>
+  <script type="module" src="../js/app.js?v=20261026a"></script>
 <div class="suggest" id="langSuggest" hidden>
     <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
     <button type="button" class="suggest-close" id="langSuggestClose" aria-label="關閉">×</button>

@@ -9,6 +9,8 @@
     "min": 0,
     "max": 1000
   },
+  "incomeMax": 3000,
+  "inputStep": 10,
   "takeHomeRate": 0.78,
   "medianIncomeByAge": {
     "22": 252,

@@ -20,14 +20,15 @@
   },
   "setup": {
     "heading": "시작 설정",
+    "country": "국가/지역",
     "genderA": "주인공의 성별",
     "genderB": "배우자의 성별",
     "female": "여성",
     "male": "남성",
     "age": "결혼 나이 ({min}~{max}세)",
-    "savings": "저축 (단위: 만 엔, {min}~{max})",
-    "incomeA": "주인공의 연봉 (단위: 만 엔)",
-    "incomeB": "배우자의 연봉 (단위: 만 엔, 풀타임 기준)",
+    "savings": "저축 (단위: {unit}, {min}~{max})",
+    "incomeA": "주인공의 연봉 (단위: {unit})",
+    "incomeB": "배우자의 연봉 (단위: {unit}, 풀타임 기준)",
     "incomeHint": "연봉 초깃값은 해당 나이의 중앙값입니다.",
     "workStyle": "근무 형태",
     "random": "랜덤",
@@ -38,7 +39,7 @@
     "handoffSavings": "이어받은 저축 {savings:money} (배우자의 저축과 합쳐서 시작합니다)",
     "handoffCar": "차: 「자취일기」에서 타던 차 (평가액 {value:money})",
     "handoffNoCar": "차: 없음",
-    "partnerSavings": "배우자의 저축 (단위: 만 엔, {min}~{max})",
+    "partnerSavings": "배우자의 저축 (단위: {unit}, {min}~{max})",
     "noHandoff": "이어받지 않고 시작하기"
   },
   "main": {
@@ -347,5 +348,16 @@
       "title": "개인정보 처리방침",
       "description": "신혼일기에서 저장하는 정보(사용 중인 브라우저 안에만 저장), 결과 공유, 접속 분석(Google 애널리틱스), 쿠키 동의와 쿠키 거부 방법을 설명합니다."
     }
+  },
+  "countries": {
+    "jp": "일본",
+    "us": "미국",
+    "sg": "싱가포르",
+    "ph": "필리핀",
+    "ca": "캐나다",
+    "au": "호주",
+    "mx": "멕시코",
+    "tw": "대만",
+    "kr": "한국"
   }
 }

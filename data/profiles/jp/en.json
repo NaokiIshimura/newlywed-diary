@@ -1,4 +1,7 @@
 {
+  "units": {
+    "money": "¥10,000"
+  },
   "events": {
     "wedding": {
       "high": {

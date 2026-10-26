@@ -11,6 +11,7 @@ import {
   downPayment,
   endYear,
   handoffCarValue,
+  handoffCountry,
   handoffSettings,
   immediateCost,
   loanPayment,
@@ -28,7 +29,6 @@ import { illustFor } from "./illust.js";
 import { canvasToBlob, drawShareCard } from "./share.js";
 import { clearAll, loadRecords, loadSave, loadSettings, recordResult, writeSave, writeSettings } from "./storage.js";
 
-const PROFILE = "jp"; // v1 は日本プロファイルだけ
 const SPEED_MS = { 1: 900, 2: 400 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -38,11 +38,34 @@ let state = null;
 let speed = 1;
 let timer = null;
 let settings = loadSettings();
+let countries; // data/countries.json（プロファイルのそろった国と、言語ごとに選べる国）
+let country; // いまのプロファイルの国
+
+// ---- 国 ----
+
+// この言語で選べる国（先頭が既定）。プロファイルのそろった国がなければ日本（ほかの国がそろうまでは、いまのまま）
+function countriesFor(lang) {
+  const ready = (countries.byLang[lang] ?? []).filter((c) => countries.available.includes(c));
+  return ready.length ? ready : ["jp"];
+}
+
+// 国のプロファイル（数値と、今の言語の文）を読み込む
+async function useCountry(code) {
+  country = code;
+  data = await (await fetch(new URL(`../data/profiles/${code}.json`, import.meta.url))).json();
+  await setLang(currentLang().code);
+}
+
+// 国の文がある言語。この言語の文がなければ、その国の最初の言語（例：アメリカの途中保存を日本語のページで続けるとき）
+function textLang(code) {
+  const langs = countries.texts[country] ?? [code];
+  return langs.includes(code) ? code : langs[0];
+}
 
 // ---- 言語 ----
 
 async function setLang(code) {
-  await loadLang(code, data, PROFILE);
+  await loadLang(code, data, country, textLang(code));
   applyStatic();
   $("#settings-lang").innerHTML = LANGS.map((l) => `<option value="${l.code}"${l.code === code ? " selected" : ""}>${l.name}</option>`).join("");
   updateMoneyHints();
@@ -114,7 +137,7 @@ function readForm() {
     return handoffSettings(handoff, {
       gender: form.genderB.value,
       savings: clamp(form.savings.value, data.startSavings.min, data.startSavings.max),
-      income: clamp(form.incomeB.value, 0, 3000),
+      income: clamp(form.incomeB.value, 0, data.incomeMax),
       workStyle: form.workStyle.value,
     });
   }
@@ -122,18 +145,38 @@ function readForm() {
     genders: { a: form.genderA.value, b: form.genderB.value },
     age: clamp(form.age.value, data.startAge.min, data.startAge.max),
     savings: clamp(form.savings.value, data.startSavings.min, data.startSavings.max),
-    income: { a: clamp(form.incomeA.value, 0, 3000), b: clamp(form.incomeB.value, 0, 3000) },
+    income: { a: clamp(form.incomeA.value, 0, data.incomeMax), b: clamp(form.incomeB.value, 0, data.incomeMax) },
     workStyle: form.workStyle.value,
   };
+}
+
+// 開始設定の国の欄と、金額の単位・範囲を、いまの国に合わせる。引き継ぐときは国を変えられない
+function applyCountry() {
+  const list = countriesFor(currentLang().code);
+  $("#country-field").hidden = list.length < 2 || !!handoff;
+  $("#setup-country").innerHTML = list.map((c) => `<option value="${c}"${c === country ? " selected" : ""}>${t(`countries.${c}`)}</option>`).join("");
+  const unit = t("units.money");
+  $("#incomeA-label").innerHTML = t("setup.incomeA", { unit });
+  $("#incomeB-label").innerHTML = t("setup.incomeB", { unit });
+  const s = data.startSavings;
+  Object.assign(form.savings, { min: s.min, max: s.max, step: data.inputStep });
+  for (const name of ["incomeA", "incomeB"]) Object.assign(form[name], { min: 0, max: data.incomeMax, step: data.inputStep });
 }
 
 function showSetup(from = null) {
   handoff = from;
   incomeEdited = { a: false, b: false };
+  applyCountry();
   fillForm(defaultSettings(data));
   applyHandoff();
   show("screen-setup");
 }
+
+// 国を変えたら、その国のプロファイルで開始設定をやり直す
+$("#setup-country").addEventListener("change", async (e) => {
+  await useCountry(e.target.value);
+  showSetup();
+});
 
 // 引き継ぐときは、主人公の欄を一人暮らし日記の値にして変えられないようにし、貯金の欄をパートナーの貯金にする
 function applyHandoff() {
@@ -141,12 +184,12 @@ function applyHandoff() {
   $("#handoff-note").hidden = !on;
   for (const name of ["genderA", "age", "incomeA"]) form[name].disabled = on;
   for (const key of ["age", "incomeA"]) form.querySelector(`[data-random="${key}"]`).hidden = on;
-  $("#savings-label").innerHTML = t(on ? "setup.partnerSavings" : "setup.savings", { min: data.startSavings.min, max: data.startSavings.max });
+  $("#savings-label").innerHTML = t(on ? "setup.partnerSavings" : "setup.savings", { unit: t("units.money"), min: data.startSavings.min, max: data.startSavings.max });
   if (on) {
     form.genderA.value = handoff.gender;
     form.age.value = handoff.age;
     form.incomeA.value = handoff.income;
-    form.incomeB.value = Math.round(medianIncome(data, handoff.age) / 10) * 10;
+    form.incomeB.value = Math.round(medianIncome(data, handoff.age) / data.inputStep) * data.inputStep;
     form.savings.value = randomSettings(data, newSeed()).savings;
     const car = handoff.car ? t("setup.handoffCar", { value: handoffCarValue(handoff) }) : t("setup.handoffNoCar");
     $("#handoff-detail").innerHTML = `${t("setup.handoffSavings", { savings: handoff.savings })}<br>${car}`;
@@ -162,7 +205,7 @@ $("#btn-no-handoff").addEventListener("click", () => {
 
 // 年齢を変えたら、手で変えていない年収をその年齢の中央値にそろえる
 form.age.addEventListener("input", () => {
-  const median = Math.round(medianIncome(data, readForm().age) / 10) * 10;
+  const median = Math.round(medianIncome(data, readForm().age) / data.inputStep) * data.inputStep;
   if (!incomeEdited.a) form.incomeA.value = median;
   if (!incomeEdited.b) form.incomeB.value = median;
   updateMoneyHints();
@@ -182,7 +225,7 @@ form.addEventListener("click", (e) => {
   } else if (key === "savings") form.savings.value = r.savings;
   else if (key === "incomeA" || key === "incomeB") {
     const median = medianIncome(data, current.age);
-    form[key].value = Math.round((median * (0.7 + Math.random() * 0.6)) / 10) * 10;
+    form[key].value = Math.round((median * (0.7 + Math.random() * 0.6)) / data.inputStep) * data.inputStep;
     incomeEdited[key === "incomeA" ? "a" : "b"] = true;
   } else if (key === "workStyle") form.workStyle.value = r.workStyle;
   updateMoneyHints();
@@ -197,7 +240,7 @@ $("#btn-omakase").addEventListener("click", () => {
   const r = randomSettings(data, newSeed());
   if (!handoff) return startGame(r);
   // 引き継ぐときは、パートナーのぶんだけおまかせにする
-  const income = Math.round((medianIncome(data, handoff.age) * (0.7 + Math.random() * 0.6)) / 10) * 10;
+  const income = Math.round((medianIncome(data, handoff.age) * (0.7 + Math.random() * 0.6)) / data.inputStep) * data.inputStep;
   startGame(handoffSettings(handoff, { gender: r.genders.b, savings: r.savings, income, workStyle: r.workStyle }));
 });
 
@@ -219,9 +262,12 @@ function startGame(start) {
   enterMain();
 }
 
-function continueGame() {
+async function continueGame() {
   state = load();
   if (!state) return showTitle();
+  // 途中保存は、遊んでいた国のプロファイルで続ける（言語を切り替えても国は変わらない。国のない古い保存は日本）
+  const saved = state.country ?? "jp";
+  if (saved !== country) await useCountry(saved);
   $("#diary").replaceChildren();
   shown = 0;
   flushDiary();
@@ -686,9 +732,17 @@ $("#btn-again").addEventListener("click", () => showSetup());
 $("#btn-gallery").addEventListener("click", showGallery);
 $("#btn-settings").addEventListener("click", showSettings);
 
-data = await (await fetch(new URL(`../data/profiles/${PROFILE}.json`, import.meta.url))).json();
+countries = await (await fetch(new URL("../data/countries.json", import.meta.url))).json();
+// 一人暮らし日記の結果から来たときは、引き継いだ国のプロファイルで、引き継いだ開始設定から始める（まだない国なら引き継がない）
+const query = new URLSearchParams(location.search);
+const soloCountry = handoffCountry(query);
+country = soloCountry && countries.available.includes(soloCountry) ? soloCountry : countriesFor(pageLang())[0];
+data = await (await fetch(new URL(`../data/profiles/${country}.json`, import.meta.url))).json();
 await setLang(pageLang());
-// 一人暮らし日記の結果から来たときは、引き継いだ開始設定から始める
-const fromSolo = parseHandoff(data, new URLSearchParams(location.search));
+const fromSolo = parseHandoff(data, query);
 if (fromSolo) showSetup(fromSolo);
-else showTitle();
+else {
+  // 引き継げなかったときは、この言語の既定の国に戻す
+  if (country !== countriesFor(pageLang())[0]) await useCountry(countriesFor(pageLang())[0]);
+  showTitle();
+}

@@ -20,14 +20,15 @@
   },
   "setup": {
     "heading": "Setup",
+    "country": "Country/region",
     "genderA": "Your gender",
     "genderB": "Partner's gender",
     "female": "Female",
     "male": "Male",
     "age": "Age at marriage ({min}–{max})",
-    "savings": "Savings (in ¥10,000, {min}–{max})",
-    "incomeA": "Your annual income (in ¥10,000)",
-    "incomeB": "Partner's annual income (in ¥10,000, if full-time)",
+    "savings": "Savings (in {unit}, {min}–{max})",
+    "incomeA": "Your annual income (in {unit})",
+    "incomeB": "Partner's annual income (in {unit}, if full-time)",
     "incomeHint": "Default incomes are the median for that age.",
     "workStyle": "Work style",
     "random": "Random",
@@ -38,7 +39,7 @@
     "handoffSavings": "Savings carried over: {savings:money} (added to your partner's savings)",
     "handoffCar": "Car: the one you drove in Solo Living Diary (worth {value:money})",
     "handoffNoCar": "Car: none",
-    "partnerSavings": "Partner's savings (in ¥10,000, {min}–{max})",
+    "partnerSavings": "Partner's savings (in {unit}, {min}–{max})",
     "noHandoff": "Start without carrying over"
   },
   "main": {
@@ -352,5 +353,16 @@
       "title": "Privacy policy",
       "description": "What Newlywed Diary stores (only in your browser), how sharing results works, analytics with Google Analytics, cookie consent, and a notice for U.S. residents."
     }
+  },
+  "countries": {
+    "jp": "Japan",
+    "us": "United States",
+    "sg": "Singapore",
+    "ph": "Philippines",
+    "ca": "Canada",
+    "au": "Australia",
+    "mx": "Mexico",
+    "tw": "Taiwan",
+    "kr": "South Korea"
   }
 }

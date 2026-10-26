@@ -1,4 +1,7 @@
 {
+  "units": {
+    "money": "萬日圓"
+  },
   "events": {
     "wedding": {
       "high": {

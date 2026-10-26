@@ -20,14 +20,15 @@
   },
   "setup": {
     "heading": "開始設定",
+    "country": "国・地域",
     "genderA": "主人公の性別",
     "genderB": "パートナーの性別",
     "female": "女性",
     "male": "男性",
     "age": "結婚時の年齢（{min}〜{max}歳）",
-    "savings": "貯金（万円・{min}〜{max}）",
-    "incomeA": "主人公の年収（万円）",
-    "incomeB": "パートナーの年収（万円・フルタイムの場合）",
+    "savings": "貯金（{unit}・{min}〜{max}）",
+    "incomeA": "主人公の年収（{unit}）",
+    "incomeB": "パートナーの年収（{unit}・フルタイムの場合）",
     "incomeHint": "年収の初期値は、その年齢の中央値です。",
     "workStyle": "働き方",
     "random": "ランダム",
@@ -38,7 +39,7 @@
     "handoffSavings": "引き継いだ貯金 {savings:money}（パートナーの貯金と合わせて始めます）",
     "handoffCar": "車：一人暮らし日記で乗っていた車（評価額 {value:money}）",
     "handoffNoCar": "車：なし",
-    "partnerSavings": "パートナーの貯金（万円・{min}〜{max}）",
+    "partnerSavings": "パートナーの貯金（{unit}・{min}〜{max}）",
     "noHandoff": "引き継がずに始める"
   },
   "main": {
@@ -347,5 +348,16 @@
       "title": "プライバシーポリシー",
       "description": "新婚日記で保存する情報（お使いのブラウザの中だけ）、結果のシェア、アクセス解析（Google アナリティクス）、Cookie の同意について説明します。"
     }
+  },
+  "countries": {
+    "jp": "日本",
+    "us": "アメリカ",
+    "sg": "シンガポール",
+    "ph": "フィリピン",
+    "ca": "カナダ",
+    "au": "オーストラリア",
+    "mx": "メキシコ",
+    "tw": "台湾",
+    "kr": "韓国"
   }
 }
