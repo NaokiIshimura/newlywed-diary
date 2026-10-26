@@ -25,7 +25,6 @@ import {
   roundMoney,
   titleOf,
 } from "./engine.js";
-import { COUNTRIES, initialCountry, isCountry, saveCountry } from "./countries.js";
 import { LANGS, applyStatic, currentLang, loadLang, money, pageLang, t } from "./i18n.js";
 import { illustFor } from "./illust.js";
 import { canvasToBlob, drawShareCard } from "./share.js";
@@ -36,23 +35,36 @@ const SPEED_MS = { 1: 900, 2: 400 };
 const $ = (sel) => document.querySelector(sel);
 
 let data;
-let country; // ゲームの中の国（国プロファイル）。表示の言語とは別
+let countries; // data/countries.json（プロファイルのそろった国・言語ごとに選べる国・国ごとに文のある言語）
+let country; // ゲームの中の国（国プロファイル）
 let state = null;
 let speed = 1;
 let timer = null;
 let settings = loadSettings();
 
 // ---- 言語と国 ----
+// 国の選び方は一人暮らし日記とそろえている：選べるのはページの言語の国だけで、最初の国はその先頭（言語の既定）
 
-// 国のプロファイル（数値と、このページの言語の文）を読んで、画面の文を入れ直す
+// この言語で選べる国（先頭が既定）。プロファイルのそろった国がなければ日本（ほかの国がそろうまでは、いまのまま）
+function countriesFor(lang) {
+  const ready = (countries.byLang[lang] ?? []).filter((c) => countries.available.includes(c));
+  return ready.length ? ready : ["jp"];
+}
+
+// 国の文を読む言語。その国の文がページの言語になければ、国の最初の言語（引き継ぎや途中保存で、ほかの言語の国を遊ぶとき）
+function textLang(lang) {
+  const langs = countries.texts[country] ?? [lang];
+  return langs.includes(lang) ? lang : langs[0];
+}
+
+// 国のプロファイル（数値と文）を読んで、画面の文を入れ直す
 async function setCountry(c) {
   const lang = pageLang();
   data = await (await fetch(new URL(`../data/profiles/${c}.json`, import.meta.url))).json();
   country = c;
-  await loadLang(lang, data, c);
+  await loadLang(lang, data, c, textLang(lang));
   applyStatic();
   $("#settings-lang").innerHTML = LANGS.map((l) => `<option value="${l.code}"${l.code === lang ? " selected" : ""}>${l.name}</option>`).join("");
-  $("#setup-country").innerHTML = COUNTRIES.map((k) => `<option value="${k}"${k === c ? " selected" : ""}>${t(`countries.${k}`)}</option>`).join("");
   updateSetupLabels();
 }
 
@@ -114,8 +126,16 @@ function fillForm(s) {
   updateMoneyHints();
 }
 
+// 国の選択欄は、この言語で選べる国が2つ以上あるときだけ出す（引き継ぐときは国が決まっているので出さない）
+function updateCountryField() {
+  const list = countriesFor(pageLang());
+  $("#country-field").hidden = list.length < 2 || !!handoff;
+  $("#setup-country").innerHTML = list.map((c) => `<option value="${c}"${c === country ? " selected" : ""}>${t(`countries.${c}`)}</option>`).join("");
+}
+
 // 入力欄の範囲・刻みと、ラベルの単位を国に合わせる
 function updateSetupLabels() {
+  updateCountryField();
   const unit = t("local.inputUnit");
   const step = toInput(data.moneyStep);
   const sv = data.startSavings;
@@ -162,11 +182,11 @@ function showSetup(from = null) {
 }
 
 // 引き継ぐときは、主人公の欄を一人暮らし日記の値にして変えられないようにし、貯金の欄をパートナーの貯金にする。
-// 金額は一人暮らし日記の国の単位なので、国も変えられない
+// 金額は一人暮らし日記の国の単位なので、国も引き継いだまま（選択欄を出さない）
 function applyHandoff() {
   const on = !!handoff;
   $("#handoff-note").hidden = !on;
-  for (const name of ["genderA", "age", "incomeA", "country"]) form[name].disabled = on;
+  for (const name of ["genderA", "age", "incomeA"]) form[name].disabled = on;
   for (const key of ["age", "incomeA"]) form.querySelector(`[data-random="${key}"]`).hidden = on;
   updateSetupLabels();
   if (on) {
@@ -181,18 +201,19 @@ function applyHandoff() {
   updateMoneyHints();
 }
 
-// 引き継がずに始める。URL のクエリも消して、再読み込みで戻らないようにする
-$("#btn-no-handoff").addEventListener("click", () => {
+// 引き継がずに始める。URL のクエリも消して、再読み込みで戻らないようにする。国はこの言語の既定に戻す
+$("#btn-no-handoff").addEventListener("click", async () => {
   history.replaceState(null, "", location.pathname);
+  handoff = null;
+  const first = countriesFor(pageLang())[0];
+  if (country !== first) await setCountry(first);
   showSetup(null);
 });
 
-// 国を変えたら、その国の初期値で入れ直す。選んだ国は覚えて、次に開いたときもその国にする
+// 国を変えたら、その国のプロファイルで開始設定をやり直す
 form.country.addEventListener("change", async () => {
   const c = form.country.value;
-  if (!isCountry(c)) return;
-  saveCountry(c);
-  if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  if (!countriesFor(pageLang()).includes(c)) return;
   await setCountry(c);
   showSetup(null);
 });
@@ -261,7 +282,7 @@ async function continueGame() {
   if (!saved) return showTitle();
   // 途中の記録は、その国のプロファイルで続ける（国を分ける前の記録は日本）
   const c = saved.country ?? "jp";
-  if (!isCountry(c)) return showTitle();
+  if (!countries.available.includes(c)) return showTitle();
   if (c !== country) await setCountry(c);
   state = { ...saved, country: c };
   $("#diary").replaceChildren();
@@ -739,11 +760,16 @@ $("#btn-again").addEventListener("click", () => showSetup());
 $("#btn-gallery").addEventListener("click", showGallery);
 $("#btn-settings").addEventListener("click", showSettings);
 
-// 一人暮らし日記の結果から来たときは、その国で引き継いだ開始設定から始める。まだない国のデータなら引き継がない
+countries = await (await fetch(new URL("../data/countries.json", import.meta.url))).json();
+// 一人暮らし日記の結果から来たときは、引き継いだ国で、引き継いだ開始設定から始める。
+// その国がこの言語の国でなくても、プロファイルがあれば始める。まだない国なら引き継がない
 const params = new URLSearchParams(location.search);
 const soloCountry = handoffCountry(params);
-const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || "";
-await setCountry(isCountry(soloCountry) ? soloCountry : initialCountry(pageLang(), { hash: location.hash, browserLang }));
+const first = countriesFor(pageLang())[0];
+await setCountry(countries.available.includes(soloCountry) ? soloCountry : first);
 const fromSolo = parseHandoff(data, params);
 if (fromSolo) showSetup(fromSolo);
-else showTitle();
+else {
+  if (country !== first) await setCountry(first); // 引き継げなかったときは、この言語の既定の国に戻す
+  showTitle();
+}

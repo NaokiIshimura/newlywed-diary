@@ -1,11 +1,9 @@
 // localStorage への保存。プライベートモードなどで使えないときは、保存しないだけで遊べるようにする。
-import { COUNTRY_KEY } from "./countries.js";
 
 const KEYS = {
   save: "newlywed-diary-save",
   records: "newlywed-diary-records",
   settings: "newlywed-diary-settings",
-  country: COUNTRY_KEY,
 };
 
 function read(key) {

@@ -16,8 +16,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / 'src'
 SITE = 'https://newlywed-diary.nacn.app/'
-# 言語ごとの最初の国（js/countries.js の DEFAULT_COUNTRY と同じ）。国プロファイルがまだない国は日本にする
-DEFAULT_COUNTRY = {'ja': 'jp', 'en': 'us', 'zh-tw': 'tw', 'ko': 'kr', 'es': 'mx'}
+# 国の対応表（js/app.js も同じ data/countries.json を読む）。ページは、その言語の最初の国の文で書き出す
+COUNTRIES = json.loads((ROOT / 'data' / 'countries.json').read_text(encoding='utf-8'))
+
+
+def default_country(code):
+    """その言語で最初に選ばれる国（js/app.js の countriesFor の先頭と同じ）。プロファイルのそろった国がなければ日本"""
+    ready = [c for c in COUNTRIES['byLang'].get(code, []) if c in COUNTRIES['available']]
+    return ready[0] if ready else 'jp'
 # css・js・og.png を変えたら新しくする（古いキャッシュを使わせないため）
 ASSET_VER = '20261026a'
 # hreflang・sitemap.xml の順
@@ -43,9 +49,7 @@ def load_locales():
     locales = {}
     for code in LANGS:
         ui = json.loads((ROOT / 'i18n' / f'{code}.json').read_text(encoding='utf-8'))
-        country = DEFAULT_COUNTRY[code]
-        if not (ROOT / 'data' / 'profiles' / f'{country}.json').exists():
-            country = 'jp'
+        country = default_country(code)
         texts = json.loads((ROOT / 'data' / 'profiles' / country / f'{code}.json').read_text(encoding='utf-8'))
         locales[code] = {'ui': ui, 'texts': texts}
     return locales

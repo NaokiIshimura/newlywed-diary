@@ -24,7 +24,7 @@ import {
   rankOf,
   titleOf,
 } from "../js/engine.js";
-import { COUNTRIES, defaultCountry, initialCountry } from "../js/countries.js";
+const countries = JSON.parse(readFileSync(new URL("../data/countries.json", import.meta.url), "utf8"));
 
 const data = JSON.parse(readFileSync(new URL("../data/profiles/jp.json", import.meta.url), "utf8"));
 const settings = defaultSettings(data);
@@ -362,16 +362,18 @@ test("引き継いだ人生でも、同じ設定で「全部普通」と比べ�
 
 // ---- 国 ----
 
-test("最初の国は、ハッシュ・前に選んだ国・ブラウザの地域・言語の順で決まる", () => {
-  assert.equal(defaultCountry("ja"), "jp");
-  assert.equal(initialCountry("en", { saved: null }), defaultCountry("en"));
-  assert.equal(initialCountry("ja", { hash: "#us", saved: "jp" }), "us");
-  assert.equal(initialCountry("en", { hash: "#xx", saved: "jp" }), "jp");
-  // まだプロファイルのない国（韓国など）は日本にする
-  assert.equal(initialCountry("ko", { saved: null }), COUNTRIES.includes("kr") ? "kr" : "jp");
+test("国の対応表：言語ごとの国はコードがそろい、そろった国にはすべての言語の名前がある", () => {
+  for (const [lang, list] of Object.entries(countries.byLang)) assert.ok(list.length > 0, lang);
+  for (const c of countries.available) {
+    assert.ok(countries.texts[c]?.length > 0, c);
+    for (const lang of ["ja", "en", "zh-tw", "es", "ko"]) {
+      const ui = JSON.parse(readFileSync(new URL(`../i18n/${lang}.json`, import.meta.url), "utf8"));
+      assert.equal(typeof ui.countries[c], "string", `${lang} countries.${c}`);
+    }
+  }
 });
 
-for (const c of COUNTRIES) {
+for (const c of countries.available) {
   test(`国プロファイル ${c}：設定と文がそろっている`, () => {
     const d = JSON.parse(readFileSync(new URL(`../data/profiles/${c}.json`, import.meta.url), "utf8"));
     assert.equal(d.country, c);
@@ -379,7 +381,7 @@ for (const c of COUNTRIES) {
     assert.ok(d.startSavings.default >= d.startSavings.min && d.startSavings.default <= d.startSavings.max);
     // 開始設定の刻みは、入力欄の単位で整数になる
     assert.ok(Number.isInteger(d.moneyStep / d.inputScale));
-    for (const lang of ["ja", "en", "zh-tw", "es", "ko"]) {
+    for (const lang of countries.texts[c]) {
       const texts = JSON.parse(readFileSync(new URL(`../data/profiles/${c}/${lang}.json`, import.meta.url), "utf8"));
       for (const k of ["setIn", "inputUnit", "weddingGift", "allowance", "years6Note"]) assert.equal(typeof texts.local[k], "string", `${lang} local.${k}`);
     }
