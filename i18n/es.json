@@ -45,7 +45,8 @@
     "jp": "Japón",
     "us": "Estados Unidos",
     "sg": "Singapur",
-    "ph": "Filipinas"
+    "ph": "Filipinas",
+    "ca": "Canadá"
   },
   "main": {
     "age": "{n} años",
