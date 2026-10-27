@@ -75,7 +75,8 @@
       "rent": "임대",
       "familyRent": "임대(가족용)",
       "listSep": " · "
-    }
+    },
+    "sceneAlt": "지금의 생활(두 사람·집·차)을 그린 도트 그림"
   },
   "summary": {
     "head": "{age}세의 가계",

@@ -75,7 +75,8 @@
       "rent": "租屋",
       "familyRent": "租屋（家庭型）",
       "listSep": "、"
-    }
+    },
+    "sceneAlt": "目前生活的像素畫（兩人、住處、車子）"
   },
   "summary": {
     "head": "{age}歲的家計",

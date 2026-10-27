@@ -382,3 +382,16 @@ body:has(#langSuggest:not([hidden])) #app { padding-top: 64px; }
 .handoff button { padding: 4px 0; }
 .series-link { margin: 16px 0 0; text-align: center; font-size: 0.9rem; }
 .series-link a { color: var(--accent); }
+
+/* ドット絵の場面（js/pixel.js。128×72 を拡大する） */
+.stage {
+  display: block;
+  width: 100%;
+  max-width: calc(20dvh * 16 / 9);
+  aspect-ratio: 16 / 9;
+  margin: 0 auto 8px;
+  image-rendering: pixelated;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #d6eef8;
+}
