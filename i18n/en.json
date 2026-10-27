@@ -75,7 +75,8 @@
       "rent": "Renting",
       "familyRent": "Renting (family-size)",
       "listSep": ", "
-    }
+    },
+    "sceneAlt": "Pixel art of your life now: the two of you, your home, and your car"
   },
   "summary": {
     "head": "Finances at {age}",

@@ -76,7 +76,8 @@
       "rent": "Alquiler",
       "familyRent": "Alquiler (familiar)",
       "listSep": ", "
-    }
+    },
+    "sceneAlt": "Pixel art de su vida ahora: ustedes dos, su casa y su auto"
   },
   "summary": {
     "head": "Finanzas a los {age} años",

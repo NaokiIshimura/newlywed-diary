@@ -75,7 +75,8 @@
       "rent": "賃貸",
       "familyRent": "賃貸（家族向け）",
       "listSep": "・"
-    }
+    },
+    "sceneAlt": "いまの暮らし（ふたり・住まい・車）のドット絵"
   },
   "summary": {
     "head": "{age}歳の家計",

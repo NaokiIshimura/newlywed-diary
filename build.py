@@ -25,7 +25,7 @@ def default_country(code):
     ready = [c for c in COUNTRIES['byLang'].get(code, []) if c in COUNTRIES['available']]
     return ready[0] if ready else 'jp'
 # css・js・og.png を変えたら新しくする（古いキャッシュを使わせないため）
-ASSET_VER = '20261026c'
+ASSET_VER = '20261027a'
 # hreflang・sitemap.xml の順
 LANGS = ['ja', 'en', 'zh-tw', 'ko', 'es']
 # 言語を選ぶページと言語の切り替えリンクは、話者が多い順に並べる（英語・中国語・スペイン語・日本語・韓国語）
@@ -82,7 +82,9 @@ def prerender(page, loc):
         text = t(loc, key, json.loads(params.group(1)) if params else None)
         attr = re.search(r'data-i18n-attr="([^"]+)"', attrs)
         if attr:
-            return f'<{tag}{attrs} {attr.group(1)}="{html.escape(text, quote=True)}">'
+            # img は閉じタグがない。canvas などは閉じタグを残す
+            close = '' if tag == 'img' else f'</{tag}>'
+            return f'<{tag}{attrs} {attr.group(1)}="{html.escape(text, quote=True)}">{close}'
         # 文の中の <br> はそのまま使う
         return f'<{tag}{attrs}>{text}</{tag}>'
     # 中身が空の要素（<x data-i18n="..."></x>）と、属性に入れる要素（<img data-i18n="..." data-i18n-attr="alt">）
