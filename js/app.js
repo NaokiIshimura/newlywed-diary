@@ -28,7 +28,7 @@ import {
 } from "./engine.js";
 import { LANGS, applyStatic, currentLang, loadLang, money, pageLang, t } from "./i18n.js";
 import { illustFor } from "./illust.js";
-import { drawScene, sceneOf } from "./pixel.js";
+import { drawStage, stageOf } from "./stage.js";
 import { canvasToBlob, drawShareCard } from "./share.js";
 import { clearAll, loadRecords, loadSave, loadSettings, recordResult, writeSave, writeSettings } from "./storage.js";
 
@@ -327,7 +327,7 @@ function flushDiary() {
 }
 
 function renderStatus() {
-  drawScene($("#stage"), sceneOf(state));
+  drawStage($("#stage").getContext("2d"), stageOf(state));
   const s = (k, p) => t(`main.status.${k}`, p);
   const kids = state.children.length
     ? state.children.map((c) => (c.independent ? s("independent") : s("childAge", { n: c.age }))).join(s("listSep"))
@@ -676,7 +676,7 @@ function showResult() {
       <h3>${r("timeline")}</h3>
       <ol class="timeline">${state.history.map((h) => `<li><span class="age">${t("main.age", { n: h.age })}</span>${historyText(h)}</li>`).join("")}</ol>
     </section>`;
-  drawScene($("#result-stage"), sceneOf(state));
+  drawStage($("#result-stage").getContext("2d"), stageOf(state, ["S", "A"].includes(ending.key) ? "high" : ending.key === "bankrupt" ? "low" : "mid"));
   renderShare(nw, ending, title);
   show("screen-result");
   save();
