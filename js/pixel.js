@@ -218,7 +218,7 @@ const CARS = {
   },
 };
 
-// opts: { genders: {a, b}, home: "starter"|"family"|"high"|"mid"|"low", car: null|"high"|"mid"|"low" }
+// opts: { genders: {a, b?}, home: "starter"|"family"|"high"|"mid"|"low", car: null|"high"|"mid"|"low" }
 export function drawScene(canvas, opts) {
   const c = canvas.getContext("2d");
   c.imageSmoothingEnabled = false;
@@ -228,12 +228,14 @@ export function drawScene(canvas, opts) {
   ground(c);
   (HOMES[opts.home] || HOMES.starter)(c);
   if (opts.car && CARS[opts.car]) CARS[opts.car](c, 54);
+  // b がなければ1人だけ描く（一人暮らし日記で使う形）
   const { a, b } = opts.genders;
-  const same = a === b;
-  const pa = personLook(a, false, same);
-  const pb = personLook(b, true, same);
-  drawSprite(c, pa.tpl, pa.pal, 86, GY - 16, false);
-  drawSprite(c, pb.tpl, pb.pal, 100, GY - 16, true);
+  const pa = personLook(a, false, a === b);
+  drawSprite(c, pa.tpl, pa.pal, b ? 86 : 93, GY - 16, false);
+  if (b) {
+    const pb = personLook(b, true, a === b);
+    drawSprite(c, pb.tpl, pb.pal, 100, GY - 16, true);
+  }
 }
 
 // ゲームの状態から場面を決める
