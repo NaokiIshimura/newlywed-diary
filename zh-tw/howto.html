@@ -171,13 +171,13 @@ function gtag(){dataLayer.push(arguments);}
       <nav class="site-nav" aria-label="站內頁面">
         <ul data-consent-menu>
           <li><a href="./">開始遊戲</a></li>
-          <li><a href="howto.html" aria-current="page">玩法說明</a></li>
-          <li><a href="https://nacn.app/zh-tw/about.html">關於本站／聯絡我們</a></li>
-          <li><a href="privacy.html">隱私權政策</a></li>
+          <li><a href="howto" aria-current="page">玩法說明</a></li>
+          <li><a href="https://nacn.app/zh-tw/about">關於本站／聯絡我們</a></li>
+          <li><a href="privacy">隱私權政策</a></li>
           <li><a href="https://nacn.app/zh-tw/">nacn.app 的其他遊戲</a></li>
         </ul>
       </nav>
-      <nav class="lang-switch langs"><a href="../en/howto.html" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/howto.html" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw" aria-current="true">繁體中文</a><a href="../es/howto.html" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/howto.html" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/howto.html" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
+      <nav class="lang-switch langs"><a href="../en/howto" hreflang="en" lang="en" data-code="en">English</a><a href="../zh-tw/howto" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw" aria-current="true">繁體中文</a><a href="../es/howto" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/howto" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/howto" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
   </main>
 <div class="suggest" id="langSuggest" hidden>
     <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
@@ -186,7 +186,7 @@ function gtag(){dataLayer.push(arguments);}
   <script>
   (() => {
     // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
-    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/howto.html", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/howto.html", "lang": "en", "code": "en", "current": false}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/howto.html", "lang": "zh-Hant-TW", "code": "zh-tw", "current": true}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/howto.html", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/howto.html", "lang": "es-419", "code": "es", "current": false}];
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/howto", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/howto", "lang": "en", "code": "en", "current": false}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/howto", "lang": "zh-Hant-TW", "code": "zh-tw", "current": true}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/howto", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/howto", "lang": "es-419", "code": "es", "current": false}];
     // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
     const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
     // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
@@ -218,7 +218,7 @@ function gtag(){dataLayer.push(arguments);}
 
 <!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
 <div class="nacn-consent" id="nacnConsent" role="region" aria-label="Cookie 同意" hidden>
-  <p>本網站使用 Cookie 進行流量統計。即使不同意，也能照常遊玩。 <a href="/zh-tw/privacy.html">隱私權政策</a></p>
+  <p>本網站使用 Cookie 進行流量統計。即使不同意，也能照常遊玩。 <a href="/zh-tw/privacy">隱私權政策</a></p>
   <div class="nacn-consent-btns">
     <button type="button" data-consent="granted">同意</button>
     <button type="button" data-consent="denied">不同意</button>

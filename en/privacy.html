@@ -98,7 +98,7 @@ function gtag(){dataLayer.push(arguments);}
     <p>The incomes, living costs, education costs, housing costs and other amounts in this game are simplified estimates for gameplay, based on public statistics and typical market prices. They don't include pensions, inflation or detailed tax calculations, and they do not represent actual household finances or investment results. For household budgets, mortgages or education savings plans, please consult a professional such as a financial planner. We are not responsible for any damages arising from the use of this game.</p>
 
     <h2>Operator and contact</h2>
-    <p>This game is operated by nacn. For the operator and how to contact us, see <a href="https://nacn.app/en/about.html">About &amp; Contact</a> on nacn.app. Please also see the <a href="https://nacn.app/en/privacy.html">Privacy Policy</a> shared by nacn.app and the games published on its subdomains.</p>
+    <p>This game is operated by nacn. For the operator and how to contact us, see <a href="https://nacn.app/en/about">About &amp; Contact</a> on nacn.app. Please also see the <a href="https://nacn.app/en/privacy">Privacy Policy</a> shared by nacn.app and the games published on its subdomains.</p>
 
     <h2>Changes to this policy</h2>
     <p>This policy may be changed without notice as needed. Changes take effect when they are posted on this page.</p>
@@ -108,13 +108,13 @@ function gtag(){dataLayer.push(arguments);}
       <nav class="site-nav" aria-label="Site pages">
         <ul data-consent-menu>
           <li><a href="./">Play the game</a></li>
-          <li><a href="howto.html">How to play</a></li>
-          <li><a href="https://nacn.app/en/about.html">About &amp; contact</a></li>
-          <li><a href="privacy.html" aria-current="page">Privacy policy</a></li>
+          <li><a href="howto">How to play</a></li>
+          <li><a href="https://nacn.app/en/about">About &amp; contact</a></li>
+          <li><a href="privacy" aria-current="page">Privacy policy</a></li>
           <li><a href="https://nacn.app/en/">More games on nacn.app</a></li>
         </ul>
       </nav>
-      <nav class="lang-switch langs"><a href="../en/privacy.html" hreflang="en" lang="en" data-code="en" aria-current="true">English</a><a href="../zh-tw/privacy.html" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/privacy.html" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/privacy.html" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/privacy.html" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
+      <nav class="lang-switch langs"><a href="../en/privacy" hreflang="en" lang="en" data-code="en" aria-current="true">English</a><a href="../zh-tw/privacy" hreflang="zh-TW" lang="zh-Hant-TW" data-code="zh-tw">繁體中文</a><a href="../es/privacy" hreflang="es" lang="es-419" data-code="es">Español</a><a href="../ja/privacy" hreflang="ja" lang="ja" data-code="ja">日本語</a><a href="../ko/privacy" hreflang="ko" lang="ko" data-code="ko">한국어</a></nav>
   </main>
 <div class="suggest" id="langSuggest" hidden>
     <span id="langSuggestText"></span> <a id="langSuggestLink" href="#"></a>
@@ -123,7 +123,7 @@ function gtag(){dataLayer.push(arguments);}
   <script>
   (() => {
     // ブラウザの言語が別の対応言語なら、その言語のページを1行で案内する（自動では移動しない。閉じたら次から出さない）
-    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/privacy.html", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/privacy.html", "lang": "en", "code": "en", "current": true}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/privacy.html", "lang": "zh-Hant-TW", "code": "zh-tw", "current": false}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/privacy.html", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/privacy.html", "lang": "es-419", "code": "es", "current": false}];
+    const ALT = [{"match": ["ja"], "text": "新婚日記は日本語でも遊べます。", "link": "日本語で遊ぶ", "href": "../ja/privacy", "lang": "ja", "code": "ja", "current": false}, {"match": ["en"], "text": "Newlywed Diary is also available in English.", "link": "Play in English", "href": "../en/privacy", "lang": "en", "code": "en", "current": true}, {"match": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "text": "新婚日記也提供繁體中文版。", "link": "以繁體中文遊玩", "href": "../zh-tw/privacy", "lang": "zh-Hant-TW", "code": "zh-tw", "current": false}, {"match": ["ko"], "text": "신혼일기는 한국어로도 플레이할 수 있습니다.", "link": "한국어로 플레이", "href": "../ko/privacy", "lang": "ko", "code": "ko", "current": false}, {"match": ["es", "!es-es"], "text": "Diario de recién casados también está disponible en español.", "link": "Jugar en español", "href": "../es/privacy", "lang": "es-419", "code": "es", "current": false}];
     // match は言語コードの先頭の一致。「!」付きは除外（例: スペイン語版は中南米向けなので es-ES は外す）
     const langMatches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));
     // 自分で選んだ言語を覚えて、次に / を開いたときはその言語へ移動する（言語の切り替えリンクと、この案内のリンク）
@@ -155,7 +155,7 @@ function gtag(){dataLayer.push(arguments);}
 
 <!-- Cookie の同意のバナー（nacn.app 共通。元の版は claude-skills の consent-mode スキル） -->
 <div class="nacn-consent" id="nacnConsent" role="region" aria-label="Cookie consent" hidden>
-  <p>We use cookies for analytics. You can still play even if you decline. <a href="/en/privacy.html">Privacy policy</a></p>
+  <p>We use cookies for analytics. You can still play even if you decline. <a href="/en/privacy">Privacy policy</a></p>
   <div class="nacn-consent-btns">
     <button type="button" data-consent="granted">Accept</button>
     <button type="button" data-consent="denied">Decline</button>
