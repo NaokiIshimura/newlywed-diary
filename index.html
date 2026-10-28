@@ -19,6 +19,9 @@
   (() => {
     const params = new URLSearchParams(location.search);
     if (params.has('choose')) return;
+    // 検索エンジンは移動させない。移動すると、このページと移動先（/en/ など）が同じページとみなされ、
+    // 言語のページが「重複」として登録されなくなる（Search Console・Issue #26）
+    if (/bot|crawl|spider|slurp|lighthouse|inspectiontool/i.test(navigator.userAgent)) return;
     const MATCH = {"ja": ["ja"], "en": ["en"], "zh-tw": ["zh-tw", "zh-hant", "zh-hk", "zh-mo"], "ko": ["ko"], "es": ["es", "!es-es"]};
     // 先頭が一致すれば対象。「!」付きは除外（スペイン語版は中南米向けなので es-ES は自動では移動しない）
     const matches = (lang, list) => list.some(m => m[0] !== '!' && lang.startsWith(m)) && !list.some(m => m[0] === '!' && lang.startsWith(m.slice(1)));

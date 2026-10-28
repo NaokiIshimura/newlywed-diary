@@ -111,8 +111,8 @@ def page_url(code, page='index'):
 
 
 def rel_href(page):
-    """同じ言語のフォルダの中のページへの相対リンク"""
-    return './' if page == 'index' else f'{page}.html'
+    """同じ言語のフォルダの中のページへの相対リンク。.html を付けると Cloudflare Pages が転送するので、正規URLと同じ形にする"""
+    return './' if page == 'index' else page
 
 
 def plain(text):
@@ -143,7 +143,7 @@ def lang_nav(locales, code, page='index'):
     for c in SPEAKER_ORDER:
         s = locales[c]['ui']['site']
         cur = ' aria-current="true"' if c == code else ''
-        links.append(f'<a href="../{c}/{"" if page == "index" else page + ".html"}" hreflang="{s["hreflang"]}" lang="{s["htmlLang"]}" data-code="{c}"{cur}>{html.escape(s["langName"])}</a>')
+        links.append(f'<a href="../{c}/{"" if page == "index" else page}" hreflang="{s["hreflang"]}" lang="{s["htmlLang"]}" data-code="{c}"{cur}>{html.escape(s["langName"])}</a>')
     return '      <nav class="lang-switch langs">' + ''.join(links) + '</nav>'
 
 
@@ -153,7 +153,7 @@ def site_nav(loc, code, page):
     nav = loc['ui']['nav']
     items = [] if page == 'index' else [(rel_href('index'), nav['play'], False)]
     items += [(rel_href('howto'), nav['howto'], page == 'howto'),
-              (f'https://nacn.app/{code}/about.html', nav['about'], False),
+              (f'https://nacn.app/{code}/about', nav['about'], False),
               (rel_href('privacy'), nav['privacy'], page == 'privacy'),
               (f'https://nacn.app/{code}/', nav['portal'], False)]
     lis = ''.join(f'\n          <li><a href="{href}"{" aria-current=\"page\"" if cur else ""}>{html.escape(label)}</a></li>' for href, label, cur in items)
@@ -165,7 +165,7 @@ def suggest_banner(locales, code, page='index'):
     for c in LANGS:
         s = locales[c]['ui']['site']
         data.append({'match': BROWSER_MATCH[c], 'text': s['suggest']['text'], 'link': s['suggest']['link'],
-                     'href': f'../{c}/{"" if page == "index" else page + ".html"}', 'lang': s['htmlLang'], 'code': c, 'current': c == code})
+                     'href': f'../{c}/{"" if page == "index" else page}', 'lang': s['htmlLang'], 'code': c, 'current': c == code})
     out = (SRC / 'parts' / 'suggest.html').read_text(encoding='utf-8').replace(
         '/*@SUGGEST@*/[]', json.dumps(data, ensure_ascii=False).replace('</', '<\\/'))
     return out.replace('{{closeLabel}}', html.escape(locales[code]['ui']['site']['suggest']['close']))
@@ -291,7 +291,7 @@ def with_consent(rel, text, locales):
         # ルートの言語を選ぶページと 404 は、初期値だけ（同意が要る人は、言語のページでバナーを見る）
         return text
     c = locales[code]['ui']['site']['consent']
-    values = {**c, 'policyHref': f'/{code}/privacy.html'}
+    values = {**c, 'policyHref': f'/{code}/privacy'}
     banner = (SRC / 'parts' / 'consent.html').read_text(encoding='utf-8').rstrip('\n')
     for key, value in values.items():
         banner = banner.replace('{{' + key + '}}', html.escape(value, quote=True))
