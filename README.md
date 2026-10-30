@@ -246,7 +246,7 @@ https://newlywed-diary.nacn.app/ で公開しています。Cloudflare Pages で
 
 ### アクセス解析と Cookie の同意
 
-- Google アナリティクス（測定ID `G-WFHQNP9CT8`）のタグを、書き出す全ページ（`src/game.html`・`src/root.html`・`src/404.html`）の head に入れています。AdSense は入れていません
+- Google アナリティクス（測定ID `G-NH0RLHNX0K`）のタグを、書き出す全ページ（`src/game.html`・`src/root.html`・`src/404.html`）の head に入れています。AdSense は入れていません
 - Cookie の同意のしくみ（Google Consent Mode v2 と同意のバナー）は nacn.app 共通のものです。部品は `src/parts/consent-head.html`・`src/parts/consent.html`、言語ごとの文言は `i18n/<言語>.json` の `site.consent` にあり、`build.py` の `with_consent()` が書き出すときに入れます（初期値は全ページ、バナーは言語のページだけ）。部品の元の版は claude-skills の `consent-mode` スキルにあるので、直すときはそちらを先に直して写します
 - 同意を求めるのは、端末のタイムゾーンがインドネシア・タイ・ベトナムの人です。EU・英国・スイスは Google の位置判定で最初から拒否にします。選択は `.nacn.app` の Cookie `nacn_consent` に保存され、nacn.app の全サイトで共通です
 - AdSense を入れていないので、バナーは「アクセスの集計のため」だけの文言にしています。AdSense を入れたら、`i18n/<言語>.json` の `site.consent.text` を広告ありの文言に戻します
